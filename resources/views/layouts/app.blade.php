@@ -27,14 +27,14 @@
   <link href="/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <link href="/css/offcanvas.css" rel="stylesheet">
   <link href="/css/custom.css" rel="stylesheet">
-  <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
-  <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
-  <!-- <link href="https://fonts.googleapis.com/css2?family=Ysabeau:ital,wght@1,1000&display=swap" rel="stylesheet"> -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ysabeau:ital,wght@1,1000&display=swap" rel="stylesheet">
 
 </head>
 <body class="bg-light">
   <?php $lang = app()->getLocale(); ?>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-brand bg-brand-border" aria-label="Main navigation">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-brand-bg-brand-border bg-indigo bg-indigo-border" aria-label="Main navigation">
     <div class="container-xl">
       <a href="/" class="navbar-brand">JibekJol</a>
       <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">

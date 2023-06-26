@@ -41,7 +41,7 @@ class ProfileController extends Controller
             'lastname' => ['required', 'string', 'max:255'],
             'tel' => ['required', 'string', 'max:15'],
             'email' => ['required', 'string', 'email', 'max:255'],
-            'id_client' => ['required', 'string', 'min:11', 'max:15'],
+            'id_client' => ['required', 'string', 'min:9', 'max:15'],
             'region_id' => ['required', 'integer'],
             'address' => ['required', 'string'],
         ]);
@@ -90,5 +90,4 @@ class ProfileController extends Controller
 
         return redirect(app()->getLocale().'/profile')->with('status', 'Запись обновлена!');
     }
-
 }

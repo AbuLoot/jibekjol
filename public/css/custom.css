@@ -10,6 +10,13 @@ body {
   border-bottom: 5px solid #463bab;
   border-bottom: 5px solid #0a58ca;
 }
+.bg-indigo {
+  color: #fff;
+  background-color: #6610f2;
+}
+.bg-indigo-border {
+  border-bottom: 5px solid #520dc2;
+}
 .navbar-brand {
   font-family: 'Ysabeau', sans-serif;
   color: #ffc107;
@@ -18,12 +25,13 @@ body {
 }
 .text-bg-dark {
   background-color: #6559d4;
-
 }
 .featurette-heading {
   letter-spacing: -.05rem;
 }
-
+.navbar .navbar-nav > .nav-item > .nav-link {
+  color: rgb(255 255 255 / 80%);
+}
 
 /* CUSTOM COLORS
 -------------------------------------------------- */

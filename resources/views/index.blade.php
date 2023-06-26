@@ -1,8 +1,8 @@
 @extends('layout')
 
-@section('meta_title', (!empty($page->meta_title)) ? $page->meta_title : $page->title)
+@section('meta_title', $page->meta_title ?? $page->title)
 
-@section('meta_description', (!empty($page->meta_description)) ? $page->meta_description : $page->title)
+@section('meta_description', $page->meta_description ?? $page->title)
 
 @section('head')
 
@@ -15,9 +15,10 @@
       <div class="carousel-item active">
         <img src="/img/storage/storage-01.jpg" class="d-block w-100 h-100" alt="...">
         <div class="carousel-caption d-none-d-md-block">
+          <div class="display-1"><span class="navbar-brand" style="color: #6610f2;">JibekJol</span></div>
           <h1 class="d-none d-md-block fw-normal shadow-1">Отслеживание по трек коду</h1>
           <form action="/search-track" method="get" class="col-12 col-lg-8 offset-lg-2 mt-5 mt-lg-0 mb-3 mb-lg-0 me-lg-2 py-2" role="search">
-            <input type="search" name="code" class="form-control form-control-dark form-control-lg text-bg-dark" placeholder="Введите трек код..." aria-label="Search" min="4" required>
+            <input type="search" name="code" class="form-control form-control-dark form-control-lg -text-bg-dark" placeholder="Введите трек код..." aria-label="Search" min="4" required>
           </form>
         </div>
       </div>
