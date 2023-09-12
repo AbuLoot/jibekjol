@@ -37,7 +37,7 @@
 <body class="bg-light">
   <nav class="navbar navbar-expand-lg navbar-dark bg-brand-bg-brand-border bg-indigo bg-indigo-border" aria-label="Main navigation">
     <div class="container-xl">
-      <a href="/" class="navbar-brand">JibekJol</a>
+      <a href="/" class="navbar-brand text-white">JibekJol</a>
       <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>

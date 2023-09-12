@@ -26,15 +26,25 @@
       <tbody>
         <?php $i = 1; ?>
         @foreach ($tracks as $track)
+          <?php
+            $activeStatus = $track->statuses->last();
+
+            $arrivalOrGivenRegion = null;
+
+            if (in_array($activeStatus->slug, ['arrived', 'given']) OR in_array($activeStatus->id, [5, 6])) {
+
+              $arrivalOrGivenRegion = $track->regions->last()->title ?? __('statuses.regions.title');
+              $arrivalOrGivenRegion = '('.$arrivalOrGivenRegion.', Казахстан)';
+            }
+          ?>
           <tr>
             <td>{{ $i++ }}</td>
             <td>@if($track->user) {{ $track->user->name.' '.$track->user->lastname }} @endif</td>
             <td>{{ $track->code }}</td>
             <td>{{ Str::limit($track->description, 35) }}</td>
             <?php $lastStatus = $track->statuses()->orderBy('created_at', 'desc')->first(); ?>
-            <?php $regionTitle = $track->regions->last()->title ?? __('statuses.regions.title'); ?>
             <td>{{ $lastStatus->pivot->created_at->format('Y-m-d') }}</td>
-            <td>{{ $lastStatus->title }} ({{ $regionTitle }}, Казахстан)</td>
+            <td>{{ $lastStatus->title }} {{ $arrivalOrGivenRegion }}</td>
             <td>{{ $track->lang }}</td>
             <td class="text-right">
               <a class="btn btn-link btn-xs" href="{{ route('tracks.edit', [$lang, $track->id]) }}" title="Редактировать"><i class="material-icons md-18">mode_edit</i></a>

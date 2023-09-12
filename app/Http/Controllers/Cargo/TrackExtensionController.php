@@ -34,14 +34,20 @@ class TrackExtensionController extends Controller
             return $line['code'];
         });
 
-        if ($request->storageStage == 'reception') {
-            $result = $this->toReceiveTracks($trackCodes);
-        }
-        elseif ($request->storageStage == 'arrival') {
-            $result = $this->toArriveTracks($trackCodes);
-        }
-        elseif ($request->storageStage == 'giving') {
-            $result = $this->toGiveTracks($trackCodes);
+        // if ($request->storageStage == 'reception') {
+        //     $result = $this->toReceiveTracks($trackCodes);
+        // }
+        // elseif ($request->storageStage == 'arrival') {
+        //     $result = $this->toArriveTracks($trackCodes);
+        // }
+        // elseif ($request->storageStage == 'giving') {
+        //     $result = $this->toGiveTracks($trackCodes);
+        // }
+
+        $result = match ($request->storageStage) {
+            'reception' => $this->toReceiveTracks($trackCodes),
+            'arrival' => $this->toArriveTracks($trackCodes),
+            'giving' => $this->toGiveTracks($trackCodes),
         }
 
         Storage::delete('files/'.$docName);

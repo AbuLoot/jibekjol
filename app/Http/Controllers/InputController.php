@@ -117,10 +117,10 @@ class InputController extends Controller
         $app->save();
 
         // Email subject
-        $subject = "AutoRex - Новая заявка от $request->name";
+        $subject = "JibekJol - Новая заявка от $request->name";
 
         // Email content
-        $content = "<h2>AutoRex</h2>";
+        $content = "<h2>JibekJol</h2>";
         $content .= "<b>Имя: $request->name</b><br>";
         $content .= "<b>Номер: $request->phone</b><br>";
         $content .= "<b>Email: $request->email</b><br>";
@@ -128,12 +128,12 @@ class InputController extends Controller
         $content .= "<b>Дата: " . date('Y-m-d') . "</b><br>";
         $content .= "<b>Время: " . date('G:i') . "</b>";
 
-        $headers = "From: info@autorex.kz \r\n" .
+        $headers = "From: serv@jibekjol.kz \r\n" .
                    "MIME-Version: 1.0" . "\r\n" . 
                    "Content-type: text/html; charset=UTF-8" . "\r\n";
 
         // Send the email
-        if (mail('autorexcom@gmail.com', $subject, $content, $headers)) {
+        if (mail('issa.adilet@gmail.com', $subject, $content, $headers)) {
             $status = 'Ваша заявка принята. Спасибо!';
         }
         else {
