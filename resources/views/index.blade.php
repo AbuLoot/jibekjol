@@ -13,7 +13,7 @@
   <div class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img src="/img/storage/storage-01.jpg" class="d-block w-100-h-100" alt="...">
+        <img src="/img/storage/storage-01.jpg" class="d-block w-100-h-100 " alt="...">
         <div class="carousel-caption d-none-d-md-block">
           <div class="display-3 shadow-1 fw-bold">Вы работали с&nbsp;простой и&nbsp;быстрой логистикой от&nbsp;<span class="navbar-brand" style="color: #6610f2;">JibekJol</span>?</div>
           <hr>
@@ -24,6 +24,50 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Calc -->
+  <div class="container mt-3">
+    <form class="col-lg-6 mx-auto p-4 p-md-5 border rounded-3 bg-body-tertiary">
+      <h3 class="mb-3">Калькулятор цены</h3>
+      <div class="row">
+        <div class="col-lg-3 col-6 mb-3">
+          <label for="length" class="form-label">Длина</label>
+          <input type="number" class="form-control" id="length" placeholder="0,0">
+        </div>
+        <div class="col-lg-3 col-6 mb-3">
+          <label for="height" class="form-label">Высота</label>
+          <input type="number" class="form-control" id="height" placeholder="0,0">
+        </div>
+        <div class="col-lg-3 col-6 mb-3">
+          <label for="width" class="form-label">Ширина</label>
+          <input type="number" class="form-control" id="width" placeholder="0,0">
+        </div>
+        <div class="col-lg-3 col-6 mb-3">
+          <label for="weight" class="form-label">Вес</label>
+          <input type="number" class="form-control" id="weight" placeholder="0,0">
+        </div>
+        <div class="col-lg-9 mb-3">
+          <label for="weight" class="form-label">Способ доставки</label>
+
+          <div class="list-group">
+            <label class="list-group-item d-flex gap-2">
+              <input class="form-check-input flex-shrink-0" type="radio" name="type_delivery" id="standart" value="1" checked="">
+              <span>15-20 дней (Стандарт)
+                <!-- <small class="d-block text-body-secondary">Стандартная доставка</small> -->
+              </span>
+            </label>
+            <label class="list-group-item d-flex gap-2">
+              <input class="form-check-input flex-shrink-0" type="radio" name="type_delivery" id="fast" value="2">
+              <span>8-12 дней (Быстрая)
+                <!-- <small class="d-block text-body-secondary">Быстрая доставка</small> -->
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Посчитать</button>
+    </form>
   </div>
 
   <!-- Interesting -->
@@ -89,13 +133,13 @@
       <div class="col-lg-7 text-center text-lg-start">
         <h3 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Приглашаем всех сотрудничать вместе с нами:</h3>
         <p class="col-lg-10 fs-4">
-Физических лиц.
-Компании.
-Специалистов по тендерам.
-Продавцов и предпринимателей.
+        Физических лиц.
+        Компании.
+        Специалистов по тендерам.
+        Продавцов и предпринимателей.
 
-Свяжитесь с нами, любым удобным способом.
-</p>
+        Свяжитесь с нами, любым удобным способом.
+        </p>
       </div>
       <div class="col-md-10 mx-auto col-lg-5">
         <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary">

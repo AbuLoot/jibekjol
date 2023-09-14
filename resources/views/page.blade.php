@@ -14,7 +14,7 @@
   
     <div class="row">
 
-      <div class="col-8">
+      <div class="col-lg-8 col-md-10 col-12">
         <h1>{{ $page->title }}</h1>
 
         <div>{!! $page->content !!}</div>
