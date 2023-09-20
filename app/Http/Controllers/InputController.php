@@ -13,6 +13,7 @@ use App\Models\Project;
 use App\Models\ProjectIndex;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Section;
 
 class InputController extends Controller
 {
@@ -96,6 +97,63 @@ class InputController extends Controller
             'alert' => $status,
             'products' => $products
         ]);
+    }
+
+    public function calculate(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'length' => 'required|numeric|min:2|max:10',
+            'width' => 'required|numeric|min:2|max:10',
+            'height' => 'required|numeric|min:2|max:10',
+            'weight' => 'required|numeric|min:2|max:10',
+            'type_delivery' => 'required|numeric',
+        ]);
+
+        $typesDelivery = ['1' => 'standart-price', '2' => 'express-price'];
+        $typeDelivery = $typesDelivery[$request->type_delivery];
+
+        $priceList = Section::where('slug', $typeDelivery)->first();
+        $densityPrice = unserialize($priceList->data);
+
+        $length = (float) $request->length;
+        $width = (float) $request->width;
+        $height = (float) $request->height;
+        $weight = (float) $request->weight;
+
+        $amount = ($length * $width) * $height;
+        $density = round($weight / $amount);
+
+        foreach ($densityPrice as $key => $value) {
+
+            $densityRange = explode('-', $value['key']);
+            $range = ['min_range' => $densityRange[0], 'max_range' => $densityRange[1]??null];
+            $options = ['options' => $range];
+
+            if (filter_var($density, FILTER_VALIDATE_FLOAT, $options) == true) {
+
+                // echo '$'.$value['value'] . " is in range : ".$density.' ';
+                // dd
+
+                return redirect('/#calculate')->with([
+                        'price' => $value['value'],
+                        'density' => $density,
+                        'densityRange' => $densityRange,
+                        'length' => $length,
+                        'width' => $width,
+                        'height' => $height,
+                        'weight' => $weight,
+                        'typeDelivery' => $request->type_delivery,
+                    ]);
+            }
+
+            // dd($densityRange);
+            echo $densityRange[0]??null;
+            echo ' ';
+            echo $densityRange[1]??null;
+            echo '<br>';
+        }
+
+        dd($amount, $density, $densityPrice, $typeDelivery, $request->all());
     }
 
     public function sendApp(Request $request)

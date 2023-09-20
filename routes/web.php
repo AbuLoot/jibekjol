@@ -100,6 +100,7 @@ Route::get('search', [InputController::class, 'search']);
 Route::get('search-track', [InputController::class, 'searchTrack']);
 Route::get('search-ajax', [InputController::class, 'searchAjax']);
 Route::post('send-app', [InputController::class, 'sendApp']);
+Route::post('calculate', [InputController::class, 'calculate']);
 
 // User Profile
 Route::group(['prefix' => '{lang}', 'middleware' => 'auth'], function() {
@@ -109,6 +110,11 @@ Route::group(['prefix' => '{lang}', 'middleware' => 'auth'], function() {
     Route::put('profile', [ProfileController::class, 'updateProfile']);
     Route::get('profile/password/edit', [ProfileController::class, 'passwordEdit']);
     Route::put('profile/password', [ProfileController::class, 'passwordUpdate']);
+});
+
+Route::get('test', function() {
+
+    echo 0.12 * 0.11;
 });
 
 // News

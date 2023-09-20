@@ -20,9 +20,7 @@ class CreateSectionsTable extends Migration
             $table->string('title');
             $table->string('image')->nullable();
             $table->string('images')->nullable();
-            $table->string('data_1')->nullable();
-            $table->string('data_2')->nullable();
-            $table->string('data_3')->nullable();
+            $table->string('data')->nullable();
             $table->text('content')->nullable();
             $table->char('lang', 4);
             $table->integer('status')->default(1);
