@@ -51,13 +51,13 @@
         </div>
       </div>
       <div class="col-lg-5">
-        <form method="POST" action="/calculate" id="calculate" class="col-lg-6-mx-auto p-4 p-md-5 border rounded-3 bg-body-tertiary">
+        <form method="POST" action="/calculate" id="calc" class="col-lg-6-mx-auto p-4 p-md-5 border rounded-3 bg-body-tertiary">
           @csrf
           <h3 class="mb-3">Калькулятор цены</h3>
           <div class="row">
             <div class="col-lg-3 col-6 mb-3">
-              <label for="length" class="form-label">Длина</label>
-              <input type="number" class="form-control" id="length" name="length" min="0" max="100" placeholder="0,0" value="{{ session('length') }}" step="any" required>
+              <label for="elLength" class="form-label">Длина</label>
+              <input type="number" class="form-control" id="elLength" name="length" min="0" max="100" placeholder="0,0" value="{{ session('length') }}" step="any" required>
             </div>
             <div class="col-lg-3 col-6 mb-3">
               <label for="width" class="form-label">Ширина</label>
@@ -75,7 +75,7 @@
               <label class="form-label">Способ доставки</label>
               <div class="list-group">
                 <label class="list-group-item d-flex gap-2">
-                  <input class="form-check-input flex-shrink-0" type="radio" name="type_delivery" id="standart" value="1" checked="">
+                  <input class="form-check-input flex-shrink-0" type="radio" name="type_delivery" id="standart" value="1" checked>
                   <span>15-20 дней (Стандарт)
                     <!-- <small class="d-block text-body-secondary">Стандартная доставка</small> -->
                   </span>
@@ -93,9 +93,15 @@
           <button type="submit" class="btn btn-primary">Посчитать</button>
 
           @if(session('price'))
-            <hr>
-            <div class="display-6">Плотность груза: {{ session('density') }}</div>
-            <div class="display-4 fw-bold text-success">Цена: ${{ session('price') }}</div>
+            <?php
+              $typesDelivery = ['1' => '15-20 дней (Стандарт)', '2' => '8-12 дней (Экспресс)'];
+            ?>
+            <div id="text-hint">
+              <hr>
+              <div class="display-6">Плотность груза: <span id="density">{{ session('density') }}</span></div>
+              <div class="display-5 fw-bold text-success">Цена: $<span class="price">{{ session('price') }}</span></div>
+              <div class="h5">Доставка: <span id="density">{{ $typesDelivery[session('typeDelivery')] }}</span></div>
+            </div>
           @endif
         </form>
       </div>
@@ -250,5 +256,47 @@
 @endsection
 
 @section('scripts')
+  <script>
 
+    @if(session('price'))
+      document.getElementById("calc").scrollIntoView({behavior: 'smooth'});
+    @endif
+
+    function calculate() {
+      const form = document.getElementById('calc')
+
+      let token = form.elements['_token'].value
+      let lengthEl = form.elements['elLength'].value
+      let width = form.elements['width'].value
+      let height = form.elements['height'].value
+      let weight = form.elements['weight'].value
+      let typeDelivery = form.elements['type_delivery'].value
+
+      let domain = '{{ url("/") }}/calculate'
+      let uri = '?_token='+token+'&length='+lengthEl+'&width='+width+'&height='+height+'&weight='+weight+'&type_delivery='+typeDelivery;
+
+      // Ajax Request
+      const xmlHttp = new XMLHttpRequest();
+
+      xmlHttp.open('GET', domain+uri, true)
+      xmlHttp.send()
+      xmlHttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var divHint = document.getElementById('text-hint')
+
+          // document.getElementById('density').innerHTML = 
+          // document.getElementById('price').innerHTML = 
+
+          divHint.classList.remove("d-none");
+          // density.innerHTML = this.responseText.density
+          // price.innerHTML = this.responseText.price
+
+          console.log(this.responseText);
+        }
+      }
+
+      console.log(domain+uri, lengthEl, width, height, weight, typeDelivery)
+    }
+
+  </script>
 @endsection

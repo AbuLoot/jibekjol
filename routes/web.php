@@ -112,11 +112,6 @@ Route::group(['prefix' => '{lang}', 'middleware' => 'auth'], function() {
     Route::put('profile/password', [ProfileController::class, 'passwordUpdate']);
 });
 
-Route::get('test', function() {
-
-    echo 0.12 * 0.11;
-});
-
 // News
 Route::get('i/news', [BlogController::class, 'posts']);
 Route::get('i/news/{page}', [BlogController::class, 'postSingle']);

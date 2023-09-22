@@ -116,12 +116,19 @@ class InputController extends Controller
         $densityPrice = unserialize($priceList->data);
 
         $length = (float) $request->length;
-        $width = (float) $request->width;
+        $width  = (float) $request->width;
         $height = (float) $request->height;
         $weight = (float) $request->weight;
 
-        $amount = ($length * $width) * $height;
-        $density = round($weight / $amount);
+        // dd($length, $width, $height, $weight, $request->all());
+
+        // $length =    'float' ? (float) $request->length : (int) $request->length;
+        // $width =     'float'  ? (float) $request->width : (int) $request->width;
+        // $height =    'float' ? (float) $request->height : (int) $request->height;
+        // $weight =    'float' ? (float) $request->weight : (int) $request->weight;
+
+        $amount = $length * $width * $height;
+        $density = (int) round($weight / $amount);
 
         foreach ($densityPrice as $key => $value) {
 
@@ -129,12 +136,28 @@ class InputController extends Controller
             $range = ['min_range' => $densityRange[0], 'max_range' => $densityRange[1]??null];
             $options = ['options' => $range];
 
+            if (!isset($densityRange[1])) {
+
+                if ($density <= $densityRange[0] || $density >= $densityRange[0]) {
+
+                    return redirect()->back()->with([
+                        'price' => $value['value'],
+                        'density' => $density,
+                        'densityRange' => $densityRange,
+                        'length' => $length,
+                        'width' => $width,
+                        'height' => $height,
+                        'weight' => $weight,
+                        'typeDelivery' => $request->type_delivery,
+                    ]);
+                }
+            }
+
             if (filter_var($density, FILTER_VALIDATE_FLOAT, $options) == true) {
 
-                // echo '$'.$value['value'] . " is in range : ".$density.' ';
-                // dd
+                echo '$'.$value['value'] . " is in range : ".$density.' ';
 
-                return redirect('/#calculate')->with([
+                return redirect()->back()->with([
                         'price' => $value['value'],
                         'density' => $density,
                         'densityRange' => $densityRange,
@@ -147,10 +170,10 @@ class InputController extends Controller
             }
 
             // dd($densityRange);
-            echo $densityRange[0]??null;
-            echo ' ';
-            echo $densityRange[1]??null;
-            echo '<br>';
+            // echo $densityRange[0]??null;
+            // echo ' ';
+            // echo $densityRange[1]??null;
+            // echo '<br>';
         }
 
         dd($amount, $density, $densityPrice, $typeDelivery, $request->all());
