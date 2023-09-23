@@ -120,13 +120,6 @@ class InputController extends Controller
         $height = (float) $request->height;
         $weight = (float) $request->weight;
 
-        // dd($length, $width, $height, $weight, $request->all());
-
-        // $length =    'float' ? (float) $request->length : (int) $request->length;
-        // $width =     'float'  ? (float) $request->width : (int) $request->width;
-        // $height =    'float' ? (float) $request->height : (int) $request->height;
-        // $weight =    'float' ? (float) $request->weight : (int) $request->weight;
-
         $amount = $length * $width * $height;
         $density = (int) round($weight / $amount);
 
@@ -187,7 +180,7 @@ class InputController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect('/#contact-form')->withErrors($validator)->withInput();
+            return redirect()->withErrors($validator)->withInput();
         }
 
         $app = new App;
@@ -201,7 +194,7 @@ class InputController extends Controller
         $subject = "JibekJol - Новая заявка от $request->name";
 
         // Email content
-        $content = "<h2>JibekJol</h2>";
+        $content = "<h2>JibekJol Cargo</h2>";
         $content .= "<b>Имя: $request->name</b><br>";
         $content .= "<b>Номер: $request->phone</b><br>";
         $content .= "<b>Email: $request->email</b><br>";

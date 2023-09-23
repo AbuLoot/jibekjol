@@ -14,7 +14,7 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
   <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
   <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png">
-  <link rel="manifest" href="manifest.json">
+  <!-- <link rel="manifest" href="manifest.json"> -->
   <link rel="mask-icon" href="safari-pinned-tab.svg" color="#7952b3">
   <link rel="icon" href="favicon.ico">
   <meta name="theme-color" content="#7952b3">
@@ -69,6 +69,41 @@
     @yield('content')
   </main>
 
+  <?php
+    $contactsSection = $sections->firstWhere('slug', 'contacts');
+    $contacts = unserialize($contactsSection->data);
+  ?>
+
+  <!-- Widget contact buttons -->
+  <div class="d-block d-lg-none material-button-anim" id="widget-contacts">
+    <ul class="list-inline" id="options">
+      <li class="option">
+        <button class="material-button option3 bg-whatsapp" type="button">
+          <a href="whatsapp://send?phone={{ $contacts[1]['value'] }}" target="_blank">
+            <!-- <img src="/img/widget/whatsapp.svg" class="widget-icon"> -->
+            <span class="bi bi-whatsapp display-3"></span>
+            <!-- <span class="fa fa-whatsapp" aria-hidden="true"></span> -->
+          </a>
+        </button>
+      </li>
+      <li class="option">
+        <button class="material-button option4 bg-ripple" type="button">
+          <a href="tel:{{ $contacts[1]['value'] }}" target="_blank">
+            <span class="bi bi-telephone display-3"></span>
+            <!-- <img src="/img/widget/phone-solid.svg" class="widget-icon"> -->
+          </a>
+        </button>
+      </li>
+    </ul>
+    <button class="material-button material-button-toggle btnBg" type="button">
+      <!-- <img src="/img/widget/user-solid.svg" class="widget-icon"> -->
+      <span class="bi bi-person-circle display-3"></span>
+      <span class="ripple btnBg"></span>
+      <span class="ripple btnBg"></span>
+      <span class="ripple btnBg"></span>
+    </button>
+  </div>
+
   <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
     <div class="container">
       <div class="row">
@@ -94,6 +129,18 @@
   <script type="text/javascript">
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+    // MATERIAL BUTTON TOGGLE
+    const widgetContacts = document.getElementById('widget-contacts')
+    const optionsContacts = document.querySelectorAll('.option')
+
+    widgetContacts.addEventListener('click', () => {
+      widgetContacts.classList.toggle('open')
+
+      for (let i = 0; i < optionsContacts.length; i++) {
+        optionsContacts[i].classList.toggle('scale-on');
+      }
+    })
   </script>
   <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="/js/offcanvas.js"></script>
