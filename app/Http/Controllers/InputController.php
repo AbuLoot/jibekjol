@@ -208,7 +208,7 @@ class InputController extends Controller
                    "Content-type: text/html; charset=UTF-8" . "\r\n";
 
         // Send the email
-        if (mail('issa.adilet@gmail.com', $subject, $content, $headers)) {
+        if (mail('issayev.adilet@gmail.com', $subject, $content, $headers)) {
             $status = 'Ваша заявка принята. Спасибо!';
         }
         else {
