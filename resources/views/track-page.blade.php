@@ -10,14 +10,16 @@
 
 @section('content')
 
-  <div class="carousel slide mb-3" data-bs-ride="carousel">
+  <div class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img src="/img/storage/storage-01.jpg" class="d-block w-100 h-100" alt="...">
+        <img src="/img/storage/storage-01.jpg" class="d-block w-lg-100 h-100 " alt="...">
         <div class="carousel-caption d-none-d-md-block">
-          <h1 class="d-none d-md-block fw-normal shadow-1">Отслеживание по трек коду</h1>
-          <form action="/search-track" method="get" class="col-12 col-lg-8 offset-lg-2 mt-5 mt-lg-0 mb-3 mb-lg-0 me-lg-2 py-2" role="search">
-            <input type="search" name="code" class="form-control form-control-dark form-control-lg text-bg-dark" placeholder="Введите трек код..." aria-label="Search" min="4" required>
+          <div class="display-3 shadow-1 fw-bold">Вы работали с&nbsp;простой и&nbsp;быстрой логистикой от&nbsp;<span class="navbar-brand" style="color: #6610f2;">JJ</span>?</div>
+          <hr>
+          <h2 class="d-none-d-md-block fw-normal shadow-1">Отслеживание по трек коду</h2>
+          <form action="/search-track" method="get" class="col-12 col-lg-8 offset-lg-2 mt-lg-0 mb-3 mb-lg-0 me-lg-2 py-2" role="search">
+            <input type="search" name="code" class="form-control form-control-dark form-control-lg -text-bg-dark" placeholder="Введите трек код..." aria-label="Search" min="4" required>
           </form>
         </div>
       </div>
