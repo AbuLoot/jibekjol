@@ -129,23 +129,6 @@ class InputController extends Controller
             $range = ['min_range' => $densityRange[0], 'max_range' => $densityRange[1]??null];
             $options = ['options' => $range];
 
-            if (!isset($densityRange[1])) {
-
-                if ($density <= $densityRange[0] || $density >= $densityRange[0]) {
-
-                    return redirect()->back()->with([
-                        'price' => $value['value'],
-                        'density' => $density,
-                        'densityRange' => $densityRange,
-                        'length' => $length,
-                        'width' => $width,
-                        'height' => $height,
-                        'weight' => $weight,
-                        'typeDelivery' => $request->type_delivery,
-                    ]);
-                }
-            }
-
             if (filter_var($density, FILTER_VALIDATE_FLOAT, $options) == true) {
 
                 echo '$'.$value['value'] . " is in range : ".$density.' ';
@@ -160,6 +143,24 @@ class InputController extends Controller
                         'weight' => $weight,
                         'typeDelivery' => $request->type_delivery,
                     ]);
+            }
+
+            if (!isset($densityRange[1])) {
+
+                if ((in_array($densityRange[0], ['800', '1000']) && $density > $densityRange[0]) || 
+                    (in_array($densityRange[0], ['100']) && $density < $densityRange[0])) {
+
+                    return redirect()->back()->with([
+                        'price' => $value['value'],
+                        'density' => $density,
+                        'densityRange' => $densityRange,
+                        'length' => $length,
+                        'width' => $width,
+                        'height' => $height,
+                        'weight' => $weight,
+                        'typeDelivery' => $request->type_delivery,
+                    ]);
+                }
             }
 
             // dd($densityRange);
