@@ -109,7 +109,11 @@ class InputController extends Controller
             'type_delivery' => 'required|numeric',
         ]);
 
-        $typesDelivery = ['1' => 'standart-price', '2' => 'express-price'];
+        $typesDelivery = [
+            '1' => 'standart-price',
+            '2' => 'express-price',
+            '3' => 'express-price-clothes',
+        ];
         $typeDelivery = $typesDelivery[$request->type_delivery];
 
         $priceList = Section::where('slug', $typeDelivery)->first();

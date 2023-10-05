@@ -58,7 +58,7 @@
               <label for="weight" class="form-label">Вес кг.</label>
               <input type="number" class="form-control" id="weight" name="weight" min="0" placeholder="0,0" value="{{ session('weight') }}" step="any" required>
             </div>
-            <div class="col-lg-9 mb-3">
+            <div class="col-lg-12 mb-3">
               <label class="form-label">Способ доставки</label>
               <div class="list-group">
                 <label class="list-group-item d-flex gap-2">
@@ -69,9 +69,11 @@
                 </label>
                 <label class="list-group-item d-flex gap-2">
                   <input class="form-check-input flex-shrink-0" type="radio" name="type_delivery" id="express" value="2">
-                  <span>8-12 дней (Экспресс)
-                    <!-- <small class="d-block text-body-secondary">Быстрая доставка</small> -->
-                  </span>
+                  <span>8-12 дней (Экспресс)</span>
+                </label>
+                <label class="list-group-item d-flex gap-2">
+                  <input class="form-check-input flex-shrink-0" type="radio" name="type_delivery" id="express-clothes" value="3">
+                  <span>8-12 дней - Одежда (Экспресс)</span>
                 </label>
               </div>
             </div>
@@ -81,13 +83,14 @@
 
           @if(session('price'))
             <?php
-              $typesDelivery = ['1' => '15-20 дней (Стандарт)', '2' => '8-12 дней (Экспресс)'];
+              $typesDelivery = ['1' => '15-20 дней (Стандарт)', '2' => '8-12 дней (Экспресс)', '3' => '8-12 дней - Одежда (Экспресс)'];
             ?>
             <div id="text-hint">
               <hr>
               <div class="h3">Плотность груза: <span id="density">{{ session('density') }}</span></div>
               <div class="h5">Доставка: <span id="density">{{ $typesDelivery[session('typeDelivery')] }}</span></div>
-              <div class="display-5 fw-bold text-success">Цена: $<span class="price">{{ session('price') }}</span></div>
+              <div class="h3">Цена: $<span class="price">{{ session('price') }}</span></div>
+              <div class="display-5">Итого: <span class="text-success fw-bold">${{ session('weight') * session('price') }}</span></div>
             </div>
           @endif
         </form>
@@ -252,12 +255,12 @@
 @section('scripts')
   @if (session('price'))
     <script>
-      document.getElementById("calc").scrollIntoView({behavior: 'smooth'});
+      document.getElementById("calc").scrollIntoView({behavior: 'instant'});
     </script>
   @endif
   @if (count($errors) > 0 || session('status'))
     <script>
-      document.getElementById("app-form").scrollIntoView({behavior: 'smooth'});
+      document.getElementById("app-form").scrollIntoView({behavior: 'instant'});
     </script>
   @endif
 
