@@ -63,7 +63,7 @@
               <div class="list-group">
                 <label class="list-group-item d-flex gap-2">
                   <input class="form-check-input flex-shrink-0" type="radio" name="type_delivery" id="standart" value="1" checked>
-                  <span>15-20 дней (Стандарт)
+                  <span>20-30 дней (Стандарт)
                     <!-- <small class="d-block text-body-secondary">Стандартная доставка</small> -->
                   </span>
                 </label>
@@ -240,14 +240,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- START THE FEATURETTES -->
-  <div class="container">
-    <br>
-    @if(!empty($promo))
-      {!! $promo->content !!}
-    @endif
   </div>
 
 @endsection

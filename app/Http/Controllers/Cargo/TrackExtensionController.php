@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Cargo;
 
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Storage;
 
 use Rap2hpoutre\FastExcel\FastExcel;
-
 
 use App\Models\Status;
 use App\Models\Track;
@@ -27,7 +26,7 @@ class TrackExtensionController extends Controller
             'tracksDoc' => 'required|mimetypes:application/vnd.oasis.opendocument.spreadsheet,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel'
         ]);
 
-        $docName = date('t-m-d H:i:s').'.'.$request->file('tracksDoc')->extension();
+        $docName = date('Y-m-d H:i:s').'.'.$request->file('tracksDoc')->extension();
 
         $request->tracksDoc->storeAs('files', $docName);
 
@@ -35,21 +34,21 @@ class TrackExtensionController extends Controller
             return $line['code'];
         });
 
-        // if ($request->storageStage == 'reception') {
-        //     $result = $this->toReceiveTracks($trackCodes);
-        // }
-        // elseif ($request->storageStage == 'arrival') {
-        //     $result = $this->toArriveTracks($trackCodes);
-        // }
-        // elseif ($request->storageStage == 'giving') {
-        //     $result = $this->toGiveTracks($trackCodes);
-        // }
-
-        $result = match ($request->storageStage) {
-            'reception' => $this->toReceiveTracks($trackCodes),
-            'arrival' => $this->toArriveTracks($trackCodes),
-            'giving' => $this->toGiveTracks($trackCodes),
+        if ($request->storageStage == 'reception') {
+            $result = $this->toReceiveTracks($trackCodes);
         }
+        elseif ($request->storageStage == 'arrival') {
+            $result = $this->toArriveTracks($trackCodes);
+        }
+        elseif ($request->storageStage == 'giving') {
+            $result = $this->toGiveTracks($trackCodes);
+        }
+
+        // $result = match ($request->storageStage) {
+        //     'reception' => $this->toReceiveTracks($trackCodes),
+        //     'arrival' => $this->toArriveTracks($trackCodes),
+        //     'giving' => $this->toGiveTracks($trackCodes),
+        // };
 
         Storage::delete('files/'.$docName);
 

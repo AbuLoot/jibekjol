@@ -135,8 +135,6 @@ class InputController extends Controller
 
             if (filter_var($density, FILTER_VALIDATE_FLOAT, $options) == true) {
 
-                echo '$'.$value['value'] . " is in range : ".$density.' ';
-
                 return redirect()->back()->with([
                         'price' => $value['value'],
                         'density' => $density,
@@ -166,15 +164,10 @@ class InputController extends Controller
                     ]);
                 }
             }
-
-            // dd($densityRange);
-            // echo $densityRange[0]??null;
-            // echo ' ';
-            // echo $densityRange[1]??null;
-            // echo '<br>';
         }
 
-        dd($amount, $density, $densityPrice, $typeDelivery, $request->all());
+        return redirect()->back();
+        // dd($amount, $density, $densityPrice, $typeDelivery, $request->all());
     }
 
     public function sendApp(Request $request)
