@@ -19,7 +19,7 @@
         </div>
         <div class="form-floating mb-3">
           <select class="form-control" name="region_id" id="region_id" required>
-            <option value="">Выберите город...</option>
+            <option value="">Выберите ваш город...</option>
             <?php $traverse = function ($nodes, $prefix = null) use (&$traverse) { ?>
               <?php foreach ($nodes as $node) : ?>
                 <option value="{{ $node->id }}">{{ PHP_EOL.$prefix.' '.$node->title }}</option>
@@ -42,11 +42,11 @@
           <label for="id_client">ID client</label>
         </div>
 
-        <!-- <label class="form-label" for="trackcode">Введите трек-код который вы использовали на нашем сервисе</label>
+        <label class="form-label" for="trackcode">Введите трек-код который вы использовали на нашем сервисе</label>
         <div class="form-floating mb-3">
           <input type="text" class="form-control form-control-lg rounded-3" name="trackcode" id="trackcode" placeholder="Трек-код" value="{{ old('trackcode') }}" required>
           <label for="trackcode">Трек-код</label>
-        </div> -->
+        </div>
 
         <button type="submit" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary">Отправить</button>
         <!-- <hr class="my-4"> -->
