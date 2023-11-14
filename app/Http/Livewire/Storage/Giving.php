@@ -17,7 +17,7 @@ class Giving extends Component
     public $search;
     public $status;
     public $region;
-    public $idClient = 'J7799';
+    public $idClient;
     public $trackCode;
     public $text;
 
