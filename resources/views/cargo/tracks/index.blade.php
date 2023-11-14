@@ -29,12 +29,12 @@
           <?php
             $activeStatus = $track->statuses->last();
 
-            $arrivalOrGivenRegion = null;
+            $trackAndRegion = null;
 
-            if (in_array($activeStatus->slug, ['arrived', 'given']) OR in_array($activeStatus->id, [5, 6])) {
+            if (in_array($activeStatus->slug, ['sorted', 'arrived', 'sent-locally', 'given']) OR in_array($activeStatus->id, [4, 5, 6, 7])) {
 
-              $arrivalOrGivenRegion = $track->regions->last()->title ?? __('statuses.regions.title');
-              $arrivalOrGivenRegion = '('.$arrivalOrGivenRegion.', Казахстан)';
+              $trackAndRegion = $track->regions->last()->title ?? __('statuses.regions.title');
+              $trackAndRegion = '('.$trackAndRegion.', Казахстан)';
             }
           ?>
           <tr>
@@ -44,7 +44,7 @@
             <td>{{ Str::limit($track->description, 35) }}</td>
             <?php $lastStatus = $track->statuses()->orderBy('created_at', 'desc')->first(); ?>
             <td>{{ $lastStatus->pivot->created_at->format('Y-m-d') }}</td>
-            <td>{{ $lastStatus->title }} {{ $arrivalOrGivenRegion }}</td>
+            <td>{{ $lastStatus->title }} {{ $trackAndRegion }}</td>
             <td>{{ $track->lang }}</td>
             <td class="text-right">
               <a class="btn btn-link btn-xs" href="{{ route('tracks.edit', [$lang, $track->id]) }}" title="Редактировать"><i class="material-icons md-18">mode_edit</i></a>
