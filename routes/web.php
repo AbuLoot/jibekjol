@@ -30,11 +30,15 @@ use App\Http\Controllers\Cargo\TrackExtensionController;
 
 use App\Http\Livewire\Client\Index as Client;
 use App\Http\Livewire\Client\Archive;
+
+use App\Http\Livewire\Storage\Tracks;
 use App\Http\Livewire\Storage\Reception;
 use App\Http\Livewire\Storage\Sending;
+use App\Http\Livewire\Storage\Sorting;
+use App\Http\Livewire\Storage\SendLocally;
 use App\Http\Livewire\Storage\Arrival;
 use App\Http\Livewire\Storage\Giving;
-use App\Http\Livewire\Storage\Tracks;
+
 
 // Client Livewire Routes
 Route::redirect('client', '/'.app()->getLocale().'/client');
@@ -46,13 +50,15 @@ Route::group(['prefix' => '/{lang}/client', 'middleware' => ['auth']], function 
 
 // Storage Livewire Routes
 Route::redirect('storage', '/'.app()->getLocale().'/storage');
-Route::group(['prefix' => '/{lang}/storage', 'middleware' => ['auth', 'roles:admin|storekeeper-first|storekeeper-last']], function () {
+Route::group(['prefix' => '/{lang}/storage', 'middleware' => ['auth', 'roles:admin|storekeeper-first|storekeeper-sorter|storekeeper-last']], function () {
+    Route::get('tracks', Tracks::class);
     Route::get('/', Reception::class);
     Route::get('reception', Reception::class);
     Route::get('sending', Sending::class);
+    Route::get('sorting', Sorting::class);
+    Route::get('send-locally', SendLocally::class);
     Route::get('arrival', Arrival::class);
     Route::get('giving', Giving::class);
-    Route::get('tracks', Tracks::class);
 });
 
 // Joystick Administration
@@ -87,6 +93,7 @@ Route::group(['prefix' => '{lang}/admin', 'middleware' => ['auth', 'roles:admin|
     Route::get('reception-tracks', [TrackExtensionController::class, 'receptionTracks']);
     Route::get('arrival-tracks', [TrackExtensionController::class, 'arrivalTracks']);
     Route::post('upload-tracks', [TrackExtensionController::class, 'uploadTracks']);
+    Route::post('export-tracks', [TrackExtensionController::class, 'exportTracks']);
 
     Route::get('companies-actions', [CompanyController::class, 'actionCompanies']);
     Route::get('users/search/user', [UserController::class, 'search']);

@@ -1,5 +1,5 @@
 <div>
-  <div class="px-3 py-3 border-bottom mb-3">
+  <div class="py-3 border-bottom mb-3">
     <div class="container d-flex flex-wrap justify-content-between align-items-center">
 
       <h4 class="col-12 col-lg-4 mb-md-2 mb-lg-0">Архив треков</h4>
@@ -30,33 +30,39 @@
         <?php
           $activeStatus = $track->statuses->last();
 
-          $arrivalOrGivenRegion = null;
           $givenIcon = [
             'added' => null,
             'received' => null,
             'sent' => null,
+            'sorted' => null,
             'waiting' => null,
             'arrived' => null,
+            'sent-locally' => null,
             'given' => '<i class="bi bi-person-check-fill"></i>',
           ];
 
-          if (in_array($activeStatus->slug, ['arrived', 'given']) OR in_array($activeStatus->id, [5, 6])) {
+          $sortedOrArrivalOrGivenRegion = null;
 
-            $arrivalOrGivenRegion = $track->regions->last()->title ?? __('statuses.regions.title');
-            $arrivalOrGivenRegion = '('.$arrivalOrGivenRegion.', Казахстан)';
+          if (in_array($activeStatus->slug, ['sorted', 'arrived', 'sent-locally', 'given']) OR in_array($activeStatus->id, [4, 5, 6, 7])) {
+
+            $sortedOrArrivalOrGivenRegion = $track->regions->last()->title ?? __('statuses.regions.title');
+            $sortedOrArrivalOrGivenRegion = '('.$sortedOrArrivalOrGivenRegion.', Казахстан)';
           }
         ?>
-        <div class="row">
+        <div class="row gx-2">
           <div class="col-10 col-lg-11">
             <div class="border {{ __('statuses.classes.'.$activeStatus->slug.'.card-color') }} rounded-top p-2" data-bs-toggle="collapse" href="#collapse{{ $track->id }}">
               <div class="row">
                 <div class="col-12 col-lg-5">
                   <div><b>Трек-код:</b> {{ $track->code }}</div>
                   <div><b>Описание:</b> {{ Str::limit($track->description, 35) }}</div>
+                  @if($track->text)
+                    <div><b>Text:</b> {{ $track->text }}</div>
+                  @endif
                 </div>
                 <div class="col-9 col-lg-5">
                   <div><b>Дата:</b> {{ $track->updated_at }}</div>
-                  <div><b>Статус: {!! $givenIcon[$activeStatus->slug] !!}</b> {{ $activeStatus->title }} {{ $arrivalOrGivenRegion }}</div>
+                  <div><b>Статус: {!! $givenIcon[$activeStatus->slug] !!}</b> {{ $activeStatus->title }} {{ $sortedOrArrivalOrGivenRegion }}</div>
                 </div>
               </div>
             </div>
@@ -65,12 +71,12 @@
               <div class="border border-top-0 rounded-bottom p-3">
                 <section>
                   <ul class="timeline-with-icons">
-                    @foreach($track->statuses()->orderByDesc('id')->get() as $status)
+                    @foreach($track->statuses()->orderByPivot('created_at', 'desc')->get() as $status)
 
                       @if($activeStatus->id == $status->id)
                         <li class="timeline-item mb-2">
                           <span class="timeline-icon bg-success"><i class="bi bi-check text-white"></i></span>
-                          <p class="text-success mb-0">{{ $status->title }} {{ $arrivalOrGivenRegion }}</p>
+                          <p class="text-success mb-0">{{ $status->title }} {{ $sortedOrArrivalOrGivenRegion }}</p>
                           <p class="text-success mb-0">{{ $status->pivot->created_at }}</p>
                         </li>
                         @continue
@@ -78,7 +84,12 @@
 
                       <li class="timeline-item mb-2">
                         <span class="timeline-icon bg-secondary"><i class="bi bi-check text-white"></i></span>
-                        <p class="text-body mb-0">{{ $status->title }}</p>
+                        <p class="text-body mb-0">
+                          {{ $status->title }}
+                          @if($status->pivot->region_id)
+                            ({{ $regions->firstWhere('id', $status->pivot->region_id)->title ?? __('statuses.regions.title') }}, Казахстан)
+                          @endif
+                        </p>
                         <p class="text-body mb-0">{{ $status->pivot->created_at }}</p>
                       </li>
                     @endforeach

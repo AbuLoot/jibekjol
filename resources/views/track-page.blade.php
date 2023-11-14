@@ -34,12 +34,12 @@
             <?php
               $activeStatus = $track->statuses->last();
 
-              $arrivalRegion = null;
+              $trackAndRegion = null;
 
-              if ($activeStatus->slug == 'arrived' OR $activeStatus->id == 5) {
+              if (in_array($activeStatus->slug, ['sorted', 'arrived', 'sent-locally', 'given']) OR in_array($activeStatus->id, [4, 5, 6, 7])) {
 
-                $arrivalRegion = $track->regions->last()->title ?? __('statuses.regions.title');
-                $arrivalRegion = '('.$arrivalRegion.', Казахстан)';
+                $trackAndRegion = $track->regions->last()->title ?? __('statuses.regions.title');
+                $trackAndRegion = '('.$trackAndRegion.', Казахстан)';
               }
             ?>
             <div class="border {{ __('statuses.classes.'.$activeStatus->slug.'.card-color') }} rounded-top p-2" data-bs-toggle="collapse" href="#collapse{{ $track->id }}">
@@ -49,8 +49,8 @@
                   <div><b>Description:</b> {{ Str::limit($track->description, 5) }}</div>
                 </div>
                 <div class="col-12 col-lg-4">
-                  <div><b>{{ ucfirst($activeStatus->slug) }}:</b> {{ $track->updated_at }}</div>
-                  <div><b>Status:</b> {{ $activeStatus->title }} {{ $arrivalRegion }}</div>
+                  <div><b>{{ ucfirst($activeStatus->slug) }} Date:</b> {{ $track->updated_at }}</div>
+                  <div><b>Status:</b> {{ $activeStatus->title }} {{ $trackAndRegion }}</div>
                 </div>
                 @if($track->user) 
                   <div class="col-12 col-lg-3">
@@ -65,12 +65,12 @@
               <div class="border border-top-0 rounded-bottom p-3">
                 <section>
                   <ul class="timeline-with-icons">
-                    @foreach($track->statuses()->orderByDesc('id')->get() as $status)
+                    @foreach($track->statuses()->orderByPivot('created_at', 'desc')->get() as $status)
 
                       @if($activeStatus->id == $status->id)
                         <li class="timeline-item mb-2">
                           <span class="timeline-icon bg-success"><i class="bi bi-check text-white"></i></span>
-                          <p class="text-success mb-0">{{ $status->title }} {{ $arrivalRegion }}</p>
+                          <p class="text-success mb-0">{{ $status->title }} {{ $trackAndRegion }}</p>
                           <p class="text-success mb-0">{{ $status->pivot->created_at }}</p>
                         </li>
                         @continue

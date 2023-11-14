@@ -1,10 +1,10 @@
 <div>
-  <div class="px-3 py-3 border-bottom mb-3">
+  <div class="py-3 border-bottom mb-3">
     <div class="container d-flex flex-wrap justify-content-between align-items-center">
 
-      <h4 class="col-4 col-lg-4 mb-md-2 mb-lg-0">Track codes</h4>
+      <h4 class="col-12 col-lg-4 mb-md-2 mb-lg-0">Search</h4>
 
-      <form class="col-8 col-lg-4 mb-md-2 mb-lg-0 me-lg-auto">
+      <form class="col-12 col-lg-4 mb-md-2 mb-lg-0 me-lg-auto">
         <input wire:model="search" type="search" class="form-control form-control-lg" placeholder="Enter track code..." aria-label="Search">
       </form>
 
@@ -12,35 +12,22 @@
   </div>
 
   <div class="container">
-    <ul class="nav nav-tabs mb-3">
-      <li class="nav-item">
-        <a class="nav-link bg-light active" aria-current="page">Reception</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/{{ $lang }}/storage/sending">Send</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/{{ $lang }}/storage/arrival">Arrival</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/{{ $lang }}/storage/giving">Giving</a>
-      </li>
-    </ul>
+    <h3>Reception</h3>
 
     <div class="row">
       <div class="col-12 col-sm-3 mb-2">
         <form wire:submit.prevent="toReceive">
-          <div class="form-floating mb-3">
-            <input wire:model.defer="trackCode" type="text" class="form-control form-control-lg @error('trackCode') is-invalid @enderror" placeholder="Add track-code" id="trackCodeArea">
-            <label for="trackCodeArea">Enter track code</label>
+          <div class="input-group @error('trackCode') has-validation @enderror mb-3">
+            <div class="form-floating @error('trackCode') is-invalid @enderror">
+              <input wire:model.defer="trackCode" type="text" class="form-control form-control-lg" placeholder="Add track-code" id="trackCodeArea">
+              <label for="trackCodeArea">Enter track code</label>
+            </div>
+            <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalUploadDoc"><i class="bi bi-file-earmark-arrow-up-fill"></i> </button>
             @error('trackCode')<div class="invalid-feedback">{{ $message }}</div>@enderror
           </div>
 
           <button type="submit" id="toReceive" class="btn btn-primary btn-lg mb-2"><i class="bi bi-check2"></i> To receive</button>
         </form>
-
-        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalUploadDoc">Upload</button>
-
       </div>
 
       <div class="col-12 col-sm-9">
@@ -69,7 +56,7 @@
                   <div><b>Description:</b> {{ Str::limit($track->description, 35) }}</div>
                 </div>
                 <div class="col-12 col-lg-6">
-                  <div><b>{{ ucfirst($activeStatus->slug) }}:</b> {{ $activeStatus->pivot->created_at }}</div>
+                  <div><b>{{ ucfirst($activeStatus->slug) }} Date:</b> {{ $activeStatus->pivot->created_at }}</div>
                   <div><b>Status:</b> {{ $activeStatus->title }}</div>
                 </div>
                 @if($track->user) 
@@ -85,7 +72,7 @@
               <div class="border border-top-0 rounded-bottom p-3">
                 <section>
                   <ul class="timeline-with-icons">
-                    @foreach($track->statuses()->orderByDesc('id')->get() as $status)
+                    @foreach($track->statuses()->orderByPivot('created_at', 'desc')->get() as $status)
 
                       @if($activeStatus->id == $status->id)
                         <li class="timeline-item mb-2">

@@ -4,37 +4,31 @@ namespace App\Http\Livewire\Storage;
 
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
+use Rap2hpoutre\FastExcel\FastExcel;
 
-use App\Models\User;
 use App\Models\Region;
 use App\Models\Track;
 use App\Models\Status;
 use App\Models\TrackStatus;
 
-class Giving extends Component
+class SendLocally extends Component
 {
     public $lang;
     public $search;
     public $status;
     public $region;
-    public $idClient = 'J7799';
     public $trackCode;
-    public $text;
-
-    protected $rules = [
-        'trackCode' => 'required|string|min:10|max:20',
-    ];
 
     public function mount()
     {
-        if (! Gate::allows('giving', auth()->user())) {
+        if (! Gate::allows('sending-locally', auth()->user())) {
             abort(403);
         }
 
         $this->lang = app()->getLocale();
         $this->status = Status::select('id', 'slug')
-            ->where('slug', 'given')
-            ->orWhere('id', 7)
+            ->where('slug', 'sent-locally')
+            ->orWhere('id', 5)
             ->first();
 
         if (!session()->has('jRegion')) {
@@ -43,70 +37,52 @@ class Giving extends Component
         }
     }
 
-    public function btnToGive($trackCode)
+    public function btnToSendLocally($trackCode)
     {
         $this->trackCode = $trackCode;
-        $this->toGive();
-        $this->search = null;
+        $this->toSendLocally();
     }
 
-    public function toGive()
+    public function toSendLocally()
     {
-        $this->validate();
+        $this->validate(['trackCode' => 'required|string|min:10|max:20']);
 
-        $statusGiven = Status::select('id', 'slug')
-            ->where('slug', 'giving')
-            ->orWhere('id', 7)
+        $statusSentLocally = Status::select('id', 'slug')
+            ->where('slug', 'sent-locally')
+            ->orWhere('id', 5)
             ->first();
 
         $track = Track::where('code', $this->trackCode)->first();
 
         if (!$track) {
             $newTrack = new Track;
-            $newTrack->user_id = session('givingToUser')->id ?? null;
             $newTrack->lang = $this->lang;
             $newTrack->code = $this->trackCode;
             $newTrack->description = '';
-            $newTrack->text = $this->text;
             $newTrack->save();
 
             $track = $newTrack;
         }
 
-        if ($track->status >= $statusGiven->id) {
-            $this->addError('trackCode', 'Track '.$this->trackCode.' given');
+        if ($track->status >= $statusSentLocally->id) {
+            $this->addError('trackCode', 'Track '.$this->trackCode.' sent locally');
             $this->trackCode = null;
-            $this->text = null;
             return;
         }
 
         $trackStatus = new TrackStatus();
         $trackStatus->track_id = $track->id;
-        $trackStatus->status_id = $statusGiven->id;
+        $trackStatus->status_id = $statusSentLocally->id;
         $trackStatus->region_id = $this->region->id;
         $trackStatus->created_at = now();
         $trackStatus->updated_at = now();
         $trackStatus->save();
 
-        $track->user_id = session('givingToUser')->id ?? $track->user_id;
-        $track->status = $statusGiven->id;
-        $track->text = $this->text;
+        $track->status = $statusSentLocally->id;
         $track->save();
 
         $this->trackCode = null;
-        $this->text = null;
         $this->dispatchBrowserEvent('area-focus');
-    }
-
-    public function attachUser($id)
-    {
-        session()->put('givingToUser', User::findOrFail($id));
-    }
-
-    public function detachUser()
-    {
-        session()->forget('givingToUser');
-        $this->idClient = 'J7799';
     }
 
     public function setRegionId($id)
@@ -124,31 +100,23 @@ class Giving extends Component
         $this->region = session()->get('jRegion');
         $this->setRegionId = session()->get('jRegion')->id;
 
-        $arrivedTracks = Track::query()->where('status', $this->status->id)->orderByDesc('id')->paginate(50);
+        $sentLocallyTracks = Track::query()->where('status', $this->status->id)->orderByDesc('updated_at')->paginate(50);
 
         $tracks = [];
-        $users = [];
 
         if (strlen($this->search) >= 4) {
             $tracks = Track::query()
-                ->orderByDesc('id')
+                ->orderByDesc('updated_at')
                 ->where('status', $this->status->id)
                 ->where('code', 'like', '%'.$this->search.'%')
                 ->paginate(10);
         }
 
-        if (strlen($this->idClient) >= 9) {
-            $users = User::orderBy('id', 'desc')
-                ->where('id_client', 'like', '%'.$this->idClient.'%')
-                ->get()
-                ->take(10);
-        }
-
-        return view('livewire.storage.giving', [
+        return view('livewire.storage.send-locally', [
                 'tracks' => $tracks,
-                'users' => $users,
-                'arrivedTracks' => $arrivedTracks,
+                'sentLocallyTracks' => $sentLocallyTracks,
                 'regions' => Region::descendantsAndSelf(1)->toTree(),
-            ])->layout('livewire.storage.layout');
+            ])
+            ->layout('livewire.storage.layout');
     }
 }

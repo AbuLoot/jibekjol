@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="Namatilla">
-  <title>JibekJol</title>
+  <title>JOLLDAS</title>
 
   <link rel="canonical" href="">
 
@@ -25,7 +25,7 @@
   <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <link href="/css/offcanvas.css" rel="stylesheet">
-  <link href="/css/custom-23.css" rel="stylesheet">
+  <link href="/css/custom-14.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ysabeau:ital,wght@1,1000&display=swap" rel="stylesheet">
@@ -34,9 +34,9 @@
 </head>
 <body class="bg-light">
   <?php $lang = app()->getLocale(); ?>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-brand-bg-brand-border bg-indigo bg-indigo-border" aria-label="Main navigation">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-indigo bg-indigo-border" aria-label="Main navigation">
     <div class="container-xl">
-      <a href="/{{ $lang }}/client" class="navbar-brand">JibekJol</a>
+      <a href="/{{ $lang }}/client" class="navbar-brand">JOLLDAS</a>
       <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -72,7 +72,7 @@
             <li>
               <form method="POST" action="/logout">
                 @csrf
-                <a class="dropdown-item py-2" href="#" onclick="event.preventDefault(); this.closest('form').submit();">Logout</a>
+                <a class="dropdown-item py-2" href="#" onclick="event.preventDefault(); this.closest('form').submit();">Выйти</a>
               </form>
             </li>
           </ul>

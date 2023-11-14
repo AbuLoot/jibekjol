@@ -15,11 +15,8 @@
   <div class="container">
     @foreach($tracks as $track)
       <div class="track-item mb-2">
-        <?php
-          $activeStatus = $track->statuses->last();
-          $sortedRegion = $track->regions->last()->title ?? __('statuses.regions.title');
-          $sortedRegion = '('.$sortedRegion.', Казахстан)';
-        ?>
+
+        <?php $activeStatus = $track->statuses->last(); ?>
         <div class="row">
           <div class="col-10 col-lg-10">
             <div class="border {{ __('statuses.classes.'.$activeStatus->slug.'.card-color') }} rounded-top p-2" data-bs-toggle="collapse" href="#collapse{{ $track->id }}">
@@ -30,7 +27,7 @@
                 </div>
                 <div class="col-12 col-lg-4">
                   <div><b>{{ ucfirst($activeStatus->slug) }} Date:</b> {{ $activeStatus->pivot->created_at }}</div>
-                  <div><b>Status:</b> {{ $activeStatus->title }} {{ $sortedRegion }}</div>
+                  <div><b>Status:</b> {{ $activeStatus->title }}</div>
                 </div>
                 @if($track->user) 
                   <div class="col-12 col-lg-3">
@@ -70,33 +67,28 @@
           </div>
           <div class="col-2 col-lg-2 text-end">
             <div class="d-grid">
-              <button wire:click="btnToArrive('{{ $track->code }}')" type="button" wire:loading.attr="disabled" class="btn btn-primary btn-lg-"><i class="bi bi-check2-all"></i> <span class="d-none d-sm-inline">To arrive</span></button>
+              <button wire:click="btnToSort('{{ $track->code }}')" type="button" wire:loading.attr="disabled" class="btn btn-primary btn-lg-"><i class="bi bi-dpad"></i> <span class="d-none d-sm-inline">To sort</span></button>
             </div>
           </div>
         </div>
       </div>
     @endforeach
 
-    <h3>Arrival</h3>
+    <h3>Sorting</h3>
 
     <div class="row">
       <div class="col-12 col-sm-4 mb-2">
-        <form wire:submit.prevent="toArrive">
-          <div class="input-group @error('trackCode') has-validation @enderror mb-3">
-            <div class="form-floating @error('trackCode') is-invalid @enderror">
-              <input wire:model.defer="trackCode" type="text" class="form-control form-control-lg" placeholder="Add track-code" id="trackCodeArea">
-              <label for="trackCodeArea">Enter track code</label>
-            </div>
-            <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalUploadDoc"><i class="bi bi-file-earmark-arrow-up-fill"></i> </button>
+        <form wire:submit.prevent="toSort">
+          <div class="form-floating mb-3">
+            <input wire:model.defer="trackCode" type="text" class="form-control form-control-lg @error('trackCode') is-invalid @enderror" placeholder="Add track-code" id="trackCodeArea">
+            <label for="trackCodeArea">Enter track code</label>
             @error('trackCode')<div class="invalid-feedback">{{ $message }}</div>@enderror
           </div>
-
-          <div class="btn-group mb-3" role="group" aria-label="Button group with nested dropdown">
+          <div class="btn-group mb-2" role="group" aria-label="Button group with nested dropdown">
             <div class="btn-group" role="group">
               <button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 {{ $region->title }}
               </button>
-
               <ul class="dropdown-menu" style="max-height: 400px; overflow-y: auto; padding-bottom: 50px;">
                 <?php $traverse = function ($nodes, $prefix = null) use (&$traverse) { ?>
                   <?php foreach ($nodes as $node) : ?>
@@ -107,48 +99,16 @@
                 <?php $traverse($regions); ?>
               </ul>
             </div>
-            <button type="submit" id="toArrive" wire:loading.attr="disabled" class="btn btn-primary btn-lg"><i class="bi bi-check2-all"></i> To arrive</button>
+            <button type="submit" id="toSort" wire:loading.attr="disabled" class="btn btn-primary btn-lg"><i class="bi bi-dpad"></i> To sort</button>
           </div>
         </form>
 
-        <div class="input-group mb-3">
-          @if(session('arrivalToUser'))
-            <div class="form-floating">
-              <input value="{{ session('arrivalToUser')->id_client.'. '.session('arrivalToUser')->name.' '.session('arrivalToUser')->lastname }}" type="text" class="form-control form-control-lg" id="arrivalToUser" placeholder="ID Client" disabled>
-              <label for="arrivalToUser">ID Client</label>
-            </div>
-            <button wire:click="detachUser({{ session('arrivalToUser')->id }})" class="btn btn-danger btn-lg input-group-text"><i class="bi bi-x-square"></i></button>
-          @else
-            <div class="form-floating">
-              <input wire:model="idClient" type="text" class="form-control form-control-lg" id="id_client" placeholder="ID Client">
-              <label for="id_client">ID Client</label>
-
-              @if($users)
-                <div class="dropdown-menu d-block pt-0 w-100 shadow overflow-hidden" style="position: absolute;">
-                  <ul class="list-unstyled mb-0">
-                    @forelse($users as $user)
-                      <li>
-                        <a wire:click="attachUser({{ $user->id }})" class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">{{ $user->id_client.'. '.$user->name.' '.$user->lastname }}</a>
-                      </li>
-                    @empty
-                      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2 disabled">No users</a></li>
-                    @endforelse
-                  </ul>
-                </div>
-              @endif
-            </div>
-          @endif
-        </div>
-
-        <div class="form-floating mb-3">
-          <input wire:model="text" class="form-control form-control-lg" id="text" maxlength="250" placeholder="Leave a comment here">
-          <label for="text" class="form--label">Text</label>
-        </div>
+        <!-- <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalUploadDoc">Upload</button> -->
 
       </div>
       <div class="col-12 col-sm-8">
 
-        @if (session('result'))
+        @if(session('result'))
           <div class="alert alert-info">
             <h4>Total tracks count: {{ session('result')['totalTracksCount'] }}pcs</h4>
             <h4>Arrived tracks count: {{ session('result')['arrivedTracksCount'] }}pcs</h4>
@@ -175,16 +135,16 @@
             $twoWeekAgo   = $now->copy()->startOfWeek()->subWeek(3)->format('Y-m-d');
 
             // Grouped by date
-            $todayGroup         = $arrivedTracks->where('updated_at', '>', $yesterday.' 23:59:59')->where('updated_at', '<=', now());
-            $yesterdayGroup     = $arrivedTracks->where('updated_at', '>=', $yesterday)->where('updated_at', '<', $today);
-            $twoDaysAgoGroup    = $arrivedTracks->where('updated_at', '>', $twoDaysAgo)->where('updated_at', '<', $yesterday);
-            $threeDaysAgoGroup  = $arrivedTracks->where('updated_at', '>', $threeDaysAgo)->where('updated_at', '<', $twoDaysAgo);
-            $fourDaysAgoGroup   = $arrivedTracks->where('updated_at', '>', $fourDaysAgo)->where('updated_at', '<', $threeDaysAgo);
-            $fiveDaysAgoGroup   = $arrivedTracks->where('updated_at', '>', $fiveDaysAgo)->where('updated_at', '<', $fourDaysAgo);
-            $sixDaysAgoGroup    = $arrivedTracks->where('updated_at', '>', $sixDaysAgo)->where('updated_at', '<', $fiveDaysAgo);
-            $previousWeekGroup  = $arrivedTracks->where('updated_at', '>', $previousWeek)->where('updated_at', '<', $sixDaysAgo);
-            $twoWeekAgoGroup    = $arrivedTracks->where('updated_at', '>', $twoWeekAgo)->where('updated_at', '<', $previousWeek);
-            $prevTimeGroup      = $arrivedTracks->where('updated_at', '<', $twoWeekAgo);
+            $todayGroup         = $sortedTracks->where('updated_at', '>', $yesterday.' 23:59:59')->where('updated_at', '<=', now());
+            $yesterdayGroup     = $sortedTracks->where('updated_at', '>=', $yesterday)->where('updated_at', '<', $today);
+            $twoDaysAgoGroup    = $sortedTracks->where('updated_at', '>', $twoDaysAgo)->where('updated_at', '<', $yesterday);
+            $threeDaysAgoGroup  = $sortedTracks->where('updated_at', '>', $threeDaysAgo)->where('updated_at', '<', $twoDaysAgo);
+            $fourDaysAgoGroup   = $sortedTracks->where('updated_at', '>', $fourDaysAgo)->where('updated_at', '<', $threeDaysAgo);
+            $fiveDaysAgoGroup   = $sortedTracks->where('updated_at', '>', $fiveDaysAgo)->where('updated_at', '<', $fourDaysAgo);
+            $sixDaysAgoGroup    = $sortedTracks->where('updated_at', '>', $sixDaysAgo)->where('updated_at', '<', $fiveDaysAgo);
+            $previousWeekGroup  = $sortedTracks->where('updated_at', '>', $previousWeek)->where('updated_at', '<', $sixDaysAgo);
+            $twoWeekAgoGroup    = $sortedTracks->where('updated_at', '>', $twoWeekAgo)->where('updated_at', '<', $previousWeek);
+            $prevTimeGroup      = $sortedTracks->where('updated_at', '<', $twoWeekAgo);
 
             $allTracksGroups = [
               'today' => [
@@ -253,16 +213,16 @@
           @foreach($allTracksGroups as $group)
             @if($group['group']->count())
               <div class="tracks-group mb-2">
-                <div class="border bg-sorted rounded p-2">
+                <div class="border bg-sent rounded p-2">
                   <div class="row">
                     <div class="col-6 col-md-3">
                       <div><b>Date:</b> {{ $group['dateFrom'] }}</div>
                       <div><b>Count:</b> {{ $group['group']->count() }}pcs</div>
                     </div>
-                    <div class="col-6 col-md-4"><b>Sorted: {{ $group['dateName'] }}</b></div>
+                    <div class="col-6 col-md-4"><b>Sent: {{ $group['dateName'] }}</b></div>
                     <div class="col-12 col-md-5 text-end">
                       <button type="button" wire:click="openGroupByDate('{{ $group['dateFrom'] }}', '{{ $group['dateTo'] }}')" wire:loading.attr="disabled" class="btn btn-primary btn-lg">Open</button>
-                      <button type="button" wire:click="groupArrivedByDate('{{ $group['dateFrom'] }}', '{{ $group['dateTo'] }}')" wire:loading.attr="disabled" onclick="return confirm('Сonfirm action?') || event.stopImmediatePropagation()" class="btn btn-success btn-lg"><i class="bi bi-check2-all"></i> Group arrived</button>
+                      <button type="button" wire:click="groupArrivedByDate('{{ $group['dateFrom'] }}', '{{ $group['dateTo'] }}')" wire:loading.attr="disabled" onclick="return confirm('Сonfirm action?') || event.stopImmediatePropagation()" class="btn btn-success btn-lg"><i class="bi bi-dpad"></i> Group arrived</button>
                     </div>
                   </div>
                 </div>
@@ -270,13 +230,10 @@
             @endif
           @endforeach
         @else
-          @foreach($arrivedTracks as $track)
+          @foreach($sortedTracks as $track)
             <div class="track-item mb-2">
-              <?php
-                $activeStatus = $track->statuses->last();
-                $sortedRegion = $track->regions->last()->title ?? __('statuses.regions.title');
-                $sortedRegion = '('.$sortedRegion.', Казахстан)';
-              ?>
+
+              <?php $activeStatus = $track->statuses->last(); ?>
               <div class="border {{ __('statuses.classes.'.$activeStatus->slug.'.card-color') }} rounded-top p-2" data-bs-toggle="collapse" href="#collapse{{ $track->id }}">
                 <div class="row">
                   <div class="col-12 col-lg-6">
@@ -285,7 +242,7 @@
                   </div>
                   <div class="col-12 col-lg-6">
                     <div><b>{{ ucfirst($activeStatus->slug) }} Date:</b> {{ $activeStatus->pivot->created_at }}</div>
-                    <div><b>Status:</b> {{ $activeStatus->title }} {{ $sortedRegion }}</div>
+                    <div><b>Status:</b> {{ $activeStatus->title }}</div>
                   </div>
                   @if($track->user) 
                     <div class="col-12 col-lg-12">
@@ -326,7 +283,7 @@
           @endforeach
           <br>
           <nav aria-label="Page navigation">
-            {{ $arrivedTracks->links() }}
+            {{ $sortedTracks->links() }}
           </nav>
         @endif
       </div>

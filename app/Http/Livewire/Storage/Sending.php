@@ -14,16 +14,13 @@ class Sending extends Component
     public $lang;
     public $search;
     public $status;
+    public $mode = 'list';
     public $trackCode;
     public $trackCodes = [];
-    public $tracksGroup = [];
+    public $allSentTracks = [];
 
     protected $rules = [
         'trackCode' => 'required|string|min:10|max:20',
-    ];
-
-    protected $listeners = [
-        'newData' => '$refresh',
     ];
 
     public function mount()
@@ -34,8 +31,8 @@ class Sending extends Component
 
         $this->lang = app()->getLocale();
         $this->status = Status::select('id', 'slug')
-            ->where('slug', 'received')
-            ->orWhere('id', 2)
+            ->where('slug', 'sent')
+            ->orWhere('id', 3)
             ->first();
     }
 
@@ -51,7 +48,7 @@ class Sending extends Component
 
     public function getTracksIdByDate($dateFrom, $dateTo)
     {
-        $tracksGroup = $this->tracksGroup;
+        $tracksGroup = $this->allSentTracks;
 
         $tracks = $tracksGroup->when($dateTo, function ($tracksGroup) use ($dateFrom, $dateTo) {
 
@@ -74,7 +71,7 @@ class Sending extends Component
     {
         $ids = $this->getTracksIdByDate($dateFrom, $dateTo);
 
-        $this->trackCodes = $this->tracksGroup->whereIn('id', $ids)->sortByDesc('id');
+        $this->trackCodes = $this->allSentTracks->whereIn('id', $ids)->sortByDesc('id');
 
         $this->dispatchBrowserEvent('open-modal');
     }
@@ -83,10 +80,10 @@ class Sending extends Component
     {
         $ids = $this->getTracksIdByDate($dateFrom, $dateTo);
 
-        $tracks = $this->tracksGroup->whereIn('id', $ids);
+        $tracks = $this->allSentTracks->whereIn('id', $ids);
 
         $statusSent = Status::where('slug', 'sent')
-            ->orWhere('id', 4)
+            ->orWhere('id', 3)
             ->select('id', 'slug')
             ->first();
 
@@ -121,7 +118,7 @@ class Sending extends Component
 
         $statusSent = Status::select('id', 'slug')
             ->where('slug', 'sent')
-            ->orWhere('id', 4)
+            ->orWhere('id', 3)
             ->first();
 
         $track = Track::where('code', $this->trackCode)->first();
@@ -157,21 +154,34 @@ class Sending extends Component
         $this->dispatchBrowserEvent('area-focus');
     }
 
+    public function setMode($mode)
+    {
+        $this->mode = $mode;
+    }
+
     public function render()
     {
-        $this->tracksGroup = Track::where('status', $this->status->id)->get();
+        if ($this->mode == 'list') {
+            $sentTracks = Track::query()->where('status', $this->status->id)->orderByDesc('updated_at')->paginate(50);
+        } else {
+            $sentTracks = Track::query()->where('status', $this->status->id)->get();
+            $this->allSentTracks = $sentTracks;
+        }
 
         $tracks = [];
 
         if (strlen($this->search) >= 4) {
             $tracks = Track::query()
-                ->orderByDesc('id')
+                ->orderByDesc('updated_at')
                 ->where('status', $this->status->id)
                 ->where('code', 'like', '%'.$this->search.'%')
                 ->paginate(10);
         }
 
-        return view('livewire.storage.sending', ['tracks' => $tracks])
+        return view('livewire.storage.sending', [
+                'tracks' => $tracks,
+                'sentTracks' => $sentTracks,
+            ])
             ->layout('livewire.storage.layout');
     }
 }

@@ -26,10 +26,6 @@ class Reception extends Component
         'trackCode' => 'required|string|min:10|max:20',
     ];
 
-    protected $listeners = [
-        'newData' => '$refresh',
-    ];
-
     public function mount()
     {
         if (auth()->user()->roles->first()->name == 'storekeeper-last') {
@@ -84,26 +80,10 @@ class Reception extends Component
         $this->dispatchBrowserEvent('area-focus');
     }
 
-    public function uploadDoc(Request $request)
-    {
-        $this->validate([
-            'tracksDoc' => 'required|mimetypes:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        ]);
-
-        // dd($request->file('tracksDoc'));
-
-        $tracksDoc = (new FastExcel)->import('tracksDoc', function($line) {
-            dd($line);
-            // return = [
-                // 'code' => 
-            // ];
-        });
-    }
-
     public function render()
     {
         $tracks = Track::query()
-            ->orderByDesc('id')
+            ->orderByDesc('updated_at')
             ->where('status', 2)
             ->when((strlen($this->search) >= 4), function($query) {
                 $query->where('code', 'like', '%'.$this->search.'%');

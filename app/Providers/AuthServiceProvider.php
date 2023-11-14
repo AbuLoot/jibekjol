@@ -57,12 +57,24 @@ class AuthServiceProvider extends ServiceProvider
             return $user->roles->first()->permissions->pluck('name')->contains('sending');
         });
 
+        Gate::define('sorting', function(User $user) {
+            return $user->roles->first()->permissions->pluck('name')->contains('sorting');
+        });
+
+        Gate::define('sending-locally', function(User $user) {
+            return $user->roles->first()->permissions->pluck('name')->contains('sending-locally');
+        });
+
         Gate::define('arrival', function(User $user) {
             return $user->roles->first()->permissions->pluck('name')->contains('arrival');
         });
 
         Gate::define('giving', function(User $user) {
             return $user->roles->first()->permissions->pluck('name')->contains('giving');
+        });
+
+        Gate::define('setting-regions', function(User $user) {
+            return $user->roles->first()->permissions->pluck('name')->contains('setting-regions');
         });
     }
 }
