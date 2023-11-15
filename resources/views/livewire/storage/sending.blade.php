@@ -78,7 +78,7 @@
     <h3>Sending</h3>
 
     <div class="row">
-      <div class="col-12 col-sm-3 mb-2">
+      <div class="col-12 col-sm-4 mb-2">
         <form wire:submit.prevent="toSend">
           <div class="form-floating mb-3">
             <input wire:model.defer="trackCode" type="text" class="form-control form-control-lg @error('trackCode') is-invalid @enderror" placeholder="Add track-code" id="trackCodeArea">
@@ -86,10 +86,21 @@
             @error('trackCode')<div class="invalid-feedback">{{ $message }}</div>@enderror
           </div>
 
-          <button type="submit" id="toSend" wire:loading.attr="disabled" class="btn btn-primary btn-lg"><i class="bi bi-send"></i> To send</button>
+          <div class="input-group">
+            <?php $icons = ['list' => 'card-checklist', 'group' => 'collection']; ?>
+            <button class="btn btn-primary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-{{ $icons[$mode] }}"></i> View
+            </button>
+            <ul class="dropdown-menu">
+              <li><a wire:click="setMode('list')" class="dropdown-item" href="#"><i class="bi bi-card-checklist"></i> List tracks</a></li>
+              <li><a wire:click="setMode('group')" class="dropdown-item" href="#"><i class="bi bi-collection"></i> Group tracks</a></li>
+            </ul>
+            <button type="submit" id="toSend" wire:loading.attr="disabled" class="btn btn-primary btn-lg"><i class="bi bi-send"></i> To send</button>
+          </div>
+
         </form>
       </div>
-      <div class="col-12 col-sm-9">
+      <div class="col-12 col-sm-8">
         @if($mode == 'group')
 
           <?php
