@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="Namatilla">
-  <title>JOLLDAS</title>
+  <title>jibekjol</title>
 
   <link rel="canonical" href="">
 
@@ -36,7 +36,7 @@
   <?php $lang = app()->getLocale(); ?>
   <nav class="navbar navbar-expand-lg navbar-dark bg-indigo bg-indigo-border" aria-label="Main navigation">
     <div class="container-xl">
-      <a href="/{{ $lang }}/client" class="navbar-brand">JOLLDAS</a>
+      <a href="/{{ $lang }}/client" class="navbar-brand">jibekjol</a>
       <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
