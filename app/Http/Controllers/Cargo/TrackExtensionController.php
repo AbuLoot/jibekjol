@@ -62,8 +62,8 @@ class TrackExtensionController extends Controller
             ->orWhere('id', 7)
             ->first();
 
-        $regionId = session()->get('jRegion')->id;
-        $regionName = ucfirst(session()->get('jRegion')->slug);
+        $regionId = session()->get('jjRegion')->id;
+        $regionName = ucfirst(session()->get('jjRegion')->slug);
 
         $sentLocallyTracks = Track::query()
             ->where('status', $statusSentLocally->id)
@@ -217,7 +217,7 @@ class TrackExtensionController extends Controller
 
         $sentTracks = $existentTracks->where('status', '>=', $statusSent->id);
 
-        $region = session()->get('jRegion');
+        $region = session()->get('jjRegion');
 
         $unsentTracks->each(function ($item, $key) use (&$unsentTracksStatus, $statusSent, $region) {
             $unsentTracksStatus[] = [
@@ -299,7 +299,7 @@ class TrackExtensionController extends Controller
 
         $arrivedTracks = $existentTracks->where('status', '>=', $statusArrived->id);
 
-        $region = session()->get('jRegion');
+        $region = session()->get('jjRegion');
 
         $unarrivedTracks->each(function ($item, $key) use (&$unarrivedTracksStatus, $statusArrived, $region) {
             $unarrivedTracksStatus[] = [
@@ -375,7 +375,7 @@ class TrackExtensionController extends Controller
 
         $givenTracks = $existentTracks->where('status', '>=', $statusGiven->id);
 
-        $region = session()->get('jRegion');
+        $region = session()->get('jjRegion');
 
         $ungivenTracks->each(function ($item, $key) use (&$ungivenTracksStatus, $statusGiven, $region) {
             $ungivenTracksStatus[] = [

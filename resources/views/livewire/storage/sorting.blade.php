@@ -292,29 +292,6 @@
 
   <br>
 
-  <!-- Modal -->
-  <div class="modal fade" id="trackCodesModal" tabindex="-1" aria-labelledby="trackCodesModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="trackCodesModalLabel">Track codes</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="row gx-2">
-            @foreach($trackCodes as $trackCode)
-              <div class="col-7"><b>TC:</b> {{ $trackCode->code }}</div>
-              <div class="col-5">{{ $trackCode->description }}</div>
-            @endforeach
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="modal fade" id="modalUploadDoc" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -340,12 +317,6 @@
     </div>
   </div>
 
-  <script>
-    window.addEventListener('open-modal', event => {
-      var tracksModal = new bootstrap.Modal(document.getElementById("trackCodesModal"), {});
-      tracksModal.show();
-    })
-  </script>
 </div>
 
 @section('scripts')

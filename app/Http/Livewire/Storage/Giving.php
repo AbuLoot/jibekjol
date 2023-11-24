@@ -37,9 +37,9 @@ class Giving extends Component
             ->orWhere('id', 7)
             ->first();
 
-        if (!session()->has('jRegion')) {
+        if (!session()->has('jjRegion')) {
             $region = auth()->user()->region()->first() ?? Region::where('slug', 'kazakhstan')->orWhere('id', 1)->first();
-            session()->put('jRegion', $region);
+            session()->put('jjRegion', $region);
         }
     }
 
@@ -116,13 +116,13 @@ class Giving extends Component
         }
 
         $region = Region::find($id);
-        session()->put('jRegion', $region);
+        session()->put('jjRegion', $region);
     }
 
     public function render()
     {
-        $this->region = session()->get('jRegion');
-        $this->setRegionId = session()->get('jRegion')->id;
+        $this->region = session()->get('jjRegion');
+        $this->setRegionId = session()->get('jjRegion')->id;
 
         $arrivedTracks = Track::query()->where('status', $this->status->id)->orderByDesc('id')->paginate(50);
 

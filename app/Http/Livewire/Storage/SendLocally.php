@@ -31,9 +31,9 @@ class SendLocally extends Component
             ->orWhere('id', 5)
             ->first();
 
-        if (!session()->has('jRegion')) {
+        if (!session()->has('jjRegion')) {
             $region = auth()->user()->region()->first() ?? Region::where('slug', 'kazakhstan')->orWhere('id', 1)->first();
-            session()->put('jRegion', $region);
+            session()->put('jjRegion', $region);
         }
     }
 
@@ -92,13 +92,13 @@ class SendLocally extends Component
         }
 
         $region = Region::find($id);
-        session()->put('jRegion', $region);
+        session()->put('jjRegion', $region);
     }
 
     public function render()
     {
-        $this->region = session()->get('jRegion');
-        $this->setRegionId = session()->get('jRegion')->id;
+        $this->region = session()->get('jjRegion');
+        $this->setRegionId = session()->get('jjRegion')->id;
 
         $sentLocallyTracks = Track::query()->where('status', $this->status->id)->orderByDesc('updated_at')->paginate(50);
 
