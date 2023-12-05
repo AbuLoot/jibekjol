@@ -57,11 +57,13 @@
                     <b>Status: {!! $givenIcon[$activeStatus->slug] !!}</b> {{ $activeStatus->title }} {{ $trackAndRegion }}
                   </div>
                 </div>
+                <?php $userTel = null; ?>
                 @if($track->user)
                   <div class="col-12 col-lg-3">
                     <b>User:</b> {{ $track->user->name.' '.$track->user->lastname }}<br>
                     <b>ID:</b> {{ $track->user->id_client }}
                   </div>
+                  <?php $userTel = '<br><b>Phone:</b> '.$track->user->tel; ?>
                 @endif
               </div>
             </div>
@@ -93,7 +95,10 @@
                       </li>
                     @endforeach
                   </ul>
-                  <p><b>Description:</b> {{ $track->description }}</p>
+                  <p>
+                    <b>Description:</b> {{ $track->description }}
+                    {!! $userTel !!}
+                  </p>
                 </section>
               </div>
             </div>
