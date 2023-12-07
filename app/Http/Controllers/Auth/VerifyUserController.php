@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Track;
 
+// use App\Http\Controllers\Cargo\UserInfo;
+
 class VerifyUserController extends Controller
 {
     public function view()
@@ -36,14 +38,14 @@ class VerifyUserController extends Controller
             return redirect()->back()->withInput()->with('warning', 'Данные не совпадает');
         }
 
-        // $existsTrack = Track::query()
-        //     ->where('user_id', $user->id)
-        //     ->where('code', 'like', '%'.$request->trackcode.'%')
-        //     ->first();
+        $existsTrack = Track::query()
+            ->where('user_id', $user->id)
+            ->where('code', $request->trackcode)
+            ->first();
 
-        // if (!$existsTrack) {
-        //     return redirect()->back()->withInput()->with('warning', 'Трек-код не совпадает');
-        // }
+        if (!$existsTrack) {
+            return redirect()->back()->withInput()->with('warning', 'Трек-код не совпадает');
+        }
 
         $request->session()->put('verifiedUser', $user->id);
 
