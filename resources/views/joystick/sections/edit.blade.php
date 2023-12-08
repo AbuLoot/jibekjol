@@ -38,7 +38,7 @@
           <input type="text" class="form-control" id="meta_description" name="meta_description" maxlength="255" value="{{ (old('meta_description')) ? old('meta_description') : $section->meta_description }}">
         </div>
         <div id="keyValue">
-          <?php $data = ($section->data == true) ? unserialize($section->data) : []; ?>
+          <?php $data = unserialize($section->data); ?>
           <div class="form-group row">
             <div class="col-md-3">
               <label for="key_0">Название</label>
@@ -49,7 +49,7 @@
               <input type="text" class="form-control" id="value_0" name="data[value][]" maxlength="255" value="{{ $data[0]['value'] ?? '' }}">
             </div>
           </div>
-          <?php $keyLast = array_key_last($data); ?>
+          <?php $keyLast = (!empty($data)) ? array_key_last($data) : 1; //dd($data, $keyLast); ?>
           @for ($i = 1; $i <= (($keyLast >= 1) ? $keyLast : 1); $i++)
             @if(array_key_exists($i, $data))
               <div class="form-group row">

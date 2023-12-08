@@ -1,6 +1,6 @@
 @guest
-  <a href="/login" class="btn btn-light btn-lg me-2">Вход</a>
-  <a href="/register" class="btn btn-warning btn-lg">Регистрация</a>
+  <a href="/{{ $lang }}/login" class="btn btn-light btn-lg me-2">Вход</a>
+  <a href="/{{ $lang }}/register" class="btn btn-warning btn-lg">Регистрация</a>
 @else
   <div class="flex-shrink-0 dropdown ms-md-auto ps-3">
     <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

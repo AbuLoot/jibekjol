@@ -5,7 +5,7 @@
 
       @include('components.alerts')
 
-      <form action="/change-password" method="post" class="p-4 p-md-5 bg-light border rounded-3 bg-light">
+      <form action="/{{ $lang }}/change-password" method="post" class="p-4 p-md-5 bg-light border rounded-3 bg-light">
         @csrf
 
         <h2 class="fw-bold mb-0">Изменение пароля</h2>

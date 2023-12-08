@@ -12,7 +12,7 @@
       <!-- Validation Errors -->
       <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-			<form method="POST" action="{{ route('password.email') }}" class="p-4 p-md-5 bg-light border rounded-3 bg-light">
+			<form method="POST" action="{{ route('password.email', $lang) }}" class="p-4 p-md-5 bg-light border rounded-3 bg-light">
 				@csrf
 
         <div class="form-floating mb-3">

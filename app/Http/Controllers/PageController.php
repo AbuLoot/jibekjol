@@ -11,23 +11,23 @@ use App\Models\Section;
 
 class PageController extends Controller
 {
-    public function index()
+    public function index($lang)
     {
         $page = Page::where('slug', '/')->firstOrFail();
-        $posts = Post::orderBy('sort_id')->where('status', 1)->get();
+        $posts = Post::orderBy('sort_id')->where('lang', $lang)->where('status', 1)->get();
         $promo = Section::where('slug', 'promo')->where('status', 1)->first();
 
         return view('index')->with(['page' => $page, 'posts' => $posts, 'promo' => $promo]);
     }
 
-    public function page($slug)
+    public function page($lang, $slug)
     {
-        $page = Page::where('slug', $slug)->firstOrFail();
+        $page = Page::where('slug', $slug)->where('lang', $lang)->firstOrFail();
 
         return view('page')->with('page', $page);
     }
 
-    public function catalogs()
+    public function catalogs($lang)
     {
         $page = Page::where('slug', 'catalogs')->firstOrFail();
 

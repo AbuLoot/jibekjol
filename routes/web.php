@@ -117,15 +117,22 @@ Route::group(['prefix' => '{lang}', 'middleware' => 'auth'], function() {
     Route::put('profile', [ProfileController::class, 'updateProfile']);
     Route::get('profile/password/edit', [ProfileController::class, 'passwordEdit']);
     Route::put('profile/password', [ProfileController::class, 'passwordUpdate']);
+
 });
 
-// News
-Route::get('i/news', [BlogController::class, 'posts']);
-Route::get('i/news/{page}', [BlogController::class, 'postSingle']);
+// Site
+Route::redirect('/', '/'.app()->getLocale());
+Route::group(['prefix' => '{lang}'], function() {
 
-// Pages
-Route::get('i/contacts', [SiteController::class, 'contacts']);
-Route::get('i/{page}', [SiteController::class, 'page']);
-Route::get('/', [SiteController::class, 'index']);
+    // News
+    Route::get('i/news', [BlogController::class, 'posts']);
+    Route::get('i/news/{page}', [BlogController::class, 'postSingle']);
+
+    // Pages
+    Route::get('i/contacts', [SiteController::class, 'contacts']);
+    Route::get('i/{page}', [SiteController::class, 'page']);
+    Route::get('/', [SiteController::class, 'index']);
+
+});
 
 require __DIR__.'/auth.php';

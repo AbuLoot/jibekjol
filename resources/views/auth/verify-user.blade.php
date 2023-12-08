@@ -7,7 +7,7 @@
 
       @include('components.alerts')
 
-      <form method="POST" action="/verify-user" class="p-4 p-md-5 bg-light border rounded-3 bg-light">
+      <form method="POST" action="/{{ $lang }}/verify-user" class="p-4 p-md-5 bg-light border rounded-3 bg-light">
         @csrf
 
         <h2 class="fw-bold mb-0">Восстановление пароля</h2>

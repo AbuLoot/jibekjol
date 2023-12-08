@@ -19,12 +19,15 @@ class Controller extends BaseController
 
     public function __construct()
     {
-        $pages = Page::where('status', 1)->whereNotIn('slug', ['/'])->orderBy('sort_id')->get()->toTree();
-        $sections = Section::whereIn('slug', ['header-code', 'footer-code', 'contacts', 'soc-networks'])->get();
+        app()->setLocale(\Request::segment(1));
+
+        $lang = app()->getLocale();
+        $pages = Page::where('status', 1)->whereNotIn('slug', ['/'])->where('lang', $lang)->orderBy('sort_id')->get()->toTree();
+        $sections = Section::whereIn('slug', ['header-code', 'footer-code', 'contacts', 'soc-networks'])->where('lang', $lang)->get();
         $companies = Company::where('status', 2)->orderBy('sort_id')->get();
 
         view()->share([
-            'lang' => app()->getLocale(),
+            'lang' => $lang,
             'pages' => $pages,
             'companies' => $companies,
             'sections' => $sections,

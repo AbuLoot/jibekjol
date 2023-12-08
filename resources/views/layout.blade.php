@@ -44,11 +44,11 @@
       <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav py-2 mx-auto-">
           <li class="nav-item">
-            <a class="nav-link px-3" aria-current="page" href="/"><i class="bi bi-house-fill text-white"></i></a>
+            <a class="nav-link px-3" aria-current="page" href="/{{ $lang }}/"><i class="bi bi-house-fill text-white"></i></a>
           </li>
           @foreach($pages as $page)
             <li class="nav-item">
-              <a class="nav-link px-3" aria-current="page" href="/i/{{ $page->slug }}">{{ $page->title }}</a>
+              <a class="nav-link px-3" aria-current="page" href="/{{ $lang }}/i/{{ $page->slug }}">{{ $page->title }}</a>
             </li>
           @endforeach
           @auth

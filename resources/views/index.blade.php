@@ -15,7 +15,8 @@
       <div class="carousel-item active">
         <img src="/img/storage/storage-01.jpg" class="d-block w-lg-100 h-100 " alt="...">
         <div class="carousel-caption d-none-d-md-block">
-          <div class="display-3 shadow-1 fw-bold">Вы работали с&nbsp;простой и&nbsp;быстрой логистикой от&nbsp;<span class="navbar-brand" style="color: #6610f2;">JJ</span>?</div>
+          <!-- <div class="display-3 shadow-1 fw-bold">Вы работали с&nbsp;простой и&nbsp;быстрой <span class="navbar-brand" style="color: #6610f2;">JJ</span> логистикой?</div> -->
+          <div class="display-3 shadow-1 fw-bold">Have you worked with simple and fast <span class="navbar-brand" style="color: #6610f2;">JJ</span> logistics?</div>
           <hr>
           <h2 class="d-none-d-md-block fw-normal shadow-1">Отслеживание по трек коду</h2>
           <form action="/search-track" method="get" class="col-12 col-lg-8 offset-lg-2 mt-lg-0 mb-3 mb-lg-0 me-lg-2 py-2" role="search">
@@ -131,6 +132,22 @@
         <h3 class="fs-2 text-body-emphasis">Низкие цены</h3>
         <p>Мы работаем без посредников и имеем собственные склады, поэтому наш ценовой прайс ниже рыночной. Для клиентов с большими объемами заказов будут индивидуальные цены.</p>
       </div>
+
+      <div class="feature col">
+        <span class="bi bi-stars text-primary display-3"></span>
+        <h3 class="fs-2 text-body-emphasis">Надежная компания</h3>
+        <p>Наша миссия, стать узнаваемой транснациональной компанией. Чтобы достичь этой цели, мы работаем по закону и даем гарантии на услуги. А специалистами Jibekjol являются логисты со стажем более 8 лет. </p>
+      </div>
+      <div class="feature col">
+        <span class="bi bi-lightning text-primary display-3"></span>
+        <h3 class="fs-2 text-body-emphasis">Быстрая доставка</h3>
+        <p>Доставляем сборные и отдельные грузы всех габаритов в течении от 5-10 дней.</p>
+      </div>
+      <div class="feature col">
+        <span class="bi bi-tags text-primary display-3"></span>
+        <h3 class="fs-2 text-body-emphasis">Низкие цены</h3>
+        <p>Мы работаем без посредников и имеем собственные склады, поэтому наш ценовой прайс ниже рыночной. Для клиентов с большими объемами заказов будут индивидуальные цены.</p>
+      </div>
     </div>
   </div>
 
@@ -146,9 +163,7 @@
           <li>Специалистов по тендерам.</li>
           <li>Продавцов и предпринимателей.</li>
         </ul>
-        <p class="col-lg-10 fs-3">
-        Свяжитесь с нами, любым удобным способом.
-        </p>
+        <p class="col-lg-10 fs-3">Свяжитесь с нами, любым удобным способом.</p>
       </div>
       <div class="col-md-10 mx-auto col-lg-5">
         <form method="POST" action="/send-app" id="app-form" class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
@@ -217,10 +232,7 @@
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">Какие сроки доставки автотранспортом?</button>
         </h2>
         <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-          <div class="accordion-body">
-            <p><strong>Стандартная доставка: 15-20 дней.</strong></p>
-            <p><strong>Экспресс доставка: 7-8 дней.</strong></p>
-          </div>
+          <div class="accordion-body"><strong>Стандартная доставка: 15-20 дней.</strong><br> <strong>Экспресс доставка: 7-8 дней.</strong></div>
         </div>
       </div>
       <div class="accordion-item">

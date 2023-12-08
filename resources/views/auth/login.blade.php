@@ -8,7 +8,7 @@
       <!-- Validation Errors -->
       <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-      <form method="POST" action="{{ route('login') }}" class="p-4 p-md-5 bg-light border rounded-3 bg-light">
+      <form method="POST" action="{{ route('login', $lang) }}" class="p-4 p-md-5 bg-light border rounded-3 bg-light">
         @csrf
         <h2 class="fw-bold mb-0">Войти</h2>
         <br>
