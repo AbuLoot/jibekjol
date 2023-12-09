@@ -13,9 +13,15 @@ class PageController extends Controller
 {
     public function index($lang)
     {
+        // app()->setLocale($lang);
+        // $lang = app()->getLocale();
         $page = Page::where('slug', '/')->firstOrFail();
         $posts = Post::orderBy('sort_id')->where('lang', $lang)->where('status', 1)->get();
-        $promo = Section::where('slug', 'promo')->where('status', 1)->first();
+        $promo = Section::whereIn('slug', [
+                'promo', 'offer', 'second-offer', 'third-offer', 'fourth-offer', 'fifth-offer', 'faq'
+            ])->where('lang', $lang)->where('status', 1)->get();
+
+        // dd($lang, $page, $posts, $promo);
 
         return view('index')->with(['page' => $page, 'posts' => $posts, 'promo' => $promo]);
     }

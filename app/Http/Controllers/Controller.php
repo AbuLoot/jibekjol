@@ -22,8 +22,9 @@ class Controller extends BaseController
         app()->setLocale(\Request::segment(1));
 
         $lang = app()->getLocale();
+
         $pages = Page::where('status', 1)->whereNotIn('slug', ['/'])->where('lang', $lang)->orderBy('sort_id')->get()->toTree();
-        $sections = Section::whereIn('slug', ['header-code', 'footer-code', 'contacts', 'soc-networks'])->where('lang', $lang)->get();
+        $sections = Section::whereIn('slug', ['header-code', 'footer-code', 'contacts', 'soc-networks'])->get();
         $companies = Company::where('status', 2)->orderBy('sort_id')->get();
 
         view()->share([

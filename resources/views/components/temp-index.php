@@ -15,7 +15,8 @@
       <div class="carousel-item active">
         <img src="/img/storage/storage-01.jpg" class="d-block w-lg-100 h-100 " alt="...">
         <div class="carousel-caption d-none-d-md-block">
-          <div class="display-3 shadow-1 fw-bold">{!! $promo->firstWhere('slug', 'offer')->content !!}</div>
+          <!-- <div class="display-3 shadow-1 fw-bold">Вы работали с&nbsp;простой и&nbsp;быстрой <span class="navbar-brand" style="color: #6610f2;">JJ</span> логистикой?</div> -->
+          <div class="display-3 shadow-1 fw-bold">Have you worked with simple and fast <span class="navbar-brand" style="color: #6610f2;">JJ</span> logistics?</div>
           <hr>
           <h2 class="d-none-d-md-block fw-normal shadow-1">Отслеживание по трек коду</h2>
           <form action="/search-track" method="get" class="col-12 col-lg-8 offset-lg-2 mt-lg-0 mb-3 mb-lg-0 me-lg-2 py-2" role="search">
@@ -29,7 +30,7 @@
   <!-- Interesting -->
   <div class="container px-4 py-5 my-3 text-center border-bottom">
     <div class="col-lg-6 mx-auto mb-5">
-      <h2 class=" fw-bold text-body-emphasis">{{ $promo->firstWhere('slug', 'second-offer')->content }}</h2>
+      <h2 class=" fw-bold text-body-emphasis">Вы будете впечатлены насколько удобно мониторить процесс доставки и как быстро доставляется груз при отсутствии форс-мажорных обстоятельств.</h2>
     </div>
     <div class="row">
       <div class="col-lg-7 overflow-hidden">
@@ -101,12 +102,13 @@
   <!-- Desire -->
   <div class="container col-xxl-8 px-4 py-5">
     <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-        <h3 class="display-5 fw-bold text-body-emphasis lh-1 mb-3 text-center">{{ $promo->firstWhere('slug', 'third-offer')->title }}</h3>
+        <h3 class="display-5 fw-bold text-body-emphasis lh-1 mb-3 text-center">Гарантия</h3>
       <div class="col-10 col-sm-8 col-lg-6">
         <img src="/img/quarantee.jpg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
       </div>
       <div class="col-lg-6">
-        {!! $promo->firstWhere('slug', 'third-offer')->content !!}
+        <p class="lead">Логистика должна быть надежной и взаимовыгодной. Поэтому команда Jibekjol своевременно координирует процесс доставки, информирует вас о продвижении грузов и гарантирует возмещение испорченным или утерянным грузам.</p>
+        <p class="lead">Важно учитывать! Если в процессе перевозки был испорчен хрупкий груз из за неправильной упаковки Ваших поставщиков, то мы не возмещаем средства груза. Так как для хрупких грузов необходима прочная упаковка. Мы же свою очередь обязуемся оперативно и безопасно доставить грузы.</p>
       </div>
     </div>
   </div>
@@ -115,16 +117,53 @@
   <div class="container px-4 py-5" id="featured-3">
     <hr>
     <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-      {!! $promo->firstWhere('slug', 'fourth-offer')->content !!}
+      <div class="feature col">
+        <span class="bi bi-stars text-primary display-3"></span>
+        <h3 class="fs-2 text-body-emphasis">Надежная компания</h3>
+        <p>Наша миссия, стать узнаваемой транснациональной компанией. Чтобы достичь этой цели, мы работаем по закону и даем гарантии на услуги. А специалистами Jibekjol являются логисты со стажем более 8 лет. </p>
+      </div>
+      <div class="feature col">
+        <span class="bi bi-lightning text-primary display-3"></span>
+        <h3 class="fs-2 text-body-emphasis">Быстрая доставка</h3>
+        <p>Доставляем сборные и отдельные грузы всех габаритов в течении от 5-10 дней.</p>
+      </div>
+      <div class="feature col">
+        <span class="bi bi-tags text-primary display-3"></span>
+        <h3 class="fs-2 text-body-emphasis">Низкие цены</h3>
+        <p>Мы работаем без посредников и имеем собственные склады, поэтому наш ценовой прайс ниже рыночной. Для клиентов с большими объемами заказов будут индивидуальные цены.</p>
+      </div>
+
+      <div class="feature col">
+        <span class="bi bi-stars text-primary display-3"></span>
+        <h3 class="fs-2 text-body-emphasis">Надежная компания</h3>
+        <p>Наша миссия, стать узнаваемой транснациональной компанией. Чтобы достичь этой цели, мы работаем по закону и даем гарантии на услуги. А специалистами Jibekjol являются логисты со стажем более 8 лет. </p>
+      </div>
+      <div class="feature col">
+        <span class="bi bi-lightning text-primary display-3"></span>
+        <h3 class="fs-2 text-body-emphasis">Быстрая доставка</h3>
+        <p>Доставляем сборные и отдельные грузы всех габаритов в течении от 5-10 дней.</p>
+      </div>
+      <div class="feature col">
+        <span class="bi bi-tags text-primary display-3"></span>
+        <h3 class="fs-2 text-body-emphasis">Низкие цены</h3>
+        <p>Мы работаем без посредников и имеем собственные склады, поэтому наш ценовой прайс ниже рыночной. Для клиентов с большими объемами заказов будут индивидуальные цены.</p>
+      </div>
     </div>
   </div>
 
   <!-- Action -->
-  <div class="container col-xl-10 col-xxl-8 px-4 py-5">
+<div class="container col-xl-10 col-xxl-8 px-4 py-5">
     <div class="row align-items-center g-lg-5 py-5">
       <div class="col-lg-7 text-center text-lg-start">
-        <h3 class="display-5 fw-bold lh-1 text-body-emphasis mb-3">{{ $promo->firstWhere('slug', 'fifth-offer')->title }}</h3>
-        {!! $promo->firstWhere('slug', 'fifth-offer')->content !!}
+        <h3 class="display-5 fw-bold lh-1 text-body-emphasis mb-3">Приглашаем всех сотрудничать вместе с нами:</h3>
+
+        <ul class="list-unstyled fs-4">
+          <li>Физических лиц.</li>
+          <li>Компании.</li>
+          <li>Специалистов по тендерам.</li>
+          <li>Продавцов и предпринимателей.</li>
+        </ul>
+        <p class="col-lg-10 fs-3">Свяжитесь с нами, любым удобным способом.</p>
       </div>
       <div class="col-md-10 mx-auto col-lg-5">
         <form method="POST" action="/send-app" id="app-form" class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
@@ -178,19 +217,40 @@
 
   <!-- FAQ -->
   <div class="container px-4 py-5">
-    <h3 class="display-5 fw-bold text-body-emphasis text-center lh-1 mb-3">{{ $promo->firstWhere('slug', 'faq')->title }}</h3>
+    <h3 class="display-5 fw-bold text-body-emphasis text-center lh-1 mb-3">Часто задаваемые вопросы</h3>
     <div class="accordion col-lg-6 mx-auto" id="accordionExample">
-      <?php $answers = unserialize($promo->firstWhere('slug', 'faq')->data) ?? []; ?>
-      @foreach($answers as $key => $answer)
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $key }}" aria-expanded="true" aria-controls="collapse{{ $key }}">{{ $answer['key'] }}</button>
-          </h2>
-          <div id="collapse{{ $key }}" class="accordion-collapse collapse @if($key == 0) show @endif" data-bs-parent="#accordionExample">
-            <div class="accordion-body">{!! $answer['value'] !!}</div>
-          </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">Какие у вас тарифы?</button>
+        </h2>
+        <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+          <div class="accordion-body"><strong>Цены начинаются от 1,3$ до 4,3$ в зависимости от вида, объема груза и срока доставки.</strong></div>
         </div>
-      @endforeach
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">Какие сроки доставки автотранспортом?</button>
+        </h2>
+        <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body"><strong>Стандартная доставка: 15-20 дней.</strong><br> <strong>Экспресс доставка: 7-8 дней.</strong></div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">Какие есть гарантии?</button>
+        </h2>
+        <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body"><strong>При утере или порчи груза во время доставки, мы возмещаем средства груза, при соответствии специальным требованиям.</strong></div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">От скольки кг/кубов мы работаем?</button>
+        </h2>
+        <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body"><strong>От 100 кг и от 1 куб. метра.</strong></div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -219,7 +279,7 @@
       let weight = form.elements['weight'].value
       let typeDelivery = form.elements['type_delivery'].value
 
-      let domain = '{{ url("/".$lang) }}/calculate'
+      let domain = '{{ url("/") }}/calculate'
       let uri = '?_token='+token+'&length='+lengthEl+'&width='+width+'&height='+height+'&weight='+weight+'&type_delivery='+typeDelivery;
 
       // Ajax Request

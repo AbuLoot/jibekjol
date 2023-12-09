@@ -30,7 +30,7 @@ class SectionController extends Controller
         $this->authorize('create', Section::class);
 
         $this->validate($request, [
-            'title' => 'required|min:5|max:80|unique:sections',
+            'title' => 'required|min:3|max:80|unique:sections',
         ]);
 
         $data = [];
