@@ -17,7 +17,7 @@ use App\Models\Section;
 
 class InputController extends Controller
 {
-    public function search(Request $request)
+    public function search(Request $request, $lang)
     {
         $text = Str::upper(trim(strip_tags($request->text)));
 
@@ -41,7 +41,7 @@ class InputController extends Controller
         return view('found', compact('text', 'products'));
     }
 
-    public function searchTrack(Request $request)
+    public function searchTrack(Request $request, $lang)
     {
         $code = trim(strip_tags($request->code));
 
@@ -50,7 +50,7 @@ class InputController extends Controller
         return view('track-page', compact('code', 'tracks'));
     }
 
-    public function searchAjax(Request $request)
+    public function searchAjax(Request $request, $lang)
     {
         $text = Str::upper(trim(strip_tags($request->text)));
 
@@ -99,7 +99,7 @@ class InputController extends Controller
         ]);
     }
 
-    public function calculate(Request $request)
+    public function calculate(Request $request, $lang)
     {
         $validator = Validator::make($request->all(), [
             'length' => 'required|numeric|min:2|max:10',
@@ -108,6 +108,8 @@ class InputController extends Controller
             'weight' => 'required|numeric|min:2|max:10',
             'type_delivery' => 'required|numeric',
         ]);
+
+
 
         $typesDelivery = [
             '1' => 'standart-price',
@@ -170,7 +172,7 @@ class InputController extends Controller
         // dd($amount, $density, $densityPrice, $typeDelivery, $request->all());
     }
 
-    public function sendApp(Request $request)
+    public function sendApp(Request $request, $lang)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|min:2|max:60',

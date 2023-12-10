@@ -15,9 +15,9 @@
       <div class="carousel-item active">
         <img src="/img/storage/storage-01.jpg" class="d-block w-lg-100 h-100 " alt="...">
         <div class="carousel-caption d-none-d-md-block">
-          <h2 class="d-none-d-md-block fw-normal shadow-1">Отслеживание по трек коду</h2>
-          <form action="/search-track" method="get" class="col-12 col-lg-8 offset-lg-2 mt-lg-0 mb-3 mb-lg-0 me-lg-2 py-2" role="search">
-            <input type="search" name="code" class="form-control form-control-dark form-control-lg -text-bg-dark" placeholder="Введите трек код..." aria-label="Search" min="4" required>
+          <h2 class="d-none-d-md-block fw-normal shadow-1">{{ __('app.tracking_by_code') }}</h2>
+          <form action="/{{ $lang }}/search-track" method="get" class="col-12 col-lg-8 offset-lg-2 mt-lg-0 mb-3 mb-lg-0 me-lg-2 py-2" role="search">
+            <input type="search" name="code" class="form-control form-control-dark form-control-lg -text-bg-dark" placeholder="{{ __('app.enter_track_code') }}" aria-label="Search" min="4" required>
           </form>
         </div>
       </div>

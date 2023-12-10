@@ -17,9 +17,9 @@
         <div class="carousel-caption d-none-d-md-block">
           <div class="display-3 shadow-1 fw-bold">{!! $promo->firstWhere('slug', 'offer')->content !!}</div>
           <hr>
-          <h2 class="d-none-d-md-block fw-normal shadow-1">Отслеживание по трек коду</h2>
-          <form action="/search-track" method="get" class="col-12 col-lg-8 offset-lg-2 mt-lg-0 mb-3 mb-lg-0 me-lg-2 py-2" role="search">
-            <input type="search" name="code" class="form-control form-control-dark form-control-lg -text-bg-dark" placeholder="Введите трек код..." aria-label="Search" min="4" required>
+          <h2 class="d-none-d-md-block fw-normal shadow-1">{{ __('app.tracking_by_code') }}</h2>
+          <form action="/{{ $lang }}/search-track" method="get" class="col-12 col-lg-8 offset-lg-2 mt-lg-0 mb-3 mb-lg-0 me-lg-2 py-2" role="search">
+            <input type="search" name="code" class="form-control form-control-dark form-control-lg -text-bg-dark" placeholder="{{ __('app.enter_track_code') }}" aria-label="Search" min="4" required>
           </form>
         </div>
       </div>
@@ -38,59 +38,62 @@
         </div>
       </div>
       <div class="col-lg-5">
-        <form method="POST" action="/calculate" id="calc" class="col-lg-6-mx-auto p-4 p-md-5 border rounded-3 bg-body-tertiary">
+        <form method="POST" action="/{{ $lang }}/calculate" id="calc" class="col-lg-6-mx-auto p-4 p-md-5 border rounded-3 bg-body-tertiary">
           @csrf
-          <h3 class="mb-3">Калькулятор цены</h3>
+          <h3 class="mb-3">{{ __('app.price_calculator') }}</h3>
           <div class="row">
             <div class="col-lg-3 col-6 mb-3">
-              <label for="elLength" class="form-label">Длина</label>
+              <label for="elLength" class="form-label">{{ __('app.length') }}</label>
               <input type="number" class="form-control" id="elLength" name="length" min="0" max="100" placeholder="0,0" value="{{ session('length') }}" step="any" required>
             </div>
             <div class="col-lg-3 col-6 mb-3">
-              <label for="width" class="form-label">Ширина</label>
+              <label for="width" class="form-label">{{ __('app.width') }}</label>
               <input type="number" class="form-control" id="width" name="width" min="0" max="100" placeholder="0,0" value="{{ session('width') }}" step="any" required>
             </div>
             <div class="col-lg-3 col-6 mb-3">
-              <label for="height" class="form-label">Высота</label>
+              <label for="height" class="form-label">{{ __('app.height') }}</label>
               <input type="number" class="form-control" id="height" name="height" min="0" max="100" placeholder="0,0" value="{{ session('height') }}" step="any" required>
             </div>
             <div class="col-lg-3 col-6 mb-3">
-              <label for="weight" class="form-label">Вес кг.</label>
+              <label for="weight" class="form-label">{{ __('app.weight') }}</label>
               <input type="number" class="form-control" id="weight" name="weight" min="0" placeholder="0,0" value="{{ session('weight') }}" step="any" required>
             </div>
             <div class="col-lg-12 mb-3">
-              <label class="form-label">Способ доставки</label>
+              <label class="form-label">{{ __('app.delivery_method') }}</label>
               <div class="list-group">
                 <label class="list-group-item d-flex gap-2">
                   <input class="form-check-input flex-shrink-0" type="radio" name="type_delivery" id="standart" value="1" checked>
-                  <span>20-30 дней (Стандарт)
-                    <!-- <small class="d-block text-body-secondary">Стандартная доставка</small> -->
-                  </span>
+                  <span>{{ __('app.standard_days') }}</span>
                 </label>
                 <label class="list-group-item d-flex gap-2">
                   <input class="form-check-input flex-shrink-0" type="radio" name="type_delivery" id="express" value="2">
-                  <span>8-12 дней (Экспресс)</span>
+                  <span>{{ __('app.express_days') }}</span>
                 </label>
                 <label class="list-group-item d-flex gap-2">
                   <input class="form-check-input flex-shrink-0" type="radio" name="type_delivery" id="express-clothes" value="3">
-                  <span>8-12 дней - Одежда (Экспресс)</span>
+                  <span>{{ __('app.express_days_clothes') }}</span>
                 </label>
               </div>
             </div>
           </div>
 
-          <button type="submit" class="btn btn-primary">Посчитать</button>
+          <button type="submit" class="btn btn-primary">{{ __('app.count') }}</button>
 
           @if(session('price'))
             <?php
-              $typesDelivery = ['1' => '15-20 дней (Стандарт)', '2' => '8-12 дней (Экспресс)', '3' => '8-12 дней - Одежда (Экспресс)'];
+
+              $typesDelivery = [
+                '1' => __('app.standard_days'),
+                '2' => __('app.express_days'),
+                '3' => __('app.express_days_clothes'),
+              ];
             ?>
             <div id="text-hint">
               <hr>
-              <div class="h3">Плотность груза: <span id="density">{{ session('density') }}</span></div>
-              <div class="h5">Доставка: <span id="density">{{ $typesDelivery[session('typeDelivery')] }}</span></div>
-              <div class="h3">Цена: $<span class="price">{{ session('price') }}</span></div>
-              <div class="display-5">Итого: <span class="text-success fw-bold">${{ session('weight') * session('price') }}</span></div>
+              <div class="h3">{{ __('app.bulk_density') }}: <span id="density">{{ session('density') }}</span></div>
+              <div class="h5">{{ __('app.delivery') }}: <span id="density">{{ $typesDelivery[session('typeDelivery')] }}</span></div>
+              <div class="h3">{{ __('app.price') }}: $<span class="price">{{ session('price') }}</span></div>
+              <div class="display-5">{{ __('app.total') }}: <span class="text-success fw-bold">${{ session('weight') * session('price') }}</span></div>
             </div>
           @endif
         </form>
@@ -127,27 +130,27 @@
         {!! $promo->firstWhere('slug', 'fifth-offer')->content !!}
       </div>
       <div class="col-md-10 mx-auto col-lg-5">
-        <form method="POST" action="/send-app" id="app-form" class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+        <form method="POST" action="/{{ $lang }}/send-app" id="app-form" class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
           @csrf
           @include('components.alerts')
-          <h3 class="mb-3">Форма заявки</h3>
+          <h3 class="mb-3">{{ __('app.app_form') }}</h3>
           <div class="form-floating mb-3">
-            <input type="text" name="name" class="form-control" id="form-name" minlength="2" maxlength="40" autocomplete="off" placeholder="Ваше ФИО" required>
-            <label for="form-name">Ваше ФИО</label>
+            <input type="text" name="name" class="form-control" id="form-name" minlength="2" maxlength="40" autocomplete="off" placeholder="{{ __('app.name') }}" required>
+            <label for="form-name">{{ __('app.name') }}</label>
           </div>
           <div class="form-floating mb-3">
-            <input type="email" name="email" class="form-control" id="form-email" autocomplete="off" placeholder="Ваше Email" required>
-            <label for="form-email">Email</label>
+            <input type="email" name="email" class="form-control" id="form-email" autocomplete="off" placeholder="{{ __('app.email') }}" required>
+            <label for="form-email">{{ __('app.email') }}</label>
           </div>
           <div class="form-floating mb-3">
-            <input type="tel" id="form-number" class="form-control" pattern="(\+?\d[- .]*){7,13}" name="phone" minlength="5" maxlength="20" placeholder="Номер телефона" required>
-            <label for="form-number">Номер телефона</label>
+            <input type="tel" id="form-number" class="form-control" pattern="(\+?\d[- .]*){7,13}" name="phone" minlength="5" maxlength="20" placeholder="{{ __('app.phone') }}" required>
+            <label for="form-number">{{ __('app.phone') }}</label>
           </div>
           <div class="form-floating mb-3">
             <textarea class="form-control" name="message" placeholder="Leave a comment here" id="message"></textarea>
-            <label for="message">Сообщение</label>
+            <label for="message">{{ __('app.text') }}</label>
           </div>
-          <button class="w-100 btn btn-lg btn-primary" type="submit">Отправить</button>
+          <button class="w-100 btn btn-lg btn-primary" type="submit">{{ __('app.send') }}</button>
         </form>
       </div>
     </div>

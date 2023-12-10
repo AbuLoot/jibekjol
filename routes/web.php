@@ -102,13 +102,6 @@ Route::group(['prefix' => '{lang}/admin', 'middleware' => ['auth', 'roles:admin|
     Route::put('users/password/{id}', [UserController::class, 'passwordUpdate']);
 });
 
-// Input Actions
-Route::get('search', [InputController::class, 'search']);
-Route::get('search-track', [InputController::class, 'searchTrack']);
-Route::get('search-ajax', [InputController::class, 'searchAjax']);
-Route::post('send-app', [InputController::class, 'sendApp']);
-Route::post('calculate', [InputController::class, 'calculate']);
-
 // User Profile
 Route::group(['prefix' => '{lang}', 'middleware' => 'auth'], function() {
 
@@ -123,6 +116,13 @@ Route::group(['prefix' => '{lang}', 'middleware' => 'auth'], function() {
 // Site
 Route::redirect('/', '/'.app()->getLocale());
 Route::group(['prefix' => '{lang}'], function() {
+
+    // Input Actions
+    Route::get('search', [InputController::class, 'search']);
+    Route::get('search-track', [InputController::class, 'searchTrack']);
+    Route::get('search-ajax', [InputController::class, 'searchAjax']);
+    Route::post('send-app', [InputController::class, 'sendApp']);
+    Route::post('calculate', [InputController::class, 'calculate']);
 
     // News
     Route::get('i/news', [BlogController::class, 'posts']);

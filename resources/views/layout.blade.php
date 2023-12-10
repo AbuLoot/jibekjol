@@ -37,7 +37,20 @@
 <body class="bg-light">
   <nav class="navbar navbar-expand-lg navbar-dark bg-brand-bg-brand-border bg-indigo bg-indigo-border" aria-label="Main navigation">
     <div class="container-xl">
-      <a href="/" class="navbar-brand text-white">JibekJol</a>
+      <a href="/{{ $lang }}/" class="navbar-brand text-white">
+        JibekJol
+      </a>
+      <div class="dropdown">
+        <button class="btn btn-outline-light dropdown-toggle text-uppercase" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ $lang }}
+        </button>
+        <ul class="dropdown-menu text-uppercase-">
+          <li><a class="dropdown-item" href="/kz">Kazakh</a></li>
+          <li><a class="dropdown-item" href="/ru">Russian</a></li>
+          <li><a class="dropdown-item" href="/en">English</a></li>
+        </ul>
+      </div>
+
       <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -53,7 +66,7 @@
           @endforeach
           @auth
             <li class="nav-item">
-              <a class="nav-link px-3" aria-current="page" href="/{{ $lang }}/client">Мои треки</a>
+              <a class="nav-link px-3" aria-current="page" href="/{{ $lang }}/client">{{ __('app.my_tracks') }}</a>
             </li>
           @endauth
         </ul>

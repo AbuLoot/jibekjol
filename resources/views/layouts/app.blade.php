@@ -36,7 +36,7 @@
   <?php $lang = app()->getLocale(); ?>
   <nav class="navbar navbar-expand-lg navbar-dark bg-brand-bg-brand-border bg-indigo bg-indigo-border" aria-label="Main navigation">
     <div class="container-xl">
-      <a href="/" class="navbar-brand">JibekJol</a>
+      <a href="/{{ $lang }}/" class="navbar-brand">JibekJol</a>
       <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -44,14 +44,14 @@
       <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav py-2 mx-auto-">
           <li class="nav-item">
-            <a class="nav-link px-3" aria-current="page" href="/"><i class="bi bi-house-fill text-white"></i></a>
+            <a class="nav-link px-3" aria-current="page" href="/{{ $lang }}/"><i class="bi bi-house-fill text-white"></i></a>
           </li>
           @auth
             <li class="nav-item">
-              <a class="nav-link px-3" href="/{{ $lang }}/profile">Мой аккаунт</a>
+              <a class="nav-link px-3" href="/{{ $lang }}/profile">{{ __('app.my_account') }}</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link px-3" href="/{{ $lang }}/client">Мои треки</a>
+              <a class="nav-link px-3" href="/{{ $lang }}/client">{{ __('app.my_tracks') }}</a>
             </li>
           @endauth
         </ul>

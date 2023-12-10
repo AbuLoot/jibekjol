@@ -30,7 +30,7 @@
               <div class="col-md-8">
                 <div class="card-body">
                   <h5 class="card-title">
-                    <a href="/i/news/{{ $post->slug }}">{{ $post->title }}</a>
+                    <a href="/{{ $lang }}/i/news/{{ $post->slug }}">{{ $post->title }}</a>
                   </h5>
                   <p class="card-text">{!! strip_tags(Str::limit($post->content, 260)) !!}</p>
                   <p class="card-text"><small class="text-muted">{{ $post->getDateAttribute() }}</small></p>
