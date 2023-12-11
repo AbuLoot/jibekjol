@@ -45,12 +45,12 @@
             <div class="border {{ __('statuses.classes.'.$activeStatus->slug.'.card-color') }} rounded-top p-2" data-bs-toggle="collapse" href="#collapse{{ $track->id }}">
               <div class="row">
                 <div class="col-12 col-lg-5">
-                  <div><b>Track code:</b> {{ $track->code }}</div>
-                  <div><b>Description:</b> {{ Str::limit($track->description, 5) }}</div>
+                  <div><b>{{ __('app.track_code') }}:</b> {{ $track->code }}</div>
+                  <div><b>{{ __('app.description') }}:</b> {{ Str::limit($track->description, 5) }}</div>
                 </div>
                 <div class="col-12 col-lg-4">
-                  <div><b>{{ ucfirst($activeStatus->slug) }} Date:</b> {{ $track->updated_at }}</div>
-                  <div><b>Status:</b> {{ $activeStatus->title }} {{ $trackAndRegion }}</div>
+                  <div><b>{{ ucfirst($activeStatus->slug) }} {{ __('app.date') }}:</b> {{ $track->updated_at }}</div>
+                  <div><b>{{ __('app.status') }}:</b> {{ __('app.statuses.'.$activeStatus->slug) }} {{ $trackAndRegion }}</div>
                 </div>
                 @if($track->user) 
                   <div class="col-12 col-lg-3">
@@ -70,7 +70,7 @@
                       @if($activeStatus->id == $status->id)
                         <li class="timeline-item mb-2">
                           <span class="timeline-icon bg-success"><i class="bi bi-check text-white"></i></span>
-                          <p class="text-success mb-0">{{ $status->title }} {{ $trackAndRegion }}</p>
+                          <p class="text-success mb-0">{{ __('app.statuses.'.$status->slug) }} {{ $trackAndRegion }}</p>
                           <p class="text-success mb-0">{{ $status->pivot->created_at }}</p>
                         </li>
                         @continue
@@ -78,12 +78,12 @@
 
                       <li class="timeline-item mb-2">
                         <span class="timeline-icon bg-secondary"><i class="bi bi-check text-white"></i></span>
-                        <p class="text-body mb-0">{{ $status->title }}</p>
+                        <p class="text-body mb-0">{{ __('app.statuses.'.$status->slug) }}</p>
                         <p class="text-body mb-0">{{ $status->pivot->created_at }}</p>
                       </li>
                     @endforeach
                   </ul>
-                  <p><b>Description:</b> {{ Str::limit($track->description, 5) }}</p>
+                  <p><b>{{ __('app.description') }}:</b> {{ Str::limit($track->description, 5) }}</p>
                 </section>
               </div>
             </div>

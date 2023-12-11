@@ -50,7 +50,7 @@
                 </div>
                 <div class="col-12 col-lg-4">
                   <div><b>{{ ucfirst($activeStatus->slug) }} Date:</b> {{ $activeStatus->pivot->created_at }}</div>
-                  <div><b>Status:</b> {{ $activeStatus->title }} {{ $sortedRegion }}</div>
+                  <div><b>Status:</b> {{ __('app.statuses.'.$activeStatus->slug) }} {{ $sortedRegion }}</div>
                 </div>
                 @if($track->user) 
                   <div class="col-12 col-lg-3">
@@ -70,7 +70,7 @@
                       @if($activeStatus->id == $status->id)
                         <li class="timeline-item mb-2">
                           <span class="timeline-icon bg-success"><i class="bi bi-check text-white"></i></span>
-                          <p class="text-success mb-0">{{ $status->title }}</p>
+                          <p class="text-success mb-0">{{ __('app.statuses.'.$status->slug) }}</p>
                           <p class="text-success mb-0">{{ $status->pivot->created_at }}</p>
                         </li>
                         @continue
@@ -78,7 +78,7 @@
 
                       <li class="timeline-item mb-2">
                         <span class="timeline-icon bg-secondary"><i class="bi bi-check text-white"></i></span>
-                        <p class="text-body mb-0">{{ $status->title }}</p>
+                        <p class="text-body mb-0">{{ __('app.statuses.'.$status->slug) }}</p>
                         <p class="text-body mb-0">{{ $status->pivot->created_at }}</p>
                       </li>
                     @endforeach
@@ -146,7 +146,7 @@
                 </div>
                 <div class="col-12 col-lg-6">
                   <div><b>{{ ucfirst($activeStatus->slug) }} Date:</b> {{ $activeStatus->pivot->created_at }}</div>
-                  <div><b>Status:</b> {{ $activeStatus->title }} {{ $sortedRegion }}</div>
+                  <div><b>Status:</b> {{ __('app.statuses.'.$activeStatus->slug) }} {{ $sortedRegion }}</div>
                 </div>
                 @if($track->user) 
                   <div class="col-12 col-lg-12">
@@ -166,7 +166,7 @@
                       @if($activeStatus->id == $status->id)
                         <li class="timeline-item mb-2">
                           <span class="timeline-icon bg-success"><i class="bi bi-check text-white"></i></span>
-                          <p class="text-success mb-0">{{ $status->title }}</p>
+                          <p class="text-success mb-0">{{ __('app.statuses.'.$status->slug) }}</p>
                           <p class="text-success mb-0">{{ $status->pivot->created_at }}</p>
                         </li>
                         @continue
@@ -174,7 +174,7 @@
 
                       <li class="timeline-item mb-2">
                         <span class="timeline-icon bg-secondary"><i class="bi bi-check text-white"></i></span>
-                        <p class="text-body mb-0">{{ $status->title }}</p>
+                        <p class="text-body mb-0">{{ __('app.statuses.'.$status->slug) }}</p>
                         <p class="text-body mb-0">{{ $status->pivot->created_at }}</p>
                       </li>
                     @endforeach

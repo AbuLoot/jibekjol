@@ -54,7 +54,7 @@
                 <div class="col-12 col-lg-4">
                   <div><b>{{ ucfirst($activeStatus->slug) }} Date:</b> {{ $activeStatus->pivot->created_at }}</div>
                   <div>
-                    <b>Status: {!! $givenIcon[$activeStatus->slug] !!}</b> {{ $activeStatus->title }} {{ $trackAndRegion }}
+                    <b>Status: {!! $givenIcon[$activeStatus->slug] !!}</b> {{ __('app.statuses.'.$activeStatus->slug) }} {{ $trackAndRegion }}
                   </div>
                 </div>
                 <?php $userTel = null; ?>
@@ -77,7 +77,7 @@
                       @if($activeStatus->id == $status->id)
                         <li class="timeline-item mb-2">
                           <span class="timeline-icon bg-success"><i class="bi bi-check text-white"></i></span>
-                          <p class="text-success mb-0">{{ $status->title }} {{ $trackAndRegion }}</p>
+                          <p class="text-success mb-0">{{ __('app.statuses.'.$status->slug) }} {{ $trackAndRegion }}</p>
                           <p class="text-success mb-0">{{ $status->pivot->created_at }}</p>
                         </li>
                         @continue
@@ -86,7 +86,7 @@
                       <li class="timeline-item mb-2">
                         <span class="timeline-icon bg-secondary"><i class="bi bi-check text-white"></i></span>
                         <p class="text-body mb-0">
-                          {{ $status->title }}
+                          {{ __('app.statuses.'.$status->slug) }}
                           @if($status->pivot->region_id)
                             ({{ $regions->firstWhere('id', $status->pivot->region_id)->title }}, Казахстан)
                           @endif

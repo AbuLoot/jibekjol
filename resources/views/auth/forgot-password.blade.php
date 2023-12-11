@@ -17,7 +17,7 @@
 
         <div class="form-floating mb-3">
           <input type="email" class="form-control rounded-3" id="email" name="email" :value="old('email')" placeholder="name@example.com" required autofocus>
-          <label for="email">Email адрес</label>
+          <label for="email">{{ __('app.email') }}</label>
         </div>
         <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">{{ __('Email Password Reset Link') }}</button>
       </form>

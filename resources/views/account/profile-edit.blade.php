@@ -8,30 +8,30 @@
       <form action="/{{ $lang }}/profile" method="post" class="p-4 p-md-5 bg-light border rounded-3 bg-light">
         <input type="hidden" name="_method" value="PUT">
         {!! csrf_field() !!}
-        <h2 class="fw-bold mb-0">Мой профиль</h2>
+        <h2 class="fw-bold mb-0">{{ __('app.my_profile') }}</h2>
         <br>
 
         <div class="row">
           <div class="col">
             <div class="form-floating mb-3">
-              <input type="text" name="name" class="form-control rounded-3" id="name" value="{{ $user->name }}" placeholder="Имя" required autofocus>
-              <label for="name">Имя</label>
+              <input type="text" name="name" class="form-control rounded-3" id="name" value="{{ $user->name }}" placeholder="{{ __('app.name') }}" required autofocus>
+              <label for="name">{{ __('app.name') }}</label>
             </div>
           </div>
           <div class="col">
             <div class="form-floating mb-3">
-              <input type="text" name="lastname" class="form-control rounded-3" id="lastname" value="{{ $user->lastname }}" placeholder="Отчество" required>
-              <label for="lastname">Отчество</label>
+              <input type="text" name="lastname" class="form-control rounded-3" id="lastname" value="{{ $user->lastname }}" placeholder="{{ __('app.surname') }}" required>
+              <label for="lastname">{{ __('app.surname') }}</label>
             </div>
           </div>
         </div>
         <div class="form-floating mb-3">
-          <input type="tel" class="form-control rounded-3" name="tel" id="tel" value="{{ $user->tel }}" placeholder="Номер телефона" required>
-          <label for="tel">Номер телефона</label>
+          <input type="tel" class="form-control rounded-3" name="tel" id="tel" value="{{ $user->tel }}" placeholder="{{ __('app.phone') }}" required>
+          <label for="tel">{{ __('app.phone') }}</label>
         </div>
         <div class="form-floating mb-3">
           <input type="email" class="form-control rounded-3" name="email" id="email" value="{{ $user->email }}" placeholder="name@example.com" required>
-          <label for="email">Email адрес</label>
+          <label for="email">{{ __('app.email') }}</label>
         </div>
         <div class="form-floating mb-3">
           <select id="region_id" name="region_id" class="form-control">
@@ -44,11 +44,11 @@
             <?php }; ?>
             <?php $traverse($regions); ?>
           </select>
-          <label for="region_id">Регионы</label>
+          <label for="region_id">{{ __('app.region') }}</label>
         </div>
         <div class="form-floating mb-3">
-          <input type="text" class="form-control rounded-3" name="address" id="address" value="{{ $user->address }}" placeholder="Адрес" required>
-          <label for="address">Адрес</label>
+          <input type="text" class="form-control rounded-3" name="address" id="address" value="{{ $user->address }}" placeholder="{{ __('app.address') }}" required>
+          <label for="address">{{ __('app.address') }}</label>
         </div>
         <div class="form-floating mb-3">
           <input type="text" class="form-control rounded-3" name="id_client" id="id_client" value="{{ $user->id_client }}" placeholder="ID account: J7799...">
@@ -59,8 +59,8 @@
           <label for="id_name">ID name</label>
         </div> -->
 
-        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Сохранить</button><br>
-        <a href="/{{ $lang }}/profile/password/edit" class="w-100 mb-2 btn btn-lg rounded-3 btn-link">Изменить пароль</a>
+        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">{{ __('app.save') }}</button><br>
+        <a href="/{{ $lang }}/profile/password/edit" class="w-100 mb-2 btn btn-lg rounded-3 btn-link">{{ __('app.change_password') }}</a>
       </form>
     </div>
   </div>

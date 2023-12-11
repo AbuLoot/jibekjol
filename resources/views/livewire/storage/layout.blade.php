@@ -33,7 +33,10 @@
   @livewireStyles
 </head>
 <body class="bg-light">
-  <?php $lang = app()->getLocale(); ?>
+  <?php
+    app()->setLocale(\Request::segment(1));
+    $lang = app()->getLocale();
+  ?>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark- bg-indigo bg-indigo-border" aria-label="Main navigation">
     <div class="container-xl">
       <a href="/{{ $lang }}/storage" class="navbar-brand">jibekjol</a>

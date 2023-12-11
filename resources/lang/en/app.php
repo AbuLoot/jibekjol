@@ -54,27 +54,30 @@ return [
     'confirm_password' => 'Confirm password',
     'register' => 'Register',
 
-    'change_password' => 'Change password',
+    'changing_password' => 'Changing password',
     'new_password' => 'New Password',
     're-enter_password' => 'Re-enter your new password',
     'password_recovery' => 'Password recovery',
-    'enter_the_track' => 'Enter the track code that you used on our service',
+    'enter_used_track' => 'Enter the track code that you used on our service',
 
     // Client
     'my_account' => 'My account',
     'my_tracks' => 'My tracks',
     'my_archive' => 'My archive',
     'parcel_tracks' => 'Parcel tracks',
+    'archive_tracks' => 'Archive tracks',
     'add_track' => 'Add track',
     'edit_track' => 'Editing a track',
     'description' => 'Description',
     'my_profile' => 'My profile',
     'save' => 'Save',
+    'delete_entry' => 'Delete the entry?',
     'change_password' => 'Change password',
-    'old_password' => 'Old Password', 
+    'old_password' => 'Old Password',
     'back' => 'Back', 
 
     'statuses' => [
+        'all' => 'All',
         'added' => 'Added by user',
         'received' => 'Received from warehouse (Guangzhou, China)',
         'sent' => 'Sent to destination country',

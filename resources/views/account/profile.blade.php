@@ -6,7 +6,7 @@
       @include('components.alerts')
 
       <div class="p-4 p-md-5 bg-light border rounded-3 bg-light">
-        <h2 class="fw-bold mb-0">Мой профиль</h2>
+        <h2 class="fw-bold mb-0">{{ __('app.my_profile') }}</h2>
         <br>
 
         <h5>{{ $user->name.' '.$user->lastname }}</h5>
@@ -33,7 +33,7 @@
             </tr>
           </tbody>
         </table>
-        <a href="/{{ $lang }}/profile/edit" class="btn btn-primary btn-lg">Изменить</a>
+        <a href="/{{ $lang }}/profile/edit" class="btn btn-primary btn-lg">{{ __('app.change_password') }}</a>
 
       </div>
     </div>

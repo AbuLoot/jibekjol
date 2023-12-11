@@ -36,6 +36,7 @@ class Reception extends Component
             abort(403);
         }
 
+        app()->setLocale(\Request::segment(1));
         $this->lang = app()->getLocale();
     }
 

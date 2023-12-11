@@ -33,7 +33,10 @@
   @livewireStyles
 </head>
 <body class="bg-light">
-  <?php $lang = app()->getLocale(); ?>
+  <?php
+    app()->setLocale(\Request::segment(1));
+    $lang = app()->getLocale();
+  ?>
   <nav class="navbar navbar-expand-lg navbar-dark bg-indigo bg-indigo-border" aria-label="Main navigation">
     <div class="container-xl">
       <a href="/{{ $lang }}/client" class="navbar-brand">jibekjol</a>
@@ -41,10 +44,21 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
+      <div class="dropdown me-auto">
+        <button class="btn btn-outline-light dropdown-toggle text-uppercase" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ $lang }}
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="/kz/client">Kazakh</a></li>
+          <li><a class="dropdown-item" href="/ru/client">Russian</a></li>
+          <li><a class="dropdown-item" href="/en/client">English</a></li>
+        </ul>
+      </div>
+
       <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav py-2 mx-auto-">
           <li class="nav-item">
-            <a class="nav-link px-3" aria-current="page" href="/"><i class="bi bi-house-fill text-white"></i></a>
+            <a class="nav-link px-3" aria-current="page" href="/{{ $lang }}"><i class="bi bi-house-fill text-white"></i></a>
           </li>
           <li class="nav-item">
             <a class="nav-link px-3" href="/{{ $lang }}/profile">{{ __('app.my_account') }}</a>

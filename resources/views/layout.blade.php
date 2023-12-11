@@ -40,11 +40,11 @@
       <a href="/{{ $lang }}/" class="navbar-brand text-white">
         JibekJol
       </a>
-      <div class="dropdown">
+      <div class="dropdown me-auto">
         <button class="btn btn-outline-light dropdown-toggle text-uppercase" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           {{ $lang }}
         </button>
-        <ul class="dropdown-menu text-uppercase-">
+        <ul class="dropdown-menu">
           <li><a class="dropdown-item" href="/kz">Kazakh</a></li>
           <li><a class="dropdown-item" href="/ru">Russian</a></li>
           <li><a class="dropdown-item" href="/en">English</a></li>
@@ -93,9 +93,7 @@
       <li class="option">
         <button class="material-button option3 bg-whatsapp" type="button">
           <a href="whatsapp://send?phone={{ $contacts[1]['value'] }}" target="_blank">
-            <!-- <img src="/img/widget/whatsapp.svg" class="widget-icon"> -->
             <span class="bi bi-whatsapp display-3"></span>
-            <!-- <span class="fa fa-whatsapp" aria-hidden="true"></span> -->
           </a>
         </button>
       </li>
@@ -103,13 +101,11 @@
         <button class="material-button option4 bg-ripple" type="button">
           <a href="tel:{{ $contacts[1]['value'] }}" target="_blank">
             <span class="bi bi-telephone display-3"></span>
-            <!-- <img src="/img/widget/phone-solid.svg" class="widget-icon"> -->
           </a>
         </button>
       </li>
     </ul>
     <button class="material-button material-button-toggle btnBg" type="button">
-      <!-- <img src="/img/widget/user-solid.svg" class="widget-icon"> -->
       <span class="bi bi-person-circle display-3"></span>
       <span class="ripple btnBg"></span>
       <span class="ripple btnBg"></span>

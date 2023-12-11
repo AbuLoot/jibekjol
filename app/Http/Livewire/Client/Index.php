@@ -10,7 +10,6 @@ use App\Models\Region;
 
 class Index extends Component
 {
-    public $lang;
     public $search;
     public Track $track;
     public $statusId = 0;
@@ -21,7 +20,7 @@ class Index extends Component
 
     public function mount()
     {
-        $this->lang = app()->getLocale(\Request::segment(1));
+        app()->setLocale(\Request::segment(1));
     }
 
     public function editTrack($id)

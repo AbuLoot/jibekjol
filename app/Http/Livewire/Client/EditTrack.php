@@ -10,7 +10,7 @@ use App\Models\TrackStatus;
 
 class EditTrack extends Component
 {
-    public $lang;
+    // public $lang;
     public $search;
     public Track $track;
 
@@ -23,7 +23,7 @@ class EditTrack extends Component
 
     public function mount()
     {
-        $this->lang = app()->getLocale();
+        // $this->lang = app()->getLocale();
     }
 
     public function editTrack($id)

@@ -106,7 +106,7 @@
     <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
         <h3 class="display-5 fw-bold text-body-emphasis lh-1 mb-3 text-center">{{ $promo->firstWhere('slug', 'third-offer')->title }}</h3>
       <div class="col-10 col-sm-8 col-lg-6">
-        <img src="/img/quarantee.jpg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+        <img src="/img/quarantee.jpg" class="d-block rounded-3 mx-lg-auto img-fluid" alt="JJ quarantee" width="700" height="500" loading="lazy">
       </div>
       <div class="col-lg-6">
         {!! $promo->firstWhere('slug', 'third-offer')->content !!}

@@ -31,6 +31,7 @@ class Sorting extends Component
             abort(403);
         }
 
+        app()->setLocale(\Request::segment(1));
         $this->lang = app()->getLocale();
         $this->status = Status::select('id', 'slug')
             ->where('slug', 'sorted')

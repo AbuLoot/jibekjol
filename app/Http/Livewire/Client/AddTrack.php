@@ -10,7 +10,7 @@ use App\Models\TrackStatus;
 
 class AddTrack extends Component
 {
-    public $lang;
+    // public $lang;
     public $search;
     public $track;
 
@@ -22,7 +22,7 @@ class AddTrack extends Component
     public function mount()
     {
         $this->track = new Track();
-        $this->lang = app()->getLocale();
+        // $this->lang = app()->getLocale();
     }
 
     public function addTrack()

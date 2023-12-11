@@ -41,10 +41,21 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
+      <div class="dropdown me-auto">
+        <button class="btn btn-outline-light dropdown-toggle text-uppercase" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ $lang }}
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="/kz">Kazakh</a></li>
+          <li><a class="dropdown-item" href="/ru">Russian</a></li>
+          <li><a class="dropdown-item" href="/en">English</a></li>
+        </ul>
+      </div>
+
       <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav py-2 mx-auto-">
           <li class="nav-item">
-            <a class="nav-link px-3" aria-current="page" href="/{{ $lang }}/"><i class="bi bi-house-fill text-white"></i></a>
+            <a class="nav-link px-3" aria-current="page" href="/{{ $lang }}"><i class="bi bi-house-fill text-white"></i></a>
           </li>
           @auth
             <li class="nav-item">
