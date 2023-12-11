@@ -40,9 +40,6 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-indigo bg-indigo-border" aria-label="Main navigation">
     <div class="container-xl">
       <a href="/{{ $lang }}/client" class="navbar-brand">jibekjol</a>
-      <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
 
       <div class="dropdown me-auto">
         <button class="btn btn-outline-light dropdown-toggle text-uppercase" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -55,6 +52,9 @@
         </ul>
       </div>
 
+      <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
       <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav py-2 mx-auto-">
           <li class="nav-item">
@@ -71,7 +71,7 @@
           </li>
         </ul>
 
-        <button type="button" class="btn btn-primary btn-lg mb-2 d-block d-sm-none ms-md-auto" data-bs-toggle="modal" data-bs-target="#modalAddTrack"><i class="bi bi-plus-circle-fill me-2"></i> Добавить трек</button>
+        <button type="button" class="btn btn-primary btn-lg mb-2 d-block d-sm-none ms-md-auto" data-bs-toggle="modal" data-bs-target="#modalAddTrack"><i class="bi bi-plus-circle-fill me-2"></i> {{ __('app.add_track') }}</button>
 
         <div class="flex-shrink-0 dropdown ms-md-auto ps-3">
           <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
