@@ -31,8 +31,6 @@ class Sorting extends Component
             abort(403);
         }
 
-        app()->setLocale(\Request::segment(1));
-        $this->lang = app()->getLocale();
         $this->status = Status::select('id', 'slug')
             ->where('slug', 'sorted')
             ->orWhere('id', 4)
@@ -61,7 +59,7 @@ class Sorting extends Component
         if (!$track) {
             $newTrack = new Track;
             $newTrack->user_id = null;
-            $newTrack->lang = $this->lang;
+            $newTrack->lang = app()->getLocale();
             $newTrack->code = $this->trackCode;
             $newTrack->description = '';
             $newTrack->save();

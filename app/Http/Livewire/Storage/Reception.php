@@ -29,15 +29,12 @@ class Reception extends Component
     public function mount()
     {
         if (auth()->user()->roles->first()->name == 'storekeeper-last') {
-            return redirect($this->lang.'/storage/arrival');
+            return redirect(app()->getLocale().'/storage/arrival');
         }
 
         if (! Gate::allows('reception', auth()->user())) {
             abort(403);
         }
-
-        app()->setLocale(\Request::segment(1));
-        $this->lang = app()->getLocale();
     }
 
     public function toReceive()
@@ -54,7 +51,7 @@ class Reception extends Component
         if (!$track) {
             $newTrack = new Track;
             $newTrack->user_id = null;
-            $newTrack->lang = $this->lang;
+            $newTrack->lang = app()->getLocale();
             $newTrack->code = $this->trackCode;
             $newTrack->description = '';
             $newTrack->save();

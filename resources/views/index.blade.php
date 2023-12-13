@@ -170,7 +170,7 @@
               <div class="card-body">
                 <h5 class="card-title">{{ $post->title }}</h5>
                 <p class="card-text">{!! Str::limit($post->content, 50) !!}</p>
-                <a href="/i/news/{{ $post->slug }}" class="btn btn-link">Дальше</a>
+                <a href="/i/news/{{ $post->slug }}" class="btn btn-link">More</a>
               </div>
             </div>
           </div>

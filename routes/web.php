@@ -28,7 +28,7 @@ use App\Http\Controllers\Cargo\TrackController;
 use App\Http\Controllers\Cargo\StatusController;
 use App\Http\Controllers\Cargo\TrackExtensionController;
 
-use App\Http\Livewire\Client\Index as Client;
+use App\Http\Livewire\Client\Index as ClientIndex;
 use App\Http\Livewire\Client\Archive;
 
 use App\Http\Livewire\Storage\Tracks;
@@ -39,18 +39,27 @@ use App\Http\Livewire\Storage\SendLocally;
 use App\Http\Livewire\Storage\Arrival;
 use App\Http\Livewire\Storage\Giving;
 
+use Illuminate\Support\Facades\App;
+
+Route::redirect('/', '/'.app()->getLocale());
 
 // Client Livewire Routes
 Route::redirect('client', '/'.app()->getLocale().'/client');
 Route::group(['prefix' => '/{lang}/client', 'middleware' => ['auth']], function () {
-    Route::get('/', Client::class);
-    Route::get('tracks', Client::class);
+
+    App::setLocale(\Request::segment(1));
+
+    Route::get('/', ClientIndex::class);
+    Route::get('tracks', ClientIndex::class);
     Route::get('archive', Archive::class);
 });
 
 // Storage Livewire Routes
 Route::redirect('storage', '/'.app()->getLocale().'/storage');
 Route::group(['prefix' => '/{lang}/storage', 'middleware' => ['auth', 'roles:admin|storekeeper-first|storekeeper-sorter|storekeeper-last']], function () {
+
+    App::setLocale(\Request::segment(1));
+
     Route::get('tracks', Tracks::class);
     Route::get('/', Reception::class);
     Route::get('reception', Reception::class);
@@ -114,7 +123,6 @@ Route::group(['prefix' => '{lang}', 'middleware' => 'auth'], function() {
 });
 
 // Site
-Route::redirect('/', '/'.app()->getLocale());
 Route::group(['prefix' => '{lang}'], function() {
 
     // Input Actions

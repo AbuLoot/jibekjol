@@ -9,6 +9,7 @@ use App\Models\Region;
 
 class Archive extends Component
 {
+    public $lang;
     public $search;
 
     protected $listeners = [
@@ -17,7 +18,7 @@ class Archive extends Component
 
     public function mount()
     {
-        app()->setLocale(\Request::segment(1));
+        // $this->lang = app()->getLocale();
     }
 
     public function toggleTrack($id)

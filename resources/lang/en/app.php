@@ -31,7 +31,7 @@ return [
 
     // App Form
     'app_form' => 'Application form',
-    'send' => 'To send',
+    'send' => 'Send',
 
     //Auth
     'login_btn' => 'Login',

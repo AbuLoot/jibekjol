@@ -34,8 +34,6 @@ class Arrival extends Component
             abort(403);
         }
 
-        app()->setLocale(\Request::segment(1));
-        $this->lang = app()->getLocale();
         $this->status = Status::select('id', 'slug')
             ->where('slug', 'arrived')
             ->orWhere('id', 6)
@@ -134,7 +132,7 @@ class Arrival extends Component
         if (!$track) {
             $newTrack = new Track;
             $newTrack->user_id = session('arrivalToUser')->id ?? null;
-            $newTrack->lang = $this->lang;
+            $newTrack->lang = app()->getLocale();
             $newTrack->code = $this->trackCode;
             $newTrack->description = '';
             $newTrack->text = $this->text;

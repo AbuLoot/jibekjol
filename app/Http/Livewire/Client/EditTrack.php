@@ -21,11 +21,6 @@ class EditTrack extends Component
         'track.description' => 'required|string|max:1000',
     ];
 
-    public function mount()
-    {
-        // $this->lang = app()->getLocale();
-    }
-
     public function editTrack($id)
     {
         $this->track = Track::find($id);

@@ -8,6 +8,8 @@ use App\Models\Section;
 
 class SignAnAgreement extends Component
 {
+    // public $lang;
+
     public function toSign()
     {
         auth()->user()->status = 2;

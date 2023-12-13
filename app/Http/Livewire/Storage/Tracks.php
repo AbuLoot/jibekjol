@@ -25,8 +25,7 @@ class Tracks extends Component
 
     public function mount()
     {
-        app()->setLocale(\Request::segment(1));
-        $this->lang = app()->getLocale();
+        // app()->setLocale(\Request::segment(1));
     }
 
     public function resetFilter()

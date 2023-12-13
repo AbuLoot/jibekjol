@@ -31,8 +31,6 @@ class Giving extends Component
             abort(403);
         }
 
-        app()->setLocale(\Request::segment(1));
-        $this->lang = app()->getLocale();
         $this->status = Status::select('id', 'slug')
             ->where('slug', 'given')
             ->orWhere('id', 7)
@@ -65,7 +63,7 @@ class Giving extends Component
         if (!$track) {
             $newTrack = new Track;
             $newTrack->user_id = session('givingToUser')->id ?? null;
-            $newTrack->lang = $this->lang;
+            $newTrack->lang = app()->getLocale();
             $newTrack->code = $this->trackCode;
             $newTrack->description = '';
             $newTrack->text = $this->text;

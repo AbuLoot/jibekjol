@@ -34,7 +34,6 @@
 </head>
 <body class="bg-light">
   <?php
-    app()->setLocale(\Request::segment(1));
     $lang = app()->getLocale();
   ?>
   <nav class="navbar navbar-expand-lg navbar-dark bg-indigo bg-indigo-border" aria-label="Main navigation">
