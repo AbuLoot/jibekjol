@@ -18,7 +18,7 @@ class Archive extends Component
 
     public function mount()
     {
-        // $this->lang = app()->getLocale();
+        $this->lang = app()->getLocale();
     }
 
     public function toggleTrack($id)

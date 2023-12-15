@@ -2,13 +2,32 @@
 
 @section('content')
 
-  <h2 class="page-header">Трек коды</h2>
+  <h2 class="page-header">Трек коды
+    @if(isset($_GET['text']))<small>Результаты по запросу: <b>{{ $_GET['text'] }}</b></small>@endif
+  </h2>
 
   @include('components.alerts')
 
-  <p class="text-right">
-    <a href="/{{ $lang }}/admin/tracks/create" class="btn btn-success"><i class="material-icons md-18">add</i></a>
-  </p>
+  <div class="row">
+    <div class="col-md-5">
+      <form action="/{{ $lang }}/admin/tracks/search/tracks" method="get">
+        <div class="input-group input-search">
+          <input type="search" class="form-control input-xs" name="text" placeholder="Поиск...">
+
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+          </div>
+        </div>
+      </form>
+      <br>
+    </div>
+    <div class="col-md-7">
+      <p class="text-right">
+        <a href="/{{ $lang }}/admin/tracks/create" class="btn btn-success"><i class="material-icons md-18">add</i></a>
+      </p>
+    </div>
+  </div>
+
   <div class="table-responsive">
     <table class="table table-condensed">
       <thead>
@@ -39,12 +58,15 @@
           ?>
           <tr>
             <td>{{ $i++ }}</td>
-            <td>@if($track->user) {{ $track->user->name.' '.$track->user->lastname }} @endif</td>
+            <td>
+              @if($track->user)
+                <a href="/{{ $lang }}/admin/tracks/user/{{ $track->user->id }}">{{ $track->user->name.' '.$track->user->lastname }}</a>
+              @endif
+            </td>
             <td>{{ $track->code }}</td>
             <td>{{ Str::limit($track->description, 35) }}</td>
-            <?php $lastStatus = $track->statuses()->orderBy('created_at', 'desc')->first(); ?>
-            <td>{{ $lastStatus->pivot->created_at->format('Y-m-d') }}</td>
-            <td>{{ $lastStatus->title }} {{ $trackAndRegion }}</td>
+            <td>{{ $activeStatus->pivot->created_at->format('Y-m-d') }}</td>
+            <td>{{ $activeStatus->title }} {{ $trackAndRegion }}</td>
             <td>{{ $track->lang }}</td>
             <td class="text-right">
               <a class="btn btn-link btn-xs" href="{{ route('tracks.edit', [$lang, $track->id]) }}" title="Редактировать"><i class="material-icons md-18">mode_edit</i></a>

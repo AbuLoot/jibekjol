@@ -21,7 +21,7 @@ class Index extends Component
 
     public function mount()
     {
-        // $this->lang = app()->getLocale();
+        $this->lang = app()->getLocale();
     }
 
     public function editTrack($id)

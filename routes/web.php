@@ -39,7 +39,7 @@ use App\Http\Livewire\Storage\SendLocally;
 use App\Http\Livewire\Storage\Arrival;
 use App\Http\Livewire\Storage\Giving;
 
-use Illuminate\Support\Facades\App;
+// use Illuminate\Support\Facades\App;
 
 Route::redirect('/', '/'.app()->getLocale());
 
@@ -47,7 +47,7 @@ Route::redirect('/', '/'.app()->getLocale());
 Route::redirect('client', '/'.app()->getLocale().'/client');
 Route::group(['prefix' => '/{lang}/client', 'middleware' => ['auth']], function () {
 
-    App::setLocale(\Request::segment(1));
+    // App::setLocale(\Request::segment(1));
 
     Route::get('/', ClientIndex::class);
     Route::get('tracks', ClientIndex::class);
@@ -58,7 +58,7 @@ Route::group(['prefix' => '/{lang}/client', 'middleware' => ['auth']], function 
 Route::redirect('storage', '/'.app()->getLocale().'/storage');
 Route::group(['prefix' => '/{lang}/storage', 'middleware' => ['auth', 'roles:admin|storekeeper-first|storekeeper-sorter|storekeeper-last']], function () {
 
-    App::setLocale(\Request::segment(1));
+    // App::setLocale(\Request::segment(1));
 
     Route::get('tracks', Tracks::class);
     Route::get('/', Reception::class);
@@ -99,11 +99,19 @@ Route::group(['prefix' => '{lang}/admin', 'middleware' => ['auth', 'roles:admin|
         'languages' => LanguageController::class,
     ]);
 
+    // Cargo
+    Route::get('tracks/search/tracks', [TrackController::class, 'search']);
+    Route::get('tracks/{id}/search/users', [TrackController::class, 'searchUsers']);
+    Route::get('tracks/{id}/pin-user/{userId}', [TrackController::class, 'pinUser']);
+    Route::get('tracks/{id}/unpin-user', [TrackController::class, 'unpinUser']);
+    Route::get('tracks/user/{id}', [TrackController::class, 'tracksUser']);
+
     Route::get('reception-tracks', [TrackExtensionController::class, 'receptionTracks']);
     Route::get('arrival-tracks', [TrackExtensionController::class, 'arrivalTracks']);
     Route::post('upload-tracks', [TrackExtensionController::class, 'uploadTracks']);
     Route::post('export-tracks', [TrackExtensionController::class, 'exportTracks']);
 
+    // Resources
     Route::get('companies-actions', [CompanyController::class, 'actionCompanies']);
     Route::get('users/search/user', [UserController::class, 'search']);
     // Route::get('users/search-ajax', [UserController::class, 'searchAjax']);

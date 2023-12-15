@@ -32,6 +32,8 @@ class Reception extends Component
             return redirect(app()->getLocale().'/storage/arrival');
         }
 
+        $this->lang = app()->getLocale();
+
         if (! Gate::allows('reception', auth()->user())) {
             abort(403);
         }
