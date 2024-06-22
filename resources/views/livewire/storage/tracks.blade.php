@@ -150,7 +150,7 @@
                     <?php $traverse($node->children, $prefix.'___'); ?>
                   <?php endforeach; ?>
                 <?php }; ?>
-                <?php $traverse($regions); ?>
+                <?php $traverse($regions->toTree()); ?>
               </select>
             </div>
 
