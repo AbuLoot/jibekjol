@@ -45,7 +45,7 @@
               <select id="user_id" name="user_id" class="form-control" required>
                 <option value=""></option>
                 <?php foreach ($users as $user) : ?>
-                  <option value="{{ $user->id }}">{{ $user->name.' '.$user->surname }}</option>
+                  <option value="{{ $user->id }}">{{ $user->name.' '.$user->lastname }}</option>
                 <?php endforeach; ?>
               </select>
             </div>

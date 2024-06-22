@@ -47,7 +47,7 @@
               <select id="user_id" name="user_id" class="form-control" required>
                 <option value=""></option>
                 <?php foreach ($users as $user) : ?>
-                  <option value="{{ $user->id }}" <?php if ($user->id == $branch->user_id) { echo 'selected'; } ?>>{{ $user->name.' '.$user->surname }}</option>
+                  <option value="{{ $user->id }}" <?php if ($user->id == $branch->user_id) { echo 'selected'; } ?>>{{ $user->name.' '.$user->lastname }}</option>
                 <?php endforeach; ?>
               </select>
             </div>
