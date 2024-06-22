@@ -29,8 +29,9 @@
                 'added' => null,
                 'received' => null,
                 'sent' => null,
+                'on-the-border' => null,
+                'on-route' => null,
                 'sorted' => null,
-                'waiting' => null,
                 'arrived' => null,
                 'sent-locally' => null,
                 'given' => '<i class="bi bi-person-check-fill"></i>',
@@ -52,9 +53,13 @@
                   <div><b>Text:</b> {{ $track->text }}</div>
                 </div>
                 <div class="col-12 col-lg-4">
-                  <div><b>{{ ucfirst($activeStatus->slug) }} Date:</b> {{ $activeStatus->pivot->created_at }}</div>
+                  <div><b>{{ ucfirst($activeStatus->slug) }} date:</b> {{ $activeStatus->pivot->created_at }}</div>
                   <div>
                     <b>Status: {!! $givenIcon[$activeStatus->slug] !!}</b> {{ __('app.statuses.'.$activeStatus->slug) }} {{ $trackAndRegion }}
+                    @if($track->branches->last())
+                      <br>
+                      <b>Branch:</b> {{ $track->branches->last()->title }}
+                    @endif
                   </div>
                 </div>
                 <?php $userTel = null; ?>

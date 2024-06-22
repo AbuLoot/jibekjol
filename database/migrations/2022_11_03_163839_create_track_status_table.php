@@ -17,6 +17,7 @@ class CreateTrackStatusTable extends Migration
             $table->bigInteger('track_id')->unsigned();
             $table->integer('status_id')->unsigned();
             $table->integer('region_id')->nullable();
+            $table->integer('branch_id')->nullable();
             $table->timestamps();
 
             $table->foreign('track_id')->references('id')->on('tracks')->onDelete('cascade');

@@ -20,6 +20,7 @@
           <label for="email">{{ __('app.email') }}</label>
         </div>
         <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">{{ __('Email Password Reset Link') }}</button>
+        
       </form>
 
     </div>

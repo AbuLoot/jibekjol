@@ -13,13 +13,23 @@
   </div>
 
   <div class="container">
+
+    @if (session('result'))
+      <div class="alert alert-info">
+        <h4>Total tracks count: {{ session('result')['totalTracksCount'] }}pcs</h4>
+        <h4>On route tracks count: {{ session('result')['onRouteTracksCount'] }}pcs</h4>
+        <h4>Existent tracks count: {{ session('result')['existentTracksCount'] }}pcs</h4>
+        <?php session()->forget('result'); ?>
+        <div>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </div>
+    @endif
+
     @foreach($tracks as $track)
       <div class="track-item mb-2">
-        <?php
-          $activeStatus = $track->statuses->last();
-          $sortedRegion = $track->regions->last()->title ?? __('statuses.regions.title');
-          $sortedRegion = '('.$sortedRegion.', Казахстан)';
-        ?>
+
+        <?php $activeStatus = $track->statuses->last(); ?>
         <div class="row">
           <div class="col-10 col-lg-10">
             <div class="border {{ __('statuses.classes.'.$activeStatus->slug.'.card-color') }} rounded-top p-2" data-bs-toggle="collapse" href="#collapse{{ $track->id }}">
@@ -30,15 +40,9 @@
                 </div>
                 <div class="col-12 col-lg-4">
                   <div><b>{{ ucfirst($activeStatus->slug) }} date:</b> {{ $activeStatus->pivot->created_at }}</div>
-                  <div>
-                    <b>Status:</b> {{ __('app.statuses.'.$activeStatus->slug) }} {{ $sortedRegion }}
-                    @if($track->branches->last()) 
-                      <br>
-                      <b>Branch:</b> {{ $track->branches->last()->title }}
-                    @endif
-                  </div>
+                  <div><b>Status:</b> {{ __('app.statuses.'.$activeStatus->slug) }}</div>
                 </div>
-                @if($track->user) 
+                @if($track->user)
                   <div class="col-12 col-lg-3">
                     <b>User:</b> {{ $track->user->name.' '.$track->user->lastname }}<br>
                     <b>ID:</b> {{ $track->user->id_client }}
@@ -56,7 +60,7 @@
                       @if($activeStatus->id == $status->id)
                         <li class="timeline-item mb-2">
                           <span class="timeline-icon bg-success"><i class="bi bi-check text-white"></i></span>
-                          <p class="text-success mb-0">{{ __('app.statuses.'.$status->slug) }} {{ $sortedRegion }}</p>
+                          <p class="text-success mb-0">{{ __('app.statuses.'.$status->slug) }}</p>
                           <p class="text-success mb-0">{{ $status->pivot->created_at }}</p>
                         </li>
                         @continue
@@ -75,9 +79,9 @@
             </div>
           </div>
           <div class="col-2 col-lg-2 text-end">
-            @if($track->status != $statusArrived->id)
+            @if($track->status != $statusOnRoute->id)
               <div class="d-grid">
-                <button wire:click="btnToArrive('{{ $track->code }}')" type="button" wire:loading.attr="disabled" class="btn btn-primary btn-lg-"><i class="bi bi-check2-all"></i> <span class="d-none d-sm-inline">To arrive</span></button>
+                <button  wire:click="btnOnRoute('{{ $track->code }}')" type="button" wire:loading.attr="disabled" class="btn btn-primary"><i class="bi bi-play-fill"></i> <span class="d-none d-sm-inline">On route</span></button>
               </div>
             @endif
           </div>
@@ -85,11 +89,11 @@
       </div>
     @endforeach
 
-    <h3>Arrival</h3>
+    <h3>On route</h3>
 
     <div class="row">
       <div class="col-12 col-sm-4 mb-2">
-        <form wire:submit.prevent="toArrive">
+        <form wire:submit.prevent="onRoute">
           <div class="input-group @error('trackCode') has-validation @enderror mb-3">
             <div class="form-floating @error('trackCode') is-invalid @enderror">
               <input wire:model.defer="trackCode" type="text" class="form-control form-control-lg" placeholder="Add track-code" id="trackCodeArea">
@@ -99,77 +103,25 @@
             @error('trackCode')<div class="invalid-feedback">{{ $message }}</div>@enderror
           </div>
 
-          <div class="btn-group mb-3" role="group" aria-label="Button group with nested dropdown">
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                {{ $region->title }}
-              </button>
-
-              <ul class="dropdown-menu" style="max-height: 400px; overflow-y: auto; padding-bottom: 50px;">
-                <?php $traverse = function ($nodes, $prefix = null) use (&$traverse) { ?>
-                  <?php foreach ($nodes as $node) : ?>
-                    <li><a wire:click="setRegionId('{{ $node->id }}')" class="dropdown-item" href="#">{{ PHP_EOL.$prefix.' '.$node->title }}</a></li>
-                    <?php $traverse($node->children, $prefix.'___'); ?>
-                  <?php endforeach; ?>
-                <?php }; ?>
-                <?php $traverse($regions); ?>
-              </ul>
-            </div>
-            <button type="submit" id="toArrive" wire:loading.attr="disabled" class="btn btn-primary btn-lg"><i class="bi bi-check2-all"></i> To arrive</button>
+          <div class="input-group">
+            <?php $icons = ['list' => 'card-checklist', 'group' => 'collection']; ?>
+            <button class="btn btn-primary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-{{ $icons[$mode] }}"></i> View
+            </button>
+            <ul class="dropdown-menu">
+              <li><a wire:click="setMode('list')" class="dropdown-item" href="#"><i class="bi bi-card-checklist"></i> List tracks</a></li>
+              <li><a wire:click="setMode('group')" class="dropdown-item" href="#"><i class="bi bi-collection"></i> Group tracks</a></li>
+            </ul>
+            <button type="submit" id="onRoute" wire:loading.attr="disabled" class="btn btn-primary btn-lg"><i class="bi bi-play-fill"></i> On route</button>
           </div>
+
         </form>
-
-        <div class="input-group mb-3">
-          @if(session('arrivalToUser'))
-            <div class="form-floating">
-              <input value="{{ session('arrivalToUser')->id_client.'. '.session('arrivalToUser')->name.' '.session('arrivalToUser')->lastname }}" type="text" class="form-control form-control-lg" id="arrivalToUser" placeholder="ID Client" disabled>
-              <label for="arrivalToUser">ID Client</label>
-            </div>
-            <button wire:click="detachUser({{ session('arrivalToUser')->id }})" class="btn btn-danger btn-lg input-group-text"><i class="bi bi-x-square"></i></button>
-          @else
-            <div class="form-floating">
-              <input wire:model="idClient" type="text" class="form-control form-control-lg" id="id_client" placeholder="ID Client">
-              <label for="id_client">ID Client</label>
-
-              @if($users)
-                <div class="dropdown-menu d-block pt-0 w-100 shadow overflow-hidden" style="position: absolute;">
-                  <ul class="list-unstyled mb-0">
-                    @forelse($users as $user)
-                      <li>
-                        <a wire:click="attachUser({{ $user->id }})" class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">{{ $user->id_client.'. '.$user->name.' '.$user->lastname }}</a>
-                      </li>
-                    @empty
-                      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2 disabled">No users</a></li>
-                    @endforelse
-                  </ul>
-                </div>
-              @endif
-            </div>
-          @endif
-        </div>
-
-        <div class="form-floating mb-3">
-          <input wire:model="text" class="form-control form-control-lg" id="text" maxlength="250" placeholder="Leave a comment here">
-          <label for="text" class="form--label">Text</label>
-        </div>
-
       </div>
       <div class="col-12 col-sm-8">
-
-        @if (session('result'))
-          <div class="alert alert-info">
-            <h4>Total tracks count: {{ session('result')['totalTracksCount'] }}pcs</h4>
-            <h4>Arrived tracks count: {{ session('result')['arrivedTracksCount'] }}pcs</h4>
-            <h4>Existent tracks count: {{ session('result')['existentTracksCount'] }}pcs</h4>
-            <?php session()->forget('result'); ?>
-            <div>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-          </div>
-        @endif
-
         @if($mode == 'group')
+
           <?php
+
             // Dates
             $now          = now();
             $today        = $now->copy()->format('Y-m-d');
@@ -183,16 +135,16 @@
             $twoWeekAgo   = $now->copy()->startOfWeek()->subWeek(3)->format('Y-m-d');
 
             // Grouped by date
-            $todayGroup         = $arrivedTracks->where('updated_at', '>', $yesterday.' 23:59:59')->where('updated_at', '<=', now());
-            $yesterdayGroup     = $arrivedTracks->where('updated_at', '>=', $yesterday)->where('updated_at', '<', $today);
-            $twoDaysAgoGroup    = $arrivedTracks->where('updated_at', '>', $twoDaysAgo)->where('updated_at', '<', $yesterday);
-            $threeDaysAgoGroup  = $arrivedTracks->where('updated_at', '>', $threeDaysAgo)->where('updated_at', '<', $twoDaysAgo);
-            $fourDaysAgoGroup   = $arrivedTracks->where('updated_at', '>', $fourDaysAgo)->where('updated_at', '<', $threeDaysAgo);
-            $fiveDaysAgoGroup   = $arrivedTracks->where('updated_at', '>', $fiveDaysAgo)->where('updated_at', '<', $fourDaysAgo);
-            $sixDaysAgoGroup    = $arrivedTracks->where('updated_at', '>', $sixDaysAgo)->where('updated_at', '<', $fiveDaysAgo);
-            $previousWeekGroup  = $arrivedTracks->where('updated_at', '>', $previousWeek)->where('updated_at', '<', $sixDaysAgo);
-            $twoWeekAgoGroup    = $arrivedTracks->where('updated_at', '>', $twoWeekAgo)->where('updated_at', '<', $previousWeek);
-            $prevTimeGroup      = $arrivedTracks->where('updated_at', '<', $twoWeekAgo);
+            $todayGroup         = $allOnTheBorderTracks->where('updated_at', '>', $yesterday.' 23:59:59')->where('updated_at', '<=', now());
+            $yesterdayGroup     = $allOnTheBorderTracks->where('updated_at', '>=', $yesterday)->where('updated_at', '<', $today);
+            $twoDaysAgoGroup    = $allOnTheBorderTracks->where('updated_at', '>', $twoDaysAgo)->where('updated_at', '<', $yesterday);
+            $threeDaysAgoGroup  = $allOnTheBorderTracks->where('updated_at', '>', $threeDaysAgo)->where('updated_at', '<', $twoDaysAgo);
+            $fourDaysAgoGroup   = $allOnTheBorderTracks->where('updated_at', '>', $fourDaysAgo)->where('updated_at', '<', $threeDaysAgo);
+            $fiveDaysAgoGroup   = $allOnTheBorderTracks->where('updated_at', '>', $fiveDaysAgo)->where('updated_at', '<', $fourDaysAgo);
+            $sixDaysAgoGroup    = $allOnTheBorderTracks->where('updated_at', '>', $sixDaysAgo)->where('updated_at', '<', $fiveDaysAgo);
+            $previousWeekGroup  = $allOnTheBorderTracks->where('updated_at', '>', $previousWeek)->where('updated_at', '<', $sixDaysAgo);
+            $twoWeekAgoGroup    = $allOnTheBorderTracks->where('updated_at', '>', $twoWeekAgo)->where('updated_at', '<', $previousWeek);
+            $prevTimeGroup      = $allOnTheBorderTracks->where('updated_at', '<', $twoWeekAgo);
 
             $allTracksGroups = [
               'today' => [
@@ -257,34 +209,34 @@
                 'group' => $prevTimeGroup,
               ],
             ];
+
           ?>
+
           @foreach($allTracksGroups as $group)
             @if($group['group']->count())
               <div class="tracks-group mb-2">
-                <div class="border bg-sorted rounded p-2">
+                <div class="border bg-on-the-border rounded p-2">
                   <div class="row">
                     <div class="col-6 col-md-3">
                       <div><b>Date:</b> {{ $group['dateFrom'] }}</div>
                       <div><b>Count:</b> {{ $group['group']->count() }}pcs</div>
                     </div>
-                    <div class="col-6 col-md-4"><b>Sorted: {{ $group['dateName'] }}</b></div>
-                    <div class="col-12 col-md-5 text-end">
+                    <div class="col-6 col-md-4"><b>On the border: {{ $group['dateName'] }}</b></div>
+                    <div class="col-12s col-md-5 text-end">
                       <button type="button" wire:click="openGroupByDate('{{ $group['dateFrom'] }}', '{{ $group['dateTo'] }}')" wire:loading.attr="disabled" class="btn btn-primary btn-lg">Open</button>
-                      <button type="button" wire:click="groupArrivedByDate('{{ $group['dateFrom'] }}', '{{ $group['dateTo'] }}')" wire:loading.attr="disabled" onclick="return confirm('Сonfirm action?') || event.stopImmediatePropagation()" class="btn btn-success btn-lg"><i class="bi bi-check2-all"></i> Group arrived</button>
+                      <button type="button" wire:click="onRouteGroupByDate('{{ $group['dateFrom'] }}', '{{ $group['dateTo'] }}')" wire:loading.attr="disabled" onclick="return confirm('Сonfirm action?') || event.stopImmediatePropagation()" class="btn btn-success btn-lg"><i class="bi bi-play-fill"></i> On route</button>
                     </div>
                   </div>
                 </div>
               </div>
             @endif
           @endforeach
+
         @else
-          @foreach($arrivedTracks as $track)
+          @foreach($onTheBorderTracks as $track)
             <div class="track-item mb-2">
-              <?php
-                $activeStatus = $track->statuses->last();
-                $sortedRegion = $track->regions->last()->title ?? __('statuses.regions.title');
-                $sortedRegion = '('.$sortedRegion.', Казахстан)';
-              ?>
+
+              <?php $activeStatus = $track->statuses->last(); ?>
               <div class="border {{ __('statuses.classes.'.$activeStatus->slug.'.card-color') }} rounded-top p-2" data-bs-toggle="collapse" href="#collapse{{ $track->id }}">
                 <div class="row">
                   <div class="col-12 col-lg-6">
@@ -293,13 +245,7 @@
                   </div>
                   <div class="col-12 col-lg-6">
                     <div><b>{{ ucfirst($activeStatus->slug) }} date:</b> {{ $activeStatus->pivot->created_at }}</div>
-                    <div>
-                      <b>Status:</b> {{ __('app.statuses.'.$activeStatus->slug) }} {{ $sortedRegion }}
-                      @if($track->branches->last()) 
-                        <br>
-                        <b>Branch:</b> {{ $track->branches->last()->title }}
-                      @endif
-                    </div>
+                    <div><b>Status:</b> {{ __('app.statuses.'.$activeStatus->slug) }}</div>
                   </div>
                   @if($track->user) 
                     <div class="col-12 col-lg-12">
@@ -319,7 +265,7 @@
                         @if($activeStatus->id == $status->id)
                           <li class="timeline-item mb-2">
                             <span class="timeline-icon bg-success"><i class="bi bi-check text-white"></i></span>
-                            <p class="text-success mb-0">{{ __('app.statuses.'.$status->slug) }} {{ $sortedRegion }}</p>
+                            <p class="text-success mb-0">{{ __('app.statuses.'.$status->slug) }}</p>
                             <p class="text-success mb-0">{{ $status->pivot->created_at }}</p>
                           </li>
                           @continue
@@ -340,16 +286,15 @@
           @endforeach
           <br>
           <nav aria-label="Page navigation">
-            {{ $arrivedTracks->links() }}
+            {{ $onTheBorderTracks->links() }}
           </nav>
         @endif
       </div>
     </div>
+    <br>
   </div>
 
-  <br>
-
-  <!-- Modal -->
+  <!-- Track Codes Modal -->
   <div class="modal fade" id="trackCodesModal" tabindex="-1" aria-labelledby="trackCodesModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -377,7 +322,7 @@
       <div class="modal-content">
         <form action="/{{ $lang }}/admin/upload-tracks" method="post" enctype="multipart/form-data">
           @csrf
-          <input type="hidden" name="storageStage" value="arrival">
+          <input type="hidden" name="storageStage" value="on-route">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="modalLabel">Uploading Track Codes</h1>
             <button type="button" id="closeUploadDoc" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -407,7 +352,7 @@
 
 @section('scripts')
   <script type="text/javascript">
-    // Focus Script
+    // Toast Script
     window.addEventListener('area-focus', event => {
 
       var areaEl = document.getElementById('trackCodeArea');

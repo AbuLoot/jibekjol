@@ -24,6 +24,10 @@
               <input type="text" class="form-control" id="slug" name="slug" maxlength="80" value="{{ (old('slug')) ? old('slug') : '' }}">
             </div>
             <div class="form-group">
+              <label for="sort_id">Порядковый номер</label>
+              <input type="text" class="form-control" id="sort_id" name="sort_id" maxlength="80" value="{{ (old('sort_id')) ? old('sort_id') : '' }}">
+            </div>
+            <div class="form-group">
               <label for="lang">Язык</label>
               <select id="lang" name="lang" class="form-control" required>
                 @foreach($languages as $language)
@@ -34,12 +38,6 @@
                   @endif
                 @endforeach
               </select>
-            </div>
-            <div class="form-group">
-              <label for="status">Статус:</label>
-              <label>
-                <input type="checkbox" id="status" name="status" checked> Активен
-              </label>
             </div>
             <div class="form-group">
               <button type="submit" class="btn btn-success"><i class="material-icons">save</i></button>

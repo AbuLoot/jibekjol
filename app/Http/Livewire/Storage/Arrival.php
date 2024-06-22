@@ -20,11 +20,11 @@ class Arrival extends Component
     public $lang;
     public $mode = 'list';
     public $search;
-    public $status;
     public $region;
     public $idClient;
     public $trackCode;
     public $trackCodes = [];
+    public $statusArrived;
     public $allArrivedTracks = [];
     public $text;
 
@@ -35,10 +35,7 @@ class Arrival extends Component
         }
 
         $this->lang = app()->getLocale();
-        $this->status = Status::select('id', 'slug')
-            ->where('slug', 'arrived')
-            ->orWhere('id', 6)
-            ->first();
+        $this->statusArrived = Status::where('slug', 'arrived')->orWhere('id', 8)->first();
 
         if (!session()->has('jjRegion')) {
             $region = auth()->user()->region()->first() ?? Region::where('slug', 'kazakhstan')->orWhere('id', 1)->first();
@@ -82,18 +79,13 @@ class Arrival extends Component
 
         $tracks = $this->allArrivedTracks->whereIn('id', $ids);
 
-        $statusArrived = Status::where('slug', 'arrived')
-            ->orWhere('id', 6)
-            ->select('id', 'slug')
-            ->first();
-
         // Creating Track Status
         $tracksStatus = [];
         $tracksUsers = [];
 
         foreach($tracks as $track) {
             $tracksStatus[] = [
-                'track_id' => $track->id, 'status_id' => $statusArrived->id, 'created_at' => now(), 'updated_at' => now(),
+                'track_id' => $track->id, 'status_id' => $this->statusArrived->id, 'created_at' => now(), 'updated_at' => now(),
             ];
 
             if (isset($track->user->email) && !in_array($track->user->email, $tracksUsers)) {
@@ -104,7 +96,7 @@ class Arrival extends Component
         TrackStatus::insert($tracksStatus);
 
         // Updating Track Status
-        Track::whereIn('id', $ids)->update(['status' => $statusArrived->id]);
+        Track::whereIn('id', $ids)->update(['status' => $this->statusArrived->id]);
 
         SendMailNotification::dispatch($tracksUsers);
         // foreach($tracksUsers as $emailUser) {
@@ -123,26 +115,19 @@ class Arrival extends Component
     {
         $this->validate(['trackCode' => 'required|string|min:10|max:20']);
 
-        $statusArrived = Status::select('id', 'slug')
-            ->where('slug', 'arrived')
-            ->orWhere('id', 6)
-            ->first();
-
         $track = Track::where('code', $this->trackCode)->first();
 
         if (!$track) {
-            $newTrack = new Track;
-            $newTrack->user_id = session('arrivalToUser')->id ?? null;
-            $newTrack->lang = app()->getLocale();
-            $newTrack->code = $this->trackCode;
-            $newTrack->description = '';
-            $newTrack->text = $this->text;
-            $newTrack->save();
-
-            $track = $newTrack;
+            $track = new Track;
+            $track->user_id = session('arrivalToUser')->id ?? null;
+            $track->code = $this->trackCode;
+            $track->description = '';
+            $track->lang = app()->getLocale();
+            $track->status = 0;
+            $track->text = $this->text;
+            $track->save();
         }
-
-        if ($track->status >= $statusArrived->id) {
+        elseif ($track->status >= $this->statusArrived->id) {
             $this->addError('trackCode', 'Track '.$this->trackCode.' arrived');
             $this->trackCode = null;
             $this->text = null;
@@ -151,7 +136,7 @@ class Arrival extends Component
 
         $trackStatus = new TrackStatus();
         $trackStatus->track_id = $track->id;
-        $trackStatus->status_id = $statusArrived->id;
+        $trackStatus->status_id = $this->statusArrived->id;
         $trackStatus->region_id = $this->region->id;
         $trackStatus->created_at = now();
         $trackStatus->updated_at = now();
@@ -159,7 +144,7 @@ class Arrival extends Component
 
         $track->user_id = session('arrivalToUser')->id ?? $track->user_id;
         $track->text = $this->text;
-        $track->status = $statusArrived->id;
+        $track->status = $this->statusArrived->id;
         $track->save();
 
         if (isset($track->user->email)) {
@@ -204,9 +189,9 @@ class Arrival extends Component
         $this->setRegionId = session()->get('jjRegion')->id;
 
         if ($this->mode == 'list') {
-            $arrivedTracks = Track::query()->where('status', $this->status->id)->orderByDesc('updated_at')->paginate(50);
+            $arrivedTracks = Track::where('status', $this->statusArrived->id)->orderByDesc('updated_at')->paginate(50);
         } else {
-            $arrivedTracks = Track::query()->where('status', $this->status->id)->orderByDesc('updated_at')->get();
+            $arrivedTracks = Track::where('status', $this->statusArrived->id)->orderByDesc('updated_at')->get();
             $this->allArrivedTracks = $arrivedTracks;
         }
 
@@ -214,9 +199,10 @@ class Arrival extends Component
         $users = [];
 
         if (strlen($this->search) >= 4) {
-            $tracks = Track::query()
-                ->orderByDesc('updated_at')
-                ->where('status', $this->status->id)
+            $statusSentLocally = Status::where('slug', 'sent-locally')->orWhere('id', 7)->first();
+
+            $tracks = Track::orderByDesc('updated_at')
+                ->whereIn('status', [$statusSentLocally->id, $this->statusArrived->id])
                 ->where('code', 'like', '%'.$this->search.'%')
                 ->paginate(10);
         }

@@ -59,12 +59,18 @@
               <a class="nav-link px-3" href="/{{ $lang }}/storage/sending">Sending</a>
             </li>
           @endcanany
-          @canany(['sorting', 'send-locally'], Auth::user())
             <li class="nav-item">
-              <a class="nav-link px-3" href="/{{ $lang }}/storage/sorting"><i class="bi bi-dpad"></i> Sorting</a>
+              <a class="nav-link px-3" href="/{{ $lang }}/storage/on-the-border">Border</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link px-3" href="/{{ $lang }}/storage/send-locally">Send Locally</a>
+              <a class="nav-link px-3" href="/{{ $lang }}/storage/on-route">On route</a>
+            </li>
+          @canany(['sorting', 'send-locally'], Auth::user())
+            <li class="nav-item">
+              <a class="nav-link px-3" href="/{{ $lang }}/storage/sorting">Sorting</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-3" href="/{{ $lang }}/storage/send-locally">Send locally</a>
             </li>
           @endcanany
           @canany(['arrival', 'giving'], Auth::user())

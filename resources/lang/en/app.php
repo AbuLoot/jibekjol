@@ -80,6 +80,8 @@ return [
         'all' => 'All',
         'added' => 'Added by user',
         'received' => 'Received from warehouse (Guangzhou, China)',
+        'on-the-border' => 'On the border of China and Kazakhstan',
+        'on-route' => 'On route',
         'sent' => 'Sent to destination country',
         'sorted' => 'At the sorting center',
         'sent-locally' => 'Sent to region',

@@ -30,13 +30,8 @@ class Company extends Model
         return $this->hasOne('App\Models\Profile');
     }
 
-    public function products()
+    public function branches()
     {
-        return $this->hasMany('App\Models\Product');
-    }
-
-    public function currency()
-    {
-        return $this->belongsTo('App\Models\Currency', 'currency_id');
+        return $this->hasMany('App\Models\Branch');
     }
 }

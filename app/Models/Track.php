@@ -21,6 +21,11 @@ class Track extends Model
         return $this->belongsToMany(Region::class, 'track_status', 'track_id', 'region_id');
     }
 
+    public function branches()
+    {
+        return $this->belongsToMany(Branch::class, 'track_status', 'track_id', 'branch_id');
+    }
+
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'user_id');

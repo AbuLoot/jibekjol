@@ -15,6 +15,7 @@
         <tr class="active">
           <td>№</td>
           <td>Название</td>
+          <td>Порядковый номер</td>
           <td>Slug</td>
           <td>Язык</td>
           <td class="text-right">Функции</td>
@@ -26,6 +27,7 @@
           <tr>
             <td>{{ $i++ }}</td>
             <td>{{ $status->title }}</td>
+            <td>{{ $status->sort_id }}</td>
             <td>{{ $status->slug }}</td>
             <td>{{ $status->lang }}</td>
             <td class="text-right text-nowrap">

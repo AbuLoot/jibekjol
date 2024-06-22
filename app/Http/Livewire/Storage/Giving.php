@@ -15,7 +15,7 @@ class Giving extends Component
 {
     public $lang;
     public $search;
-    public $status;
+    public $statusGiven;
     public $region;
     public $idClient;
     public $trackCode;
@@ -32,10 +32,7 @@ class Giving extends Component
         }
 
         $this->lang = app()->getLocale();
-        $this->status = Status::select('id', 'slug')
-            ->where('slug', 'given')
-            ->orWhere('id', 7)
-            ->first();
+        $this->statusGiven = Status::where('slug', 'given')->orWhere('id', 9)->first();
 
         if (!session()->has('jjRegion')) {
             $region = auth()->user()->region()->first() ?? Region::where('slug', 'kazakhstan')->orWhere('id', 1)->first();
@@ -54,26 +51,19 @@ class Giving extends Component
     {
         $this->validate();
 
-        $statusGiven = Status::select('id', 'slug')
-            ->where('slug', 'giving')
-            ->orWhere('id', 7)
-            ->first();
-
         $track = Track::where('code', $this->trackCode)->first();
 
         if (!$track) {
-            $newTrack = new Track;
-            $newTrack->user_id = session('givingToUser')->id ?? null;
-            $newTrack->lang = app()->getLocale();
-            $newTrack->code = $this->trackCode;
-            $newTrack->description = '';
-            $newTrack->text = $this->text;
-            $newTrack->save();
-
-            $track = $newTrack;
+            $track = new Track;
+            $track->user_id = session('givingToUser')->id ?? null;
+            $track->code = $this->trackCode;
+            $track->description = '';
+            $track->lang = app()->getLocale();
+            $track->status = 0;
+            $track->text = $this->text;
+            $track->save();
         }
-
-        if ($track->status >= $statusGiven->id) {
+        elseif ($track->status >= $this->statusGiven->id) {
             $this->addError('trackCode', 'Track '.$this->trackCode.' given');
             $this->trackCode = null;
             $this->text = null;
@@ -82,14 +72,14 @@ class Giving extends Component
 
         $trackStatus = new TrackStatus();
         $trackStatus->track_id = $track->id;
-        $trackStatus->status_id = $statusGiven->id;
+        $trackStatus->status_id = $this->statusGiven->id;
         $trackStatus->region_id = $this->region->id;
         $trackStatus->created_at = now();
         $trackStatus->updated_at = now();
         $trackStatus->save();
 
         $track->user_id = session('givingToUser')->id ?? $track->user_id;
-        $track->status = $statusGiven->id;
+        $track->status = $this->statusGiven->id;
         $track->text = $this->text;
         $track->save();
 
@@ -124,15 +114,16 @@ class Giving extends Component
         $this->region = session()->get('jjRegion');
         $this->setRegionId = session()->get('jjRegion')->id;
 
-        $arrivedTracks = Track::query()->where('status', $this->status->id)->orderByDesc('id')->paginate(50);
+        $arrivedTracks = Track::where('status', $this->statusGiven->id)->orderByDesc('id')->paginate(50);
 
         $tracks = [];
         $users = [];
 
         if (strlen($this->search) >= 4) {
-            $tracks = Track::query()
-                ->orderByDesc('id')
-                ->where('status', $this->status->id)
+            $statusArrived = Status::where('slug', 'arrived')->orWhere('id', 8)->first();
+
+            $tracks = Track::orderByDesc('id')
+                ->whereIn('status', [$statusArrived->id, $this->statusGiven->id])
                 ->where('code', 'like', '%'.$this->search.'%')
                 ->paginate(10);
         }

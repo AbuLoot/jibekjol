@@ -9,15 +9,15 @@ use App\Models\Track;
 use App\Models\Status;
 use App\Models\TrackStatus;
 
-class Sending extends Component
+class OnTheBorder extends Component
 {
     public $lang;
     public $search;
     public $mode = 'group';
-    public $statusSent;
     public $trackCode;
     public $trackCodes = [];
-    public $allReceivedTracks = [];
+    public $statusOnTheBorder;
+    public $allSentTracks = [];
 
     protected $rules = [
         'trackCode' => 'required|string|min:10|max:20',
@@ -25,12 +25,12 @@ class Sending extends Component
 
     public function mount()
     {
-        if (! Gate::allows('sending', auth()->user())) {
+        if (! Gate::allows('on-the-border', auth()->user())) {
             abort(403);
         }
 
         $this->lang = app()->getLocale();
-        $this->statusSent = Status::where('slug', 'sent')->orWhere('id', 3)->first();
+        $this->statusOnTheBorder = Status::where('slug', 'on-the-border')->orWhere('id', 4)->first();
     }
 
     public function getTrackCodesById($trackIds = [])
@@ -45,7 +45,7 @@ class Sending extends Component
 
     public function getTracksIdByDate($dateFrom, $dateTo)
     {
-        $tracksGroup = $this->allReceivedTracks;
+        $tracksGroup = $this->allSentTracks;
 
         $tracks = $tracksGroup->when($dateTo, function ($tracksGroup) use ($dateFrom, $dateTo) {
 
@@ -68,25 +68,25 @@ class Sending extends Component
     {
         $ids = $this->getTracksIdByDate($dateFrom, $dateTo);
 
-        $this->trackCodes = $this->allReceivedTracks->whereIn('id', $ids)->sortByDesc('id');
+        $this->trackCodes = $this->allSentTracks->whereIn('id', $ids)->sortByDesc('id');
 
         $this->dispatchBrowserEvent('open-modal');
     }
 
-    public function sendGroupByDate($dateFrom, $dateTo)
+    public function markGroupByDate($dateFrom, $dateTo)
     {
         $ids = $this->getTracksIdByDate($dateFrom, $dateTo);
 
-        $tracks = $this->allReceivedTracks->whereIn('id', $ids);
+        $tracks = $this->allSentTracks->whereIn('id', $ids);
 
         // Creating Track Status
         $tracksStatus = [];
-        $statusSentId = $this->statusSent->id;
+        $statusOnTheBorderId = $this->statusOnTheBorder->id;
 
-        $tracks->each(function ($track) use (&$tracksStatus, $statusSentId) {
+        $tracks->each(function ($track) use (&$tracksStatus, $statusOnTheBorderId) {
             $tracksStatus[] = [
                 'track_id' => $track->id,
-                'status_id' => $statusSentId,
+                'status_id' => $statusOnTheBorderId,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
@@ -95,19 +95,24 @@ class Sending extends Component
         TrackStatus::insert($tracksStatus);
 
         // Updating Track Status
-        Track::whereIn('id', $ids)->update(['status' => $this->statusSent->id]);
+        Track::whereIn('id', $ids)->update(['status' => $this->statusOnTheBorder->id]);
     }
 
-    public function btnToSend($trackCode)
+    public function btnToMark($trackCode)
     {
         $this->trackCode = $trackCode;
-        $this->toSend();
+        $this->toMark();
         // $this->search = null;
     }
 
-    public function toSend()
+    public function toMark()
     {
         $this->validate();
+
+        $statusOnTheBorder = Status::select('id', 'sort_id', 'slug')
+            ->where('slug', 'on-the-border')
+            ->orWhere('id', 4)
+            ->first();
 
         $track = Track::where('code', $this->trackCode)->first();
 
@@ -120,20 +125,20 @@ class Sending extends Component
             $track->status = 0;
             $track->save();
         }
-        elseif ($track->status >= $this->statusSent->id) {
-            $this->addError('trackCode', 'Track '.$this->trackCode.' sent');
+        elseif ($track->status >= $statusOnTheBorder->id) {
+            $this->addError('trackCode', 'Track '.$this->trackCode.' was at the border');
             $this->trackCode = null;
             return;
         }
 
         $trackStatus = new TrackStatus();
         $trackStatus->track_id = $track->id;
-        $trackStatus->status_id = $this->statusSent->id;
+        $trackStatus->status_id = $statusOnTheBorder->id;
         $trackStatus->created_at = now();
         $trackStatus->updated_at = now();
         $trackStatus->save();
 
-        $track->status = $this->statusSent->id;
+        $track->status = $statusOnTheBorder->id;
         $track->save();
 
         $this->trackCode = null;
@@ -147,29 +152,29 @@ class Sending extends Component
 
     public function render()
     {
-        $statusReceived = Status::where('slug', 'received')->where('id', 2)->first();
+        $statusSent = Status::where('slug', 'sent')->orWhere('id', 3)->first();
 
         if ($this->mode == 'list') {
-            $sentTracks = Track::where('status', $this->statusSent->id)->orderByDesc('updated_at')->paginate(50);
-        }
-        else {
-            $sentTracks = Track::where('status', $statusReceived->id)->get();
-            $this->allReceivedTracks = $sentTracks;
+            $sentTracks = Track::whereIn('status', [$statusSent->id, $this->statusOnTheBorder->id])
+                ->orderByDesc('updated_at')
+                ->paginate(50);
+        } else {
+            $sentTracks = Track::where('status', $statusSent->id)->get();
+            $this->allSentTracks = $sentTracks;
         }
 
         $tracks = [];
 
         if (strlen($this->search) >= 4) {
             $tracks = Track::orderByDesc('updated_at')
-                ->whereIn('status', [$statusReceived->id, $this->statusSent->id])
+                ->whereIn('status', [$statusSent->id, $this->statusOnTheBorder->id])
                 ->where('code', 'like', '%'.$this->search.'%')
                 ->paginate(10);
         }
 
-        return view('livewire.storage.sending', [
+        return view('livewire.storage.on-the-border', [
                 'tracks' => $tracks,
                 'sentTracks' => $sentTracks,
-            ])
-            ->layout('livewire.storage.layout');
+            ])->layout('livewire.storage.layout');
     }
 }

@@ -3,8 +3,28 @@
 return [
 
 	'classes' => [
-	    'given' => [
-	      	'card-color' => 'bg-given',
+	    'added' => [
+	      	'card-color' => 'bg-added',
+	      	'item-color' => 'bg-muted',
+	    ],
+	    'received' => [
+	      	'card-color' => 'bg-received',
+	      	'item-color' => 'bg-warning',
+	    ],
+	    'sent' => [
+	      	'card-color' => 'bg-sent',
+	      	'item-color' => 'bg-secondary',
+	    ],
+	    'on-the-border' => [
+	      	'card-color' => 'bg-on-the-border',
+	      	'item-color' => 'bg-warning',
+	    ],
+	    'on-route' => [
+	      	'card-color' => 'bg-on-route',
+	      	'item-color' => 'bg-warning',
+	    ],
+	    'sorted' => [
+	      	'card-color' => 'bg-sorted',
 	      	'item-color' => 'bg-secondary',
 	    ],
 	    'sent-locally' => [
@@ -15,25 +35,9 @@ return [
 	      	'card-color' => 'bg-arrived',
 	      	'item-color' => 'bg-secondary',
 	    ],
-	    'sent' => [
-	      	'card-color' => 'bg-sent',
+	    'given' => [
+	      	'card-color' => 'bg-given',
 	      	'item-color' => 'bg-secondary',
-	    ],
-	    'sorted' => [
-	      	'card-color' => 'bg-sorted',
-	      	'item-color' => 'bg-secondary',
-	    ],
-	    'waiting' => [
-	      	'card-color' => 'bg-received',
-	      	'item-color' => 'bg-warning',
-	    ],
-	    'received' => [
-	      	'card-color' => 'bg-received',
-	      	'item-color' => 'bg-warning',
-	    ],
-	    'added' => [
-	      	'card-color' => 'bg-added',
-	      	'item-color' => 'bg-muted',
 	    ],
 	],
 

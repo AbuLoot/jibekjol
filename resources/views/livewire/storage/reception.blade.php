@@ -56,7 +56,7 @@
                   <div><b>Description:</b> {{ Str::limit($track->description, 35) }}</div>
                 </div>
                 <div class="col-12 col-lg-6">
-                  <div><b>{{ ucfirst($activeStatus->slug) }} Date:</b> {{ $activeStatus->pivot->created_at }}</div>
+                  <div><b>{{ ucfirst($activeStatus->slug) }} date:</b> {{ $activeStatus->pivot->created_at }}</div>
                   <div><b>Status:</b> {{ __('app.statuses.'.$activeStatus->slug) }}</div>
                 </div>
                 @if($track->user) 

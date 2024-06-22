@@ -57,6 +57,14 @@ class AuthServiceProvider extends ServiceProvider
             return $user->roles->first()->permissions->pluck('name')->contains('sending');
         });
 
+        Gate::define('on-the-border', function(User $user) {
+            return $user->roles->first()->permissions->pluck('name')->contains('on-the-border');
+        });
+
+        Gate::define('on-route', function(User $user) {
+            return $user->roles->first()->permissions->pluck('name')->contains('on-route');
+        });
+
         Gate::define('sorting', function(User $user) {
             return $user->roles->first()->permissions->pluck('name')->contains('sorting');
         });

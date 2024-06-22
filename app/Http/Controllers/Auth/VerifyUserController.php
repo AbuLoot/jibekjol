@@ -49,6 +49,6 @@ class VerifyUserController extends Controller
 
         $request->session()->put('verifiedUser', $user->id);
 
-        return redirect('/change-password');
+        return redirect(app()->getLocale().'/change-password');
     }
 }

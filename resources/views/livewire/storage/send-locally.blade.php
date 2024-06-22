@@ -49,7 +49,7 @@
                   <div><b>Description:</b> {{ Str::limit($track->description, 35) }}</div>
                 </div>
                 <div class="col-12 col-lg-4">
-                  <div><b>{{ ucfirst($activeStatus->slug) }} Date:</b> {{ $activeStatus->pivot->created_at }}</div>
+                  <div><b>{{ ucfirst($activeStatus->slug) }} date:</b> {{ $activeStatus->pivot->created_at }}</div>
                   <div><b>Status:</b> {{ __('app.statuses.'.$activeStatus->slug) }} {{ $sortedRegion }}</div>
                 </div>
                 @if($track->user) 
@@ -89,9 +89,11 @@
             </div>
           </div>
           <div class="col-2 col-lg-2 text-end">
-            <div class="d-grid">
-              <button wire:click="btnToSendLocally('{{ $track->code }}')" type="button" wire:loading.attr="disabled" class="btn btn-primary btn-lg-"><i class="bi bi-check2-all"></i> <span class="d-none d-sm-inline">To arrive</span></button>
-            </div>
+            @if($track->status != $statusSentLocally->id)
+              <div class="d-grid">
+                <button wire:click="btnToSendLocally('{{ $track->code }}')" type="button" wire:loading.attr="disabled" class="btn btn-primary btn-lg-"><i class="bi bi-send-plus-fill"></i> <span class="d-none d-sm-inline">To send</span></button>
+              </div>
+            @endif
           </div>
         </div>
       </div>
@@ -128,6 +130,19 @@
           </div>
         </form>
 
+        @if($branches->count() > 0)
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              {{ $branch->title ?? 'Филиалы' }}
+            </button>
+
+            <ul class="dropdown-menu" style="max-height: 400px; overflow-y: auto; padding-bottom: 50px;">
+              <?php foreach ($branches as $branch) : ?>
+                <li><a wire:click="setBranch('{{ $branch->id }}')" class="dropdown-item" href="#">{{ $branch->title }}</a></li>
+              <?php endforeach; ?>
+            </ul>
+          </div>
+        @endif
       </div>
       <div class="col-12 col-sm-8">
 
@@ -145,8 +160,14 @@
                   <div><b>Description:</b> {{ Str::limit($track->description, 35) }}</div>
                 </div>
                 <div class="col-12 col-lg-6">
-                  <div><b>{{ ucfirst($activeStatus->slug) }} Date:</b> {{ $activeStatus->pivot->created_at }}</div>
-                  <div><b>Status:</b> {{ __('app.statuses.'.$activeStatus->slug) }} {{ $sortedRegion }}</div>
+                  <div><b>{{ ucfirst($activeStatus->slug) }} date:</b> {{ $activeStatus->pivot->created_at }}</div>
+                  <div>
+                    <b>Status:</b> {{ __('app.statuses.'.$activeStatus->slug) }} {{ $sortedRegion }}
+                    @if($track->branches->last())
+                      <br>
+                      <b>Branch:</b> {{ $track->branches->last()->title }}
+                    @endif
+                  </div>
                 </div>
                 @if($track->user) 
                   <div class="col-12 col-lg-12">
@@ -166,7 +187,7 @@
                       @if($activeStatus->id == $status->id)
                         <li class="timeline-item mb-2">
                           <span class="timeline-icon bg-success"><i class="bi bi-check text-white"></i></span>
-                          <p class="text-success mb-0">{{ __('app.statuses.'.$status->slug) }}</p>
+                          <p class="text-success mb-0">{{ __('app.statuses.'.$status->slug) }} {{ $sortedRegion }}</p>
                           <p class="text-success mb-0">{{ $status->pivot->created_at }}</p>
                         </li>
                         @continue

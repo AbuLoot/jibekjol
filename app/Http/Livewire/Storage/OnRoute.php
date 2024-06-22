@@ -9,15 +9,15 @@ use App\Models\Track;
 use App\Models\Status;
 use App\Models\TrackStatus;
 
-class Sending extends Component
+class OnRoute extends Component
 {
     public $lang;
     public $search;
     public $mode = 'group';
-    public $statusSent;
+    public $statusOnRoute;
     public $trackCode;
     public $trackCodes = [];
-    public $allReceivedTracks = [];
+    public $allOnTheBorderTracks = [];
 
     protected $rules = [
         'trackCode' => 'required|string|min:10|max:20',
@@ -25,12 +25,12 @@ class Sending extends Component
 
     public function mount()
     {
-        if (! Gate::allows('sending', auth()->user())) {
+        if (! Gate::allows('on-route', auth()->user())) {
             abort(403);
         }
 
         $this->lang = app()->getLocale();
-        $this->statusSent = Status::where('slug', 'sent')->orWhere('id', 3)->first();
+        $this->statusOnRoute = Status::where('slug', 'on-route')->orWhere('id', 5)->first();
     }
 
     public function getTrackCodesById($trackIds = [])
@@ -45,7 +45,7 @@ class Sending extends Component
 
     public function getTracksIdByDate($dateFrom, $dateTo)
     {
-        $tracksGroup = $this->allReceivedTracks;
+        $tracksGroup = $this->allOnTheBorderTracks;
 
         $tracks = $tracksGroup->when($dateTo, function ($tracksGroup) use ($dateFrom, $dateTo) {
 
@@ -68,25 +68,25 @@ class Sending extends Component
     {
         $ids = $this->getTracksIdByDate($dateFrom, $dateTo);
 
-        $this->trackCodes = $this->allReceivedTracks->whereIn('id', $ids)->sortByDesc('id');
+        $this->trackCodes = $this->allOnTheBorderTracks->whereIn('id', $ids)->sortByDesc('id');
 
         $this->dispatchBrowserEvent('open-modal');
     }
 
-    public function sendGroupByDate($dateFrom, $dateTo)
+    public function onRouteGroupByDate($dateFrom, $dateTo)
     {
         $ids = $this->getTracksIdByDate($dateFrom, $dateTo);
 
-        $tracks = $this->allReceivedTracks->whereIn('id', $ids);
+        $tracks = $this->allOnTheBorderTracks->whereIn('id', $ids);
 
         // Creating Track Status
         $tracksStatus = [];
-        $statusSentId = $this->statusSent->id;
+        $statusOnRouteId = $this->statusOnRoute->id;
 
-        $tracks->each(function ($track) use (&$tracksStatus, $statusSentId) {
+        $tracks->each(function ($track) use (&$tracksStatus, $statusOnRouteId) {
             $tracksStatus[] = [
                 'track_id' => $track->id,
-                'status_id' => $statusSentId,
+                'status_id' => $statusOnRouteId,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
@@ -95,19 +95,20 @@ class Sending extends Component
         TrackStatus::insert($tracksStatus);
 
         // Updating Track Status
-        Track::whereIn('id', $ids)->update(['status' => $this->statusSent->id]);
+        Track::whereIn('id', $ids)->update(['status' => $this->statusOnRoute->id]);
     }
 
-    public function btnToSend($trackCode)
+    public function btnOnRoute($trackCode)
     {
         $this->trackCode = $trackCode;
-        $this->toSend();
-        // $this->search = null;
+        $this->onRoute();
+        $this->search = null;
     }
 
-    public function toSend()
+    public function onRoute()
     {
         $this->validate();
+
 
         $track = Track::where('code', $this->trackCode)->first();
 
@@ -120,20 +121,20 @@ class Sending extends Component
             $track->status = 0;
             $track->save();
         }
-        elseif ($track->status >= $this->statusSent->id) {
-            $this->addError('trackCode', 'Track '.$this->trackCode.' sent');
+        elseif ($track->status >= $this->statusOnRoute->id) {
+            $this->addError('trackCode', 'Track '.$this->trackCode.' on route');
             $this->trackCode = null;
             return;
         }
 
         $trackStatus = new TrackStatus();
         $trackStatus->track_id = $track->id;
-        $trackStatus->status_id = $this->statusSent->id;
+        $trackStatus->status_id = $this->statusOnRoute->id;
         $trackStatus->created_at = now();
         $trackStatus->updated_at = now();
         $trackStatus->save();
 
-        $track->status = $this->statusSent->id;
+        $track->status = $this->statusOnRoute->id;
         $track->save();
 
         $this->trackCode = null;
@@ -147,28 +148,29 @@ class Sending extends Component
 
     public function render()
     {
-        $statusReceived = Status::where('slug', 'received')->where('id', 2)->first();
+        $statusOnTheBorder = Status::where('slug', 'on-the-border')->orWhere('id', 4)->first();
 
         if ($this->mode == 'list') {
-            $sentTracks = Track::where('status', $this->statusSent->id)->orderByDesc('updated_at')->paginate(50);
-        }
-        else {
-            $sentTracks = Track::where('status', $statusReceived->id)->get();
-            $this->allReceivedTracks = $sentTracks;
+            $onTheBorderTracks = Track::whereIn('status', [$statusOnTheBorder->id, $this->statusOnRoute->id])
+                ->orderByDesc('updated_at')
+                ->paginate(50);
+        } else {
+            $onTheBorderTracks = Track::where('status', $statusOnTheBorder->id)->get();
+            $this->allOnTheBorderTracks = $onTheBorderTracks;
         }
 
         $tracks = [];
 
         if (strlen($this->search) >= 4) {
             $tracks = Track::orderByDesc('updated_at')
-                ->whereIn('status', [$statusReceived->id, $this->statusSent->id])
+                ->whereIn('status', [$statusOnTheBorder->id, $this->statusOnRoute->id])
                 ->where('code', 'like', '%'.$this->search.'%')
                 ->paginate(10);
         }
 
-        return view('livewire.storage.sending', [
+        return view('livewire.storage.on-route', [
                 'tracks' => $tracks,
-                'sentTracks' => $sentTracks,
+                'onTheBorderTracks' => $onTheBorderTracks,
             ])
             ->layout('livewire.storage.layout');
     }

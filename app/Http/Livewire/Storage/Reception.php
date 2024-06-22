@@ -19,6 +19,7 @@ class Reception extends Component
 
     public $lang;
     public $search;
+    public $statusReceived;
     public $trackCode;
     public $tracksDoc;
 
@@ -37,31 +38,29 @@ class Reception extends Component
         if (! Gate::allows('reception', auth()->user())) {
             abort(403);
         }
+
+        $this->statusReceived = Status::select('id', 'sort_id', 'slug')
+            ->where('slug', 'received')
+            ->orWhere('id', 2)
+            ->first();
     }
 
     public function toReceive()
     {
         $this->validate();
 
-        $statusReceived = Status::select('id', 'slug')
-            ->where('slug', 'received')
-            ->orWhere('id', 2)
-            ->first();
-
         $track = Track::where('code', $this->trackCode)->first();
 
         if (!$track) {
-            $newTrack = new Track;
-            $newTrack->user_id = null;
-            $newTrack->lang = app()->getLocale();
-            $newTrack->code = $this->trackCode;
-            $newTrack->description = '';
-            $newTrack->save();
-
-            $track = $newTrack;
+            $track = new Track;
+            $track->user_id = null;
+            $track->code = $this->trackCode;
+            $track->description = '';
+            $track->lang = app()->getLocale();
+            $track->status = 0;
+            $track->save();
         }
-
-        if ($track->status >= $statusReceived->id) {
+        elseif ($track->status >= $this->statusReceived->id) {
             $this->addError('trackCode', 'Track '.$this->trackCode.' received');
             $this->trackCode = null;
             return;
@@ -69,12 +68,12 @@ class Reception extends Component
 
         $trackStatus = new TrackStatus();
         $trackStatus->track_id = $track->id;
-        $trackStatus->status_id = $statusReceived->id;
+        $trackStatus->status_id = $this->statusReceived->id;
         $trackStatus->created_at = now();
         $trackStatus->updated_at = now();
         $trackStatus->save();
 
-        $track->status = $statusReceived->id;
+        $track->status = $this->statusReceived->id;
         $track->save();
 
         $this->dispatchBrowserEvent('area-focus');
@@ -82,9 +81,8 @@ class Reception extends Component
 
     public function render()
     {
-        $tracks = Track::query()
-            ->orderByDesc('updated_at')
-            ->where('status', 2)
+        $tracks = Track::orderByDesc('updated_at')
+            ->where('status', $this->statusReceived->id)
             ->when((strlen($this->search) >= 4), function($query) {
                 $query->where('code', 'like', '%'.$this->search.'%');
             })

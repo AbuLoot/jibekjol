@@ -47,8 +47,9 @@
             'added' => null,
             'received' => null,
             'sent' => null,
+            'on-the-border' => null,
+            'on-route' => null,
             'sorted' => null,
-            'waiting' => null,
             'arrived' => null,
             'sent-locally' => null,
             'given' => '<i class="bi bi-person-check-fill"></i>',
@@ -56,7 +57,7 @@
 
           $trackAndRegion = null;
 
-          if (in_array($activeStatus->slug, ['sorted', 'arrived', 'sent-locally', 'given']) OR in_array($activeStatus->id, [4, 5, 6, 7])) {
+          if (in_array($activeStatus->slug, ['sorted', 'arrived', 'sent-locally', 'given']) OR in_array($activeStatus->id, [6, 7, 8, 9])) {
 
             $trackAndRegion = $track->regions->last()->title ?? __('statuses.regions.title');
             $trackAndRegion = '('.$trackAndRegion.', Казахстан)';

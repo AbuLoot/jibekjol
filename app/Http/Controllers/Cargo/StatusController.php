@@ -12,7 +12,7 @@ class StatusController extends Controller
 {
     public function index()
     {
-        $statuses = Status::get();
+        $statuses = Status::orderBy('id')->get();
 
         return view('cargo.statuses.index', compact('statuses'));
     }
@@ -29,6 +29,7 @@ class StatusController extends Controller
         ]);
 
         $status = new Status;
+        $status->sort_id = $request->sort_id;
         $status->slug = (empty($request->slug)) ? Str::slug($request->title) : $request->slug;
         $status->title = $request->title;
         $status->lang = $request->lang;
@@ -51,7 +52,7 @@ class StatusController extends Controller
         ]);
 
         $status = Status::findOrFail($id);
-
+        $status->sort_id = $request->sort_id;
         $status->slug = (empty($request->slug)) ? Str::slug($request->title) : $request->slug;
         $status->title = $request->title;
         $status->lang = $request->lang;

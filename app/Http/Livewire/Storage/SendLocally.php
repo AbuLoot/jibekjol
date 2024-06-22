@@ -10,14 +10,16 @@ use App\Models\Region;
 use App\Models\Track;
 use App\Models\Status;
 use App\Models\TrackStatus;
+use App\Models\Branch;
 
 class SendLocally extends Component
 {
     public $lang;
     public $search;
-    public $status;
     public $region;
+    public $branch;
     public $trackCode;
+    public $statusSentLocally;
 
     public function mount()
     {
@@ -26,9 +28,9 @@ class SendLocally extends Component
         }
 
         $this->lang = app()->getLocale();
-        $this->status = Status::select('id', 'slug')
+        $this->statusSentLocally = Status::select('id', 'sort_id', 'slug')
             ->where('slug', 'sent-locally')
-            ->orWhere('id', 5)
+            ->orWhere('id', 7)
             ->first();
 
         if (!session()->has('jjRegion')) {
@@ -47,24 +49,18 @@ class SendLocally extends Component
     {
         $this->validate(['trackCode' => 'required|string|min:10|max:20']);
 
-        $statusSentLocally = Status::select('id', 'slug')
-            ->where('slug', 'sent-locally')
-            ->orWhere('id', 5)
-            ->first();
-
         $track = Track::where('code', $this->trackCode)->first();
 
         if (!$track) {
-            $newTrack = new Track;
-            $newTrack->lang = $this->lang;
-            $newTrack->code = $this->trackCode;
-            $newTrack->description = '';
-            $newTrack->save();
-
-            $track = $newTrack;
+            $track = new Track;
+            $track->user_id = null;
+            $track->code = $this->trackCode;
+            $track->description = '';
+            $track->lang = app()->getLocale();
+            $track->status = 0;
+            $track->save();
         }
-
-        if ($track->status >= $statusSentLocally->id) {
+        elseif ($track->status >= $this->statusSentLocally->id) {
             $this->addError('trackCode', 'Track '.$this->trackCode.' sent locally');
             $this->trackCode = null;
             return;
@@ -72,13 +68,14 @@ class SendLocally extends Component
 
         $trackStatus = new TrackStatus();
         $trackStatus->track_id = $track->id;
-        $trackStatus->status_id = $statusSentLocally->id;
+        $trackStatus->status_id = $this->statusSentLocally->id;
         $trackStatus->region_id = $this->region->id;
+        $trackStatus->branch_id = $this->branch->id ?? null;
         $trackStatus->created_at = now();
         $trackStatus->updated_at = now();
         $trackStatus->save();
 
-        $track->status = $statusSentLocally->id;
+        $track->status = $this->statusSentLocally->id;
         $track->save();
 
         $this->trackCode = null;
@@ -93,6 +90,12 @@ class SendLocally extends Component
 
         $region = Region::find($id);
         session()->put('jjRegion', $region);
+        $this->branch = null;
+    }
+
+    public function setBranch($id)
+    {
+        $this->branch = Branch::find($id);
     }
 
     public function render()
@@ -100,14 +103,17 @@ class SendLocally extends Component
         $this->region = session()->get('jjRegion');
         $this->setRegionId = session()->get('jjRegion')->id;
 
-        $sentLocallyTracks = Track::query()->where('status', $this->status->id)->orderByDesc('updated_at')->paginate(50);
+        $statusSorted = Status::where('slug', 'sorted')->orWhere('id', 6)->first();
+
+        $sentLocallyTracks = Track::whereIn('status', [$statusSorted->id, $this->statusSentLocally->id])
+            ->orderByDesc('updated_at')
+            ->paginate(50);
 
         $tracks = [];
 
         if (strlen($this->search) >= 4) {
-            $tracks = Track::query()
-                ->orderByDesc('updated_at')
-                ->where('status', $this->status->id)
+            $tracks = Track::orderByDesc('updated_at')
+                ->whereIn('status', [$statusSorted->id, $this->statusSentLocally->id])
                 ->where('code', 'like', '%'.$this->search.'%')
                 ->paginate(10);
         }
@@ -115,6 +121,7 @@ class SendLocally extends Component
         return view('livewire.storage.send-locally', [
                 'tracks' => $tracks,
                 'sentLocallyTracks' => $sentLocallyTracks,
+                'branches' => Branch::where('region_id', $this->setRegionId)->get(),
                 'regions' => Region::descendantsAndSelf(1)->toTree(),
             ])
             ->layout('livewire.storage.layout');

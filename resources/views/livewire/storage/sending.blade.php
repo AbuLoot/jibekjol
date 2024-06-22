@@ -39,7 +39,7 @@
                   <div><b>Description:</b> {{ Str::limit($track->description, 35) }}</div>
                 </div>
                 <div class="col-12 col-lg-4">
-                  <div><b>{{ ucfirst($activeStatus->slug) }} Date:</b> {{ $activeStatus->pivot->created_at }}</div>
+                  <div><b>{{ ucfirst($activeStatus->slug) }} date:</b> {{ $activeStatus->pivot->created_at }}</div>
                   <div><b>Status:</b> {{ __('app.statuses.'.$activeStatus->slug) }}</div>
                 </div>
                 @if($track->user)
@@ -79,9 +79,11 @@
             </div>
           </div>
           <div class="col-2 col-lg-2 text-end">
-            <div class="d-grid">
-              <button  wire:click="btnToSend('{{ $track->code }}')" type="button" wire:loading.attr="disabled" class="btn btn-primary"><i class="bi bi-send"></i> <span class="d-none d-sm-inline">To send</span></button>
-            </div>
+            @if($track->status != $statusSent->id)
+              <div class="d-grid">
+                <button  wire:click="btnToSend('{{ $track->code }}')" type="button" wire:loading.attr="disabled" class="btn btn-primary"><i class="bi bi-send"></i> <span class="d-none d-sm-inline">To send</span></button>
+              </div>
+            @endif
           </div>
         </div>
       </div>
@@ -232,8 +234,11 @@
         @else
           @foreach($sentTracks as $track)
             <div class="track-item mb-2">
-
-              <?php $activeStatus = $track->statuses->last(); ?>
+              <?php
+                $activeStatus = $track->statuses->last();
+                $sortedRegion = $track->regions->last()->title ?? __('statuses.regions.title');
+                $sortedRegion = '('.$sortedRegion.', Казахстан)';
+              ?>
               <div class="border {{ __('statuses.classes.'.$activeStatus->slug.'.card-color') }} rounded-top p-2" data-bs-toggle="collapse" href="#collapse{{ $track->id }}">
                 <div class="row">
                   <div class="col-12 col-lg-6">
@@ -241,7 +246,7 @@
                     <div><b>Description:</b> {{ Str::limit($track->description, 35) }}</div>
                   </div>
                   <div class="col-12 col-lg-6">
-                    <div><b>{{ ucfirst($activeStatus->slug) }} Date:</b> {{ $activeStatus->pivot->created_at }}</div>
+                    <div><b>{{ ucfirst($activeStatus->slug) }} date:</b> {{ $activeStatus->pivot->created_at }}</div>
                     <div><b>Status:</b> {{ __('app.statuses.'.$activeStatus->slug) }}</div>
                   </div>
                   @if($track->user) 

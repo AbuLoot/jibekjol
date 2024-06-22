@@ -70,6 +70,11 @@ class User extends Authenticatable
         return $this->belongsTo('App\Models\Region', 'region_id');
     }
 
+    public function branches()
+    {
+        return $this->hasOne('App\Models\Branch');
+    }
+
     public function tracks()
     {
         return $this->hasMany('App\Models\Track');

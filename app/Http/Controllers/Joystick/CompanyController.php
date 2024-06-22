@@ -34,7 +34,7 @@ class CompanyController extends Controller
         elseif($request->action == 'destroy') {
 
             foreach($request->companies_id as $company_id) {
-                $company = company::find($company_id);
+                $company = Company::find($company_id);
                 $this->authorize('delete', $company);
 
                 if (file_exists('img/companies/'.$company->image) && $company->image != 'no-image-mini.png') {

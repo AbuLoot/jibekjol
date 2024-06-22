@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\App;
 
 // Admin Controllers
 use App\Http\Controllers\Joystick\AdminController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Joystick\AppController;
 
 use App\Http\Controllers\Joystick\ModeController;
 use App\Http\Controllers\Joystick\CompanyController;
+use App\Http\Controllers\Joystick\BranchController;
 use App\Http\Controllers\Joystick\RegionController;
 use App\Http\Controllers\Joystick\UserController;
 use App\Http\Controllers\Joystick\RoleController;
@@ -34,20 +36,21 @@ use App\Http\Livewire\Client\Archive;
 use App\Http\Livewire\Storage\Tracks;
 use App\Http\Livewire\Storage\Reception;
 use App\Http\Livewire\Storage\Sending;
+use App\Http\Livewire\Storage\OnTheBorder;
+use App\Http\Livewire\Storage\OnRoute;
 use App\Http\Livewire\Storage\Sorting;
 use App\Http\Livewire\Storage\SendLocally;
 use App\Http\Livewire\Storage\Arrival;
 use App\Http\Livewire\Storage\Giving;
 
-// use Illuminate\Support\Facades\App;
 
 Route::redirect('/', '/'.app()->getLocale());
+
+App::setLocale(\Request::segment(1));
 
 // Client Livewire Routes
 Route::redirect('client', '/'.app()->getLocale().'/client');
 Route::group(['prefix' => '/{lang}/client', 'middleware' => ['auth']], function () {
-
-    // App::setLocale(\Request::segment(1));
 
     Route::get('/', ClientIndex::class);
     Route::get('tracks', ClientIndex::class);
@@ -58,12 +61,12 @@ Route::group(['prefix' => '/{lang}/client', 'middleware' => ['auth']], function 
 Route::redirect('storage', '/'.app()->getLocale().'/storage');
 Route::group(['prefix' => '/{lang}/storage', 'middleware' => ['auth', 'roles:admin|storekeeper-first|storekeeper-sorter|storekeeper-last']], function () {
 
-    // App::setLocale(\Request::segment(1));
-
     Route::get('tracks', Tracks::class);
     Route::get('/', Reception::class);
     Route::get('reception', Reception::class);
     Route::get('sending', Sending::class);
+    Route::get('on-the-border', OnTheBorder::class);
+    Route::get('on-route', OnRoute::class);
     Route::get('sorting', Sorting::class);
     Route::get('send-locally', SendLocally::class);
     Route::get('arrival', Arrival::class);
@@ -92,6 +95,7 @@ Route::group(['prefix' => '{lang}/admin', 'middleware' => ['auth', 'roles:admin|
 
         // Resources
         'companies' => CompanyController::class,
+        'branches' => BranchController::class,
         'regions' => RegionController::class,
         'users' => UserController::class,
         'roles' => RoleController::class,
@@ -127,7 +131,6 @@ Route::group(['prefix' => '{lang}', 'middleware' => 'auth'], function() {
     Route::put('profile', [ProfileController::class, 'updateProfile']);
     Route::get('profile/password/edit', [ProfileController::class, 'passwordEdit']);
     Route::put('profile/password', [ProfileController::class, 'passwordUpdate']);
-
 });
 
 // Site

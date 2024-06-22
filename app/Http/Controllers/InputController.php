@@ -109,8 +109,6 @@ class InputController extends Controller
             'type_delivery' => 'required|numeric',
         ]);
 
-
-
         $typesDelivery = [
             '1' => 'standart-price',
             '2' => 'express-price',

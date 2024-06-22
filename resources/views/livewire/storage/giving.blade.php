@@ -30,8 +30,14 @@
                   <div><b>Text:</b> {{ $track->text }}</div>
                 </div>
                 <div class="col-12 col-lg-4">
-                  <div><b>{{ ucfirst($activeStatus->slug) }} Date:</b> {{ $activeStatus->pivot->created_at }}</div>
-                  <div><b>Status: <i class="bi bi-person-check-fill"></i></b> {{ __('app.statuses.'.$activeStatus->slug) }} {{ $arrivedRegion }}</div>
+                  <div><b>{{ ucfirst($activeStatus->slug) }} date:</b> {{ $activeStatus->pivot->created_at }}</div>
+                  <div>
+                    <b>Status: <i class="bi bi-person-check-fill"></i></b> {{ __('app.statuses.'.$activeStatus->slug) }} {{ $arrivedRegion }}
+                    @if($track->branches->last()) 
+                      <br>
+                      <b>Branch:</b> {{ $track->branches->last()->title }}
+                    @endif
+                  </div>
                 </div>
                 @if($track->user) 
                   <div class="col-12 col-lg-3">
@@ -51,7 +57,7 @@
                       @if($activeStatus->id == $status->id)
                         <li class="timeline-item mb-2">
                           <span class="timeline-icon bg-success"><i class="bi bi-check text-white"></i></span>
-                          <p class="text-success mb-0">{{ __('app.statuses.'.$status->slug) }}</p>
+                          <p class="text-success mb-0">{{ __('app.statuses.'.$status->slug) }} {{ $arrivedRegion }}</p>
                           <p class="text-success mb-0">{{ $status->pivot->created_at }}</p>
                         </li>
                         @continue
@@ -70,9 +76,11 @@
             </div>
           </div>
           <div class="col-2 col-lg-2 text-end">
-            <div class="d-grid">
-              <button wire:click="btnToGive('{{ $track->code }}')" type="button" wire:loading.attr="disabled" class="btn btn-primary btn-lg-"><i class="bi bi-person-check-fill"></i> <span class="d-none d-sm-inline">To give</span></button>
-            </div>
+            @if($track->status != $statusGiven->id)
+              <div class="d-grid">
+                <button wire:click="btnToGive('{{ $track->code }}')" type="button" wire:loading.attr="disabled" class="btn btn-primary btn-lg-"><i class="bi bi-person-check-fill"></i> <span class="d-none d-sm-inline">To give</span></button>
+              </div>
+            @endif
           </div>
         </div>
       </div>
@@ -174,8 +182,14 @@
                   <div><b>Text:</b> {{ $track->text }}</div>
                 </div>
                 <div class="col-12 col-lg-6">
-                  <div><b>{{ ucfirst($activeStatus->slug) }} Date:</b> {{ $activeStatus->pivot->created_at }}</div>
-                  <div><b>Status: <i class="bi bi-person-check-fill"></i></b> {{ __('app.statuses.'.$activeStatus->slug) }} {{ $arrivedRegion }}</div>
+                  <div><b>{{ ucfirst($activeStatus->slug) }} date:</b> {{ $activeStatus->pivot->created_at }}</div>
+                  <div>
+                    <b>Status: <i class="bi bi-person-check-fill"></i></b> {{ __('app.statuses.'.$activeStatus->slug) }} {{ $arrivedRegion }}
+                    @if($track->branches->last()) 
+                      <br>
+                      <b>Branch:</b> {{ $track->branches->last()->title }}
+                    @endif
+                  </div>
                 </div>
                 @if($track->user)
                   <div class="col-12 col-lg-12">
