@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Storage;
 
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Rap2hpoutre\FastExcel\FastExcel;
 
 use App\Models\Region;
@@ -14,6 +15,10 @@ use App\Models\Branch;
 
 class SendLocally extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
     public $lang;
     public $search;
     public $region;

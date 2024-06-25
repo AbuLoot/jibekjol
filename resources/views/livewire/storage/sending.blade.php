@@ -135,15 +135,15 @@
 
             // Grouped by date
             $todayGroup         = $allReceivedTracks->where('updated_at', '>', $yesterday.' 23:59:59')->where('updated_at', '<=', now());
-            $yesterdayGroup     = $allReceivedTracks->where('updated_at', '>=', $yesterday)->where('updated_at', '<', $today);
-            $twoDaysAgoGroup    = $allReceivedTracks->where('updated_at', '>', $twoDaysAgo)->where('updated_at', '<', $yesterday);
-            $threeDaysAgoGroup  = $allReceivedTracks->where('updated_at', '>', $threeDaysAgo)->where('updated_at', '<', $twoDaysAgo);
-            $fourDaysAgoGroup   = $allReceivedTracks->where('updated_at', '>', $fourDaysAgo)->where('updated_at', '<', $threeDaysAgo);
-            $fiveDaysAgoGroup   = $allReceivedTracks->where('updated_at', '>', $fiveDaysAgo)->where('updated_at', '<', $fourDaysAgo);
-            $sixDaysAgoGroup    = $allReceivedTracks->where('updated_at', '>', $sixDaysAgo)->where('updated_at', '<', $fiveDaysAgo);
-            $previousWeekGroup  = $allReceivedTracks->where('updated_at', '>', $previousWeek)->where('updated_at', '<', $sixDaysAgo);
-            $twoWeekAgoGroup    = $allReceivedTracks->where('updated_at', '>', $twoWeekAgo)->where('updated_at', '<', $previousWeek);
-            $prevTimeGroup      = $allReceivedTracks->where('updated_at', '<', $twoWeekAgo);
+            $yesterdayGroup     = $allReceivedTracks->where('updated_at', '>=', $yesterday.' 23:59:59')->where('updated_at', '<', $today.' 23:59:59');
+            $twoDaysAgoGroup    = $allReceivedTracks->where('updated_at', '>', $twoDaysAgo.' 23:59:59')->where('updated_at', '<', $yesterday.' 23:59:59');
+            $threeDaysAgoGroup  = $allReceivedTracks->where('updated_at', '>', $threeDaysAgo.' 23:59:59')->where('updated_at', '<', $twoDaysAgo.' 23:59:59');
+            $fourDaysAgoGroup   = $allReceivedTracks->where('updated_at', '>', $fourDaysAgo.' 23:59:59')->where('updated_at', '<', $threeDaysAgo.' 23:59:59');
+            $fiveDaysAgoGroup   = $allReceivedTracks->where('updated_at', '>', $fiveDaysAgo.' 23:59:59')->where('updated_at', '<', $fourDaysAgo.' 23:59:59');
+            $sixDaysAgoGroup    = $allReceivedTracks->where('updated_at', '>', $sixDaysAgo.' 23:59:59')->where('updated_at', '<', $fiveDaysAgo.' 23:59:59');
+            $previousWeekGroup  = $allReceivedTracks->where('updated_at', '>', $previousWeek.' 23:59:59')->where('updated_at', '<', $sixDaysAgo.' 23:59:59');
+            $twoWeekAgoGroup    = $allReceivedTracks->where('updated_at', '>', $twoWeekAgo.' 23:59:59')->where('updated_at', '<', $previousWeek.' 23:59:59');
+            $prevTimeGroup      = $allReceivedTracks->where('updated_at', '<', $twoWeekAgo.' 23:59:59');
 
             $allTracksGroups = [
               'today' => [

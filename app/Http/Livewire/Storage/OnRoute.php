@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Storage;
 
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 use App\Models\Track;
 use App\Models\Status;
@@ -11,6 +12,10 @@ use App\Models\TrackStatus;
 
 class OnRoute extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
     public $lang;
     public $search;
     public $mode = 'group';
@@ -108,7 +113,6 @@ class OnRoute extends Component
     public function onRoute()
     {
         $this->validate();
-
 
         $track = Track::where('code', $this->trackCode)->first();
 

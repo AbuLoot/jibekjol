@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Storage;
 
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 use App\Models\User;
 use App\Models\Region;
@@ -13,6 +14,10 @@ use App\Models\TrackStatus;
 
 class Giving extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
     public $lang;
     public $search;
     public $statusGiven;

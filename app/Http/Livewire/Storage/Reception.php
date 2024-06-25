@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 use Rap2hpoutre\FastExcel\FastExcel;
 
@@ -15,7 +16,10 @@ use App\Models\TrackStatus;
 
 class Reception extends Component
 {
+    use WithPagination;
     use WithFileUploads;
+
+    protected $paginationTheme = 'bootstrap';
 
     public $lang;
     public $search;

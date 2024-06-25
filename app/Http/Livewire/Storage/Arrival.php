@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Storage;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 use App\Models\User;
 use App\Models\Region;
@@ -17,6 +18,10 @@ use App\Jobs\SendMailNotification;
 
 class Arrival extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
     public $lang;
     public $mode = 'list';
     public $search;

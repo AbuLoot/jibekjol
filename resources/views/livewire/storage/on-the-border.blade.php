@@ -123,16 +123,15 @@
           <?php
 
             // Dates
-            $now          = now();
-            $today        = $now->copy()->format('Y-m-d');
-            $yesterday    = $now->copy()->subDay(1)->format('Y-m-d');
-            $twoDaysAgo   = $now->copy()->subDay(2)->format('Y-m-d');
-            $threeDaysAgo = $now->copy()->subDay(3)->format('Y-m-d');
-            $fourDaysAgo  = $now->copy()->subDay(4)->format('Y-m-d');
-            $fiveDaysAgo  = $now->copy()->subDay(5)->format('Y-m-d');
-            $sixDaysAgo   = $now->copy()->subDay(6)->format('Y-m-d');
-            $previousWeek = $now->copy()->startOfWeek()->subWeek(2)->format('Y-m-d');
-            $twoWeekAgo   = $now->copy()->startOfWeek()->subWeek(3)->format('Y-m-d');
+            $today        = now()->format('Y-m-d');
+            $yesterday    = now()->subDay(1)->format('Y-m-d');
+            $twoDaysAgo   = now()->subDay(2)->format('Y-m-d');
+            $threeDaysAgo = now()->subDay(3)->format('Y-m-d');
+            $fourDaysAgo  = now()->subDay(4)->format('Y-m-d');
+            $fiveDaysAgo  = now()->subDay(5)->format('Y-m-d');
+            $sixDaysAgo   = now()->subDay(6)->format('Y-m-d');
+            $previousWeek = now()->startOfWeek()->subWeek(2)->format('Y-m-d');
+            $twoWeekAgo   = now()->startOfWeek()->subWeek(3)->format('Y-m-d');
 
             // Grouped by date
             $todayGroup         = $allSentTracks->where('updated_at', '>', $yesterday.' 23:59:59')->where('updated_at', '<=', now());
