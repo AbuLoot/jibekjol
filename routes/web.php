@@ -43,10 +43,9 @@ use App\Http\Livewire\Storage\SendLocally;
 use App\Http\Livewire\Storage\Arrival;
 use App\Http\Livewire\Storage\Giving;
 
-
 Route::redirect('/', '/'.app()->getLocale());
 
-App::setLocale(\Request::segment(1));
+app()->setLocale(\Request::segment(1));
 
 // Client Livewire Routes
 Route::redirect('client', '/'.app()->getLocale().'/client');
@@ -73,8 +72,6 @@ Route::group(['prefix' => '/{lang}/storage', 'middleware' => ['auth', 'roles:adm
     Route::get('giving', Giving::class);
 });
 
-// Joystick Administration
-Route::redirect('admin', '/'.app()->getLocale().'/admin');
 Route::group(['prefix' => '{lang}/admin', 'middleware' => ['auth', 'roles:admin|manager|partner']], function () {
 
     Route::get('/', [AdminController::class, 'index']);
@@ -122,6 +119,9 @@ Route::group(['prefix' => '{lang}/admin', 'middleware' => ['auth', 'roles:admin|
     Route::get('users/password/{id}/edit', [UserController::class, 'passwordEdit']);
     Route::put('users/password/{id}', [UserController::class, 'passwordUpdate']);
 });
+
+// Joystick Administration
+Route::redirect('admin', '/'.app()->getLocale().'/admin');
 
 // User Profile
 Route::group(['prefix' => '{lang}', 'middleware' => 'auth'], function() {

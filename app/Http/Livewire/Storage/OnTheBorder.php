@@ -3,12 +3,15 @@
 namespace App\Http\Livewire\Storage;
 
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 use App\Models\Track;
 use App\Models\Status;
 use App\Models\TrackStatus;
+
+use App\Mail\TrackOnTheBorder;
 
 class OnTheBorder extends Component
 {
@@ -145,6 +148,8 @@ class OnTheBorder extends Component
 
         $track->status = $statusOnTheBorder->id;
         $track->save();
+
+        Mail::to('issayev.adilet@gmail.com')->send(new TrackOnTheBorder($track));
 
         $this->trackCode = null;
         $this->dispatchBrowserEvent('area-focus');
