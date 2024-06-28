@@ -7,7 +7,7 @@
 </head>
 <body>
 
-  <h2>Уважаемый {{ $user->name.' '.$user->surname }}.</h2>
+  <h2>Уважаемый {{ $userTrack->name.' '.$userTrack->lastname }}.</h2>
   <h3>Ваша посылка под трек-кодом: {{ $track->code }}, уже на границе Китая и Казахстана.</h3>
   <h4>Дата: <?php echo date('Y-m-d'); ?></h4><br>
   <h4>Время: <?php echo date('G:i'); ?></h4>

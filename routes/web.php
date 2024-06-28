@@ -43,7 +43,7 @@ use App\Http\Livewire\Storage\SendLocally;
 use App\Http\Livewire\Storage\Arrival;
 use App\Http\Livewire\Storage\Giving;
 
-Route::redirect('/', '/'.app()->getLocale());
+Route::redirect('/', '/ru');
 
 app()->setLocale(\Request::segment(1));
 

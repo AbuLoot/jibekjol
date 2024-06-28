@@ -24,10 +24,10 @@ class TrackOnTheBorder extends Mailable
      *
      * @return void
      */
-    public function __construct(Track $track, User $user)
+    public function __construct(Track $track)
     {
         $this->track = $track;
-        $this->user = $user;
+        $this->userTrack = User::find($this->track->user_id);
     }
 
     /**
