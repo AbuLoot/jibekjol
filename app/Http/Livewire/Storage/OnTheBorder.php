@@ -149,7 +149,7 @@ class OnTheBorder extends Component
         $track->status = $statusOnTheBorder->id;
         $track->save();
 
-        Mail::to('issayev.adilet@gmail.com')->send(new TrackOnTheBorder($track));
+        Mail::to('issa.adilet@gmail.com')->send(new TrackOnTheBorder($track));
 
         $this->trackCode = null;
         $this->dispatchBrowserEvent('area-focus');
