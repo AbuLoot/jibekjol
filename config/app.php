@@ -168,7 +168,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
-        \FlexFlux\LaravelElasticEmail\LaravelElasticEmailServiceProvider::class,
+        FlexFlux\LaravelElasticEmail\LaravelElasticEmailServiceProvider::class,
 
         /*
          * Application Service Providers...
