@@ -16,7 +16,9 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "livewire/livewire": "^2.10",
+        "nyholm/psr7": "^1.8",
         "picqer/php-barcode-generator": "^2.2",
+        "railsware/mailtrap-php": "^1.9",
         "rap2hpoutre/fast-excel": "^5.1",
         "symfony/http-client": "^7.1",
         "symfony/mailgun-mailer": "^7.1",
@@ -66,7 +68,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": false
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true

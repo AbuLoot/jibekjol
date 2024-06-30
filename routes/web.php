@@ -46,6 +46,14 @@ Route::redirect('/', '/ru');
 
 app()->setLocale(\Request::segment(1));
 
+Route::get('test/{code}', function($code) {
+
+        $track = \App\Models\Track::where('code', $code)->first();
+
+        return new \App\Mail\TrackOnTheBorder($track);
+
+});
+
 // Client Livewire Routes
 Route::redirect('client', '/'.app()->getLocale().'/client');
 Route::group(['prefix' => '/{lang}/client', 'middleware' => ['auth']], function () {
