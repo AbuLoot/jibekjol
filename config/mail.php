@@ -44,11 +44,6 @@ return [
             'auth_mode' => null,
         ],
 
-        'elastic_email' => [
-            'transport' => 'elastic_email',
-            'key' => env('ELASTIC_KEY')
-        ],
-
         'ses' => [
             'transport' => 'ses',
         ],
