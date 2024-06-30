@@ -7,6 +7,7 @@
     "require": {
         "php": "^7.3|^8.0",
         "alexusmai/laravel-file-manager": "^3.0",
+        "flexflux/laravel-elastic-email": "^2.1",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.5",
         "intervention/image": "^2.7",

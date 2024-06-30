@@ -149,10 +149,8 @@ class OnTheBorder extends Component
         $track->status = $statusOnTheBorder->id;
         $track->save();
 
-        $user = User::find($track->user_id);
-
-        if ($user->email) {
-            Mail::to($user->email)->send(new TrackOnTheBorder($track));
+        if ($track->user->email) {
+            Mail::to($track->user->email)->send(new TrackOnTheBorder($track));
         }
 
         $this->trackCode = null;
