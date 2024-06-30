@@ -1,12 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Mail;
-
-use App\Mail\TrackOnTheBorder;
-use App\Models\Track;
-use App\Models\User;
 
 // Admin Controllers
 use App\Http\Controllers\Joystick\AdminController;
@@ -51,19 +45,6 @@ use App\Http\Livewire\Storage\Giving;
 Route::redirect('/', '/ru');
 
 app()->setLocale(\Request::segment(1));
-
-Route::get('test/{code}', function($code) {
-
-    $track = Track::where('code', $code)->first();
-
-    $user = User::find($track->user_id);
-
-    if (Mail::to($user)->send(new TrackOnTheBorder($track))) {
-        echo 'Jaiid';
-    } else {
-        echo 'Ajiib';
-    }
-});
 
 // Client Livewire Routes
 Route::redirect('client', '/'.app()->getLocale().'/client');
