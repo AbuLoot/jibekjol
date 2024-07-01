@@ -21,7 +21,6 @@
         "railsware/mailtrap-php": "^1.9",
         "rap2hpoutre/fast-excel": "^5.1",
         "symfony/http-client": "^7.1",
-        "symfony/mailgun-mailer": "^7.1",
         "teamtnt/laravel-scout-tntsearch-driver": "^12.1"
     },
     "require-dev": {

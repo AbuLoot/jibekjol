@@ -17,13 +17,12 @@ class Localization
      */
     public function handle(Request $request, Closure $next)
     {
-        $locale = $request->segment(1) ?? null;
+        $locale = (in_array($request->segment(1), ['kz', 'ru', 'en']))
+            ? $request->segment(1)
+            : app()->getLocale();
 
-        if (in_array($locale, ['kz', 'ru', 'en'])) {
-
-            app()->setLocale($locale);
-            URL::defaults(['locale' => $locale]);
-        }
+        app()->setLocale($locale);
+        URL::defaults(['locale' => $locale]);
 
         return $next($request);
     }

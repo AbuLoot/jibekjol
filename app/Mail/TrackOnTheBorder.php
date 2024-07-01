@@ -23,12 +23,28 @@ class TrackOnTheBorder extends Mailable
     /**
      * Create a new message instance.
      *
+     * @param \App\Models\Track $track
      * @return void
      */
-    public function __construct($track)
+    public function __construct(Track $track)
     {
         $this->track = $track;
         $this->userTrack = User::find($this->track->user_id);
+    }
+
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        return $this->from('info@jibekjol.kz', 'Serv Jibekjol')
+                    ->view('mail.track-on-the-border')
+                    ->with([
+                        'track' => $this->track,
+                        'userTrack' => $this->userTrack,
+                    ]);
     }
 
     /**
@@ -39,7 +55,6 @@ class TrackOnTheBorder extends Mailable
     public function envelope()
     {
         return new Envelope(
-            from: new Address('info@jibekjol.kz', 'Serv Jibekjol'),
             subject: 'Track On The Border',
         );
     }

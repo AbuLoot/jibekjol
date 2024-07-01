@@ -116,9 +116,9 @@
           <div class="col-2 col-lg-1 text-end">
             <button wire:click="editTrack({{ $track->id }})" type="button" class="btn btn-outline-primary mb-1"><i class="bi bi-pen"></i></button>
             @if($track->status == 1)
-              <button onclick="return confirm('{{ __('app.delete_entry') }}') || event.stopImmediatePropagation()" wire:click="deleteTrack({{ $track->id }})" type="button" class="btn btn-outline-dark"><i class="bi bi-x-lg"></i></button>
+            <button onclick="return confirm('{{ __('app.delete_entry') }}') || event.stopImmediatePropagation()" wire:click="deleteTrack({{ $track->id }})" type="button" class="btn btn-outline-dark"><i class="bi bi-x-lg"></i></button>
             @else
-              <button wire:click="archiveTrack({{ $track->id }})" type="button" class="btn btn-outline-dark"><i class="bi bi-archive"></i></button>
+            <button wire:click="archiveTrack({{ $track->id }})" type="button" class="btn btn-outline-dark"><i class="bi bi-archive"></i></button>
             @endif
           </div>
         </div>
