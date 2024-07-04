@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\Track;
 use App\Models\User;
 
-class TrackOnTheBorder extends Mailable
+class TrackSorted extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -42,12 +42,12 @@ class TrackOnTheBorder extends Mailable
     {
         if (count($this->tracks) > 1) {
             return new Envelope(
-                subject: __('app.in_plural.your_parcels').' '.__('app.in_plural.on-the-border'),
+                subject: __('app.in_plural.your_parcels').' '.__('app.in_plural.sorted'),
             );
         }
         else {
             return new Envelope(
-                subject: __('app.your_parcel').' '.__('app.statuses.on-the-border'),
+                subject: __('app.your_parcel').' '.__('app.statuses.sorted'),
             );
         }
     }
@@ -60,7 +60,7 @@ class TrackOnTheBorder extends Mailable
     public function content()
     {
         return new Content(
-            view: 'mail.tracks-on-the-border',
+            view: 'mail.tracks-sorted',
             with: [
                 'user' => $this->user,
                 'tracks' => $this->tracks,

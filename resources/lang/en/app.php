@@ -47,6 +47,7 @@ return [
     'name' => 'Name',
     'surname' => 'Surname',
     'phone' => 'Phone number',
+    'language' => 'Language',
     'select_a_city' => 'Select a city...',
     'region' => 'Region',
     'address' => 'Address',
@@ -74,7 +75,7 @@ return [
     'delete_entry' => 'Delete the entry?',
     'change_password' => 'Change password',
     'old_password' => 'Old Password',
-    'back' => 'Back', 
+    'back' => 'Back',
 
     'statuses' => [
         'all' => 'All',
@@ -85,7 +86,23 @@ return [
         'sent' => 'Sent to destination country',
         'sorted' => 'At the sorting center',
         'sent-locally' => 'Sent to region',
-        'arrived' => 'Arrived at destination country',
+        'arrived' => 'Arrived at destination region',
         'given' => 'Given to user',
+    ],
+
+    // Email
+    'time' => 'Time',
+    'dear_client' => 'Dear :fullname, your parcel are already',
+    'your_track' => 'Your track-code',
+    'your_parcel' => 'Your parcel',
+    'info_track' => 'Parcel information',
+    'in_plural' => [
+        'dear_client' => 'Dear :fullname, your parcels are already',
+        'your_tracks' => 'Your track-codes',
+        'your_parcels' => 'Your parcels',
+        'info_tracks' => 'Parcel information',
+        'on-the-border' => 'on the border of China and Kazakhstan',
+        'sorted' => 'at the sorting center',
+        'arrived' => 'arrived at destination region',
     ],
 ];

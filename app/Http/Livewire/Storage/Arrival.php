@@ -13,8 +13,8 @@ use App\Models\Track;
 use App\Models\Status;
 use App\Models\TrackStatus;
 
+use App\Mail\TrackArrived;
 use App\Jobs\SendMailNotification;
-// use App\Mail\SendMailNotification;
 
 class Arrival extends Component
 {
@@ -90,7 +90,10 @@ class Arrival extends Component
 
         foreach($tracks as $track) {
             $tracksStatus[] = [
-                'track_id' => $track->id, 'status_id' => $this->statusArrived->id, 'created_at' => now(), 'updated_at' => now(),
+                'track_id' => $track->id,
+                'status_id' => $this->statusArrived->id,
+                'created_at' => now(),
+                'updated_at' => now(),
             ];
 
             if (isset($track->user->email) && !in_array($track->user->email, $tracksUsers)) {
@@ -103,10 +106,12 @@ class Arrival extends Component
         // Updating Track Status
         Track::whereIn('id', $ids)->update(['status' => $this->statusArrived->id]);
 
-        SendMailNotification::dispatch($tracksUsers);
-        // foreach($tracksUsers as $emailUser) {
+        // SendMailNotification::dispatch($tracksUsers);
+        foreach($tracksUsers as $emailUser) {
+            app()->setlocale($track->user->lang);
             // Mail::to($emailUser)->send(new SendMailNotification());
-        // }
+            Mail::to($emailUser)->send(new TrackOnTheBorder($track));
+        }
     }
 
     public function btnToArrive($trackCode)
@@ -153,8 +158,8 @@ class Arrival extends Component
         $track->save();
 
         if (isset($track->user->email)) {
-            SendMailNotification::dispatch($track->user->email);
-            // Mail::to($track->user->email)->send(new SendMailNotification());
+            app()->setlocale($track->user->lang);
+            Mail::to($track->user->email)->send(new TrackArrived($track->user, [$track]));
         }
 
         $this->trackCode = null;

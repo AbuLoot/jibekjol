@@ -42,7 +42,6 @@
               if (in_array($activeStatus->slug, ['sorted', 'arrived', 'sent-locally', 'given']) OR in_array($activeStatus->id, [4, 5, 6, 7])) {
 
                 $trackAndRegion = $track->regions->last()->title ?? __('statuses.regions.title');
-                $trackAndRegion = '('.$trackAndRegion.', Казахстан)';
               }
             ?>
             <div class="border {{ __('statuses.classes.'.$activeStatus->slug.'.card-color') }} rounded-top p-2" data-bs-toggle="collapse" href="#collapse{{ $track->id }}">

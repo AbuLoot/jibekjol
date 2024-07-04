@@ -10,8 +10,8 @@ use Livewire\WithPagination;
 use App\Models\Track;
 use App\Models\Status;
 use App\Models\TrackStatus;
-
 use App\Mail\TrackOnTheBorder;
+
 
 class OnTheBorder extends Component
 {
@@ -89,21 +89,33 @@ class OnTheBorder extends Component
 
         // Creating Track Status
         $tracksStatus = [];
-        $statusOnTheBorderId = $this->statusOnTheBorder->id;
+        $tracksByUser = [];
 
-        $tracks->each(function ($track) use (&$tracksStatus, $statusOnTheBorderId) {
+        foreach($tracks as $track) {
             $tracksStatus[] = [
                 'track_id' => $track->id,
-                'status_id' => $statusOnTheBorderId,
+                'status_id' => $this->statusOnTheBorder->id,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
-        });
+
+            // if (isset($track->user->email) && !in_array($track->user->email, $tracksUsers)) {
+            //     $tracksUsers[] = $track->user->email;
+            // }
+
+            $tracksByUser[$track->user_id][] = $track;
+        }
 
         TrackStatus::insert($tracksStatus);
 
         // Updating Track Status
         Track::whereIn('id', $ids)->update(['status' => $this->statusOnTheBorder->id]);
+
+        foreach ($tracksByUser as $userId => $tracks) {
+            if (is_numeric($userId)) {
+                Mail::to($tracks[0]->user->email)->send(new TrackOnTheBorder($tracks[0]->user, $tracks));
+            }
+        }
     }
 
     public function btnToMark($trackCode)
@@ -150,7 +162,8 @@ class OnTheBorder extends Component
         $track->save();
 
         if (isset($track->user->email)) {
-            Mail::to($track->user->email)->send(new TrackOnTheBorder($track));
+            app()->setlocale($track->user->lang);
+            Mail::to($track->user->email)->send(new TrackOnTheBorder($track->user, [$track]));
         }
 
         $this->trackCode = null;

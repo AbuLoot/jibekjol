@@ -237,7 +237,6 @@
               <?php
                 $activeStatus = $track->statuses->last();
                 $sortedRegion = $track->regions->last()->title ?? __('statuses.regions.title');
-                $sortedRegion = '('.$sortedRegion.', Казахстан)';
               ?>
               <div class="border {{ __('statuses.classes.'.$activeStatus->slug.'.card-color') }} rounded-top p-2" data-bs-toggle="collapse" href="#collapse{{ $track->id }}">
                 <div class="row">

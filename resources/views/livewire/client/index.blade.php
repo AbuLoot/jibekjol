@@ -60,7 +60,6 @@
           if (in_array($activeStatus->slug, ['sorted', 'arrived', 'sent-locally', 'given']) OR in_array($activeStatus->id, [6, 7, 8, 9])) {
 
             $trackAndRegion = $track->regions->last()->title ?? __('statuses.regions.title');
-            $trackAndRegion = '('.$trackAndRegion.', Казахстан)';
           }
         ?>
         <div class="row gx-2">

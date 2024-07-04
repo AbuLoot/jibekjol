@@ -5,6 +5,6 @@
 @section('message', __('Page Expired'))
 @section('link')
 	<div class="mt-3">
-		<a class="btn btn-outline-primary btn-lg" href="{{ url('/login') }}">Страница входа</a>
+		<a class="btn btn-outline-primary btn-lg" href="{{ url(app()->getLocale().'/login') }}">Страница входа</a>
 	</div>
 @endsection

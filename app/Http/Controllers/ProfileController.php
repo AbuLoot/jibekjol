@@ -13,6 +13,7 @@ use Str;
 use App\Models\User;
 use App\Models\Region;
 use App\Models\Country;
+use App\Models\Language;
 use App\Http\Requests;
 
 class ProfileController extends Controller
@@ -20,18 +21,21 @@ class ProfileController extends Controller
     public function profile()
     {
         $user = Auth::user();
-        return view('account.profile', compact('user'));
+        $language = Language::where('slug', $user->lang)->first();
+
+        return view('account.profile', compact('user', 'language'));
     }
 
     public function editProfile()
     {
         $user = Auth::user();
         $regions = Region::orderBy('sort_id')->get()->toTree();
+        $languages = Language::orderBy('sort_id')->get();
 
         // $date = [];
         // list($date['year'], $date['month'], $date['day']) = explode('-', $user->profile->birthday);
 
-        return view('account.profile-edit', compact('user', 'regions'));
+        return view('account.profile-edit', compact('user', 'regions', 'languages'));
     }
 
     public function updateProfile(Request $request)
@@ -56,6 +60,7 @@ class ProfileController extends Controller
         $user->region_id = $request->region_id;
         $user->address = $request->address;
         // $user->id_name = $request->id_name;
+        $user->lang = $request->lang;
         $user->save();
 
         // $user->profile->birthday = $request->birthday;

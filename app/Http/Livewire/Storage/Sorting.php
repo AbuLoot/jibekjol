@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Storage;
 
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -10,6 +11,7 @@ use App\Models\Region;
 use App\Models\Track;
 use App\Models\Status;
 use App\Models\TrackStatus;
+use App\Mail\TrackSorted;
 
 class Sorting extends Component
 {
@@ -87,6 +89,11 @@ class Sorting extends Component
 
         $track->status = $this->statusSorted->id;
         $track->save();
+
+        if (isset($track->user->email)) {
+            app()->setlocale($track->user->lang);
+            Mail::to($track->user->email)->send(new TrackSorted($track->user, [$track]));
+        }
 
         $this->trackCode = null;
         $this->dispatchBrowserEvent('area-focus');

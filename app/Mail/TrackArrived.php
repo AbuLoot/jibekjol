@@ -9,18 +9,28 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class TestMail extends Mailable
+use App\Models\Track;
+use App\Models\User;
+
+class TrackArrived extends Mailable
 {
     use Queueable, SerializesModels;
+
+    public $user;
+    public $track;
+    public $tracks;
 
     /**
      * Create a new message instance.
      *
+     * @param \App\Models\User $user
+     * @param \App\Models\Track $tracks
      * @return void
      */
-    public function __construct()
+    public function __construct($user, $tracks)
     {
-        //
+        $this->user = $user;
+        $this->tracks = $tracks;
     }
 
     /**
@@ -30,9 +40,16 @@ class TestMail extends Mailable
      */
     public function envelope()
     {
-        return new Envelope(
-            subject: 'Test Mail',
-        );
+        if (count($this->tracks) > 1) {
+            return new Envelope(
+                subject: __('app.in_plural.your_parcels').' '.__('app.in_plural.arrived'),
+            );
+        }
+        else {
+            return new Envelope(
+                subject: __('app.your_parcel').' '.__('app.statuses.arrived'),
+            );
+        }
     }
 
     /**
@@ -43,7 +60,11 @@ class TestMail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'mail.tracks-arrived',
+            with: [
+                'user' => $this->user,
+                'tracks' => $this->tracks,
+            ]
         );
     }
 

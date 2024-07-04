@@ -46,11 +46,11 @@ Route::redirect('/', '/ru');
 
 app()->setLocale(\Request::segment(1));
 
-Route::get('test/{code}', function($code) {
+Route::get('{lang}/test/{id}', function($lang, $id) {
 
-        $track = \App\Models\Track::where('code', $code)->first();
+    $tracks = \App\Models\Track::where('user_id', $id)->get();
 
-        return new \App\Mail\TrackOnTheBorder($track);
+    return new \App\Mail\TrackArrived($tracks[0]->user, $tracks);
 
 });
 

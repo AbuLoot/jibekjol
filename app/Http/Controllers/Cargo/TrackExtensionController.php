@@ -6,12 +6,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 use Rap2hpoutre\FastExcel\FastExcel;
 
 use App\Models\Status;
 use App\Models\Track;
 use App\Models\TrackStatus;
+use App\Mail\TrackOnTheBorder;
+use App\Mail\TrackSorted;
+use App\Mail\TrackArrived;
 
 class TrackExtensionController extends Controller
 {
@@ -239,12 +243,13 @@ class TrackExtensionController extends Controller
 
         $notOnTheBorderTracks = $existentTracks->where('status', '<', $statusOnTheBorder->id);
         $notOnTheBorderTracksStatus = [];
+        $notOnTheBorderTracksByUser = [];
 
         $onTheBorderTracks = $existentTracks->where('status', '>=', $statusOnTheBorder->id);
 
         $region = session()->get('jjRegion');
 
-        $notOnTheBorderTracks->each(function ($item, $key) use (&$notOnTheBorderTracksStatus, $statusOnTheBorder, $region) {
+        $notOnTheBorderTracks->each(function ($item, $key) use (&$notOnTheBorderTracksStatus, &$notOnTheBorderTracksByUser, $statusOnTheBorder, $region) {
             $notOnTheBorderTracksStatus[] = [
                 'track_id' => $item->id,
                 'status_id' => $statusOnTheBorder->id,
@@ -252,6 +257,8 @@ class TrackExtensionController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
+
+            $notOnTheBorderTracksByUser[$item->user_id][] = $item;
         });
 
         // Update Unarrived Tracks
@@ -262,6 +269,13 @@ class TrackExtensionController extends Controller
         $nonexistentTracks = collect($trackCodes)->diff($allOnTheBorderTracks->pluck('code'));
 
         $this->createTracksAndStatuses($nonexistentTracks, $statusOnTheBorder->id);
+
+        foreach ($notOnTheBorderTracksByUser as $userId => $tracks) {
+            if (is_numeric($userId)) {
+                app()->setlocale($tracks[0]->user->lang);
+                Mail::to($tracks[0]->user->email)->send(new TrackOnTheBorder($tracks[0]->user, $tracks));
+            }
+        }
 
         return [
             'totalTracksCount' => $trackCodes->count(),
@@ -329,12 +343,13 @@ class TrackExtensionController extends Controller
 
         $unsortedTracks = $existentTracks->where('status', '<', $statusSorted->id);
         $unsortedTracksStatus = [];
+        $unsortedTracksByUser = [];
 
         $arrivedTracks = $existentTracks->where('status', '>=', $statusSorted->id);
 
         $region = session()->get('jjRegion');
 
-        $unsortedTracks->each(function ($item, $key) use (&$unsortedTracksStatus, $statusSorted, $region) {
+        $unsortedTracks->each(function ($item, $key) use (&$unsortedTracksStatus, &$unsortedTracksByUser, $statusSorted, $region) {
             $unsortedTracksStatus[] = [
                 'track_id' => $item->id,
                 'status_id' => $statusSorted->id,
@@ -342,6 +357,8 @@ class TrackExtensionController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
+
+            $unsortedTracksByUser[$item->user_id][] = $item;
         });
 
         // Update Unarrived Tracks
@@ -352,6 +369,13 @@ class TrackExtensionController extends Controller
         $nonexistentTracks = collect($trackCodes)->diff($allArrivedTracks->pluck('code'));
 
         $this->createTracksAndStatuses($nonexistentTracks, $statusSorted->id, $region->id);
+
+        foreach ($unsortedTracksByUser as $userId => $tracks) {
+            if (is_numeric($userId)) {
+                app()->setlocale($tracks[0]->user->lang);
+                Mail::to($tracks[0]->user->email)->send(new TrackSorted($tracks[0]->user, $tracks));
+            }
+        }
 
         return [
             'totalTracksCount' => $trackCodes->count(),
@@ -420,12 +444,13 @@ class TrackExtensionController extends Controller
 
         $unarrivedTracks = $existentTracks->where('status', '<', $statusArrived->id);
         $unarrivedTracksStatus = [];
+        $unarrivedTracksByUser = [];
 
         $arrivedTracks = $existentTracks->where('status', '>=', $statusArrived->id);
 
         $region = session()->get('jjRegion');
 
-        $unarrivedTracks->each(function ($item, $key) use (&$unarrivedTracksStatus, $statusArrived, $region) {
+        $unarrivedTracks->each(function ($item, $key) use (&$unarrivedTracksStatus, &$unarrivedTracksByUser, $statusArrived, $region) {
             $unarrivedTracksStatus[] = [
                 'track_id' => $item->id,
                 'status_id' => $statusArrived->id,
@@ -433,6 +458,8 @@ class TrackExtensionController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
+
+            $unarrivedTracksByUser[$item->user_id][] = $item;
         });
 
         // Update Unarrived Tracks
@@ -443,6 +470,13 @@ class TrackExtensionController extends Controller
         $nonexistentTracks = collect($trackCodes)->diff($allArrivedTracks->pluck('code'));
 
         $this->createTracksAndStatuses($nonexistentTracks, $statusArrived->id, $region->id);
+
+        foreach ($unarrivedTracksByUser as $userId => $tracks) {
+            if (is_numeric($userId)) {
+                app()->setlocale($tracks[0]->user->lang);
+                Mail::to($tracks[0]->user->email)->send(new TrackArrived($tracks[0]->user, $tracks));
+            }
+        }
 
         return [
             'totalTracksCount' => $trackCodes->count(),

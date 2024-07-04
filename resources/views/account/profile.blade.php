@@ -31,6 +31,10 @@
               <th>ID client</th>
               <td>{{ $user->id_client }}</td>
             </tr>
+            <tr>
+              <th>{{ __('app.language') }}</th>
+              <td>{{ $language->title }}</td>
+            </tr>
           </tbody>
         </table>
         <a href="/{{ $lang }}/profile/edit" class="btn btn-primary btn-lg">{{ __('app.change_password') }}</a>
