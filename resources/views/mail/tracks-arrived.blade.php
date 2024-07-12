@@ -19,8 +19,9 @@
   </style>
 </head>
 <body>
+
   <br>
-  <img src="/img/email-logo-0.png" width="160" height="42" alt="Jibekjol Company" style="display:block; margin: 0 auto;">
+  <img src="https://jibekjol.kz/img/email-logo-0.png" width="160" height="42" alt="Jibekjol Company" style="display:block; margin: 0 auto;">
 
   @if(count($tracks) > 1)
     <h2>
