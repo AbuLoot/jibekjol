@@ -4,29 +4,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ __('app.your_parcel').' '.__('app.statuses.arrived') }} - Jibekjol</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Ysabeau:ital,wght@1,1000&display=swap" rel="stylesheet">
 
   <style type="text/css">
     body {
-      max-width: 650px;
+      max-width: 600px;
       margin: 0 auto;
-      font-family: "Open Sans", sans-serif;
+      font-family: Arial, sans-serif;
     }
-    .brand {
-      font-family: 'Ysabeau', sans-serif;
-      color: #6610f2;
-      font-weight: bold;
-      text-transform: uppercase;
-      text-align: center;
+    .bg-arrived {
+      background-color: #4dd4ac !important;
+      padding: 5px;
+      margin-bottom: 5px;
     }
-    .bg-arrived { background-color: #4dd4ac !important; padding: 5px; margin-bottom: 5px; }
   </style>
 </head>
 <body>
-
-  <h1 class="brand">Jibekjol</h1>
+  <br>
+  <div style="text-align: center;">
+    <img src="/img/email-logo-0.png" alt="Jibekjol Company">
+  </div>
 
   @if(count($tracks) > 1)
     <h2>

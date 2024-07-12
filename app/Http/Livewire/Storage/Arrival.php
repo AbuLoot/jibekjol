@@ -158,7 +158,7 @@ class Arrival extends Component
         $track->save();
 
         if (isset($track->user->email)) {
-            app()->setlocale($track->user->lang);
+            app()->setLocale($track->user->lang);
             Mail::to($track->user->email)->send(new TrackArrived($track->user, [$track]));
         }
 

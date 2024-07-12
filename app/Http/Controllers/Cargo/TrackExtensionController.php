@@ -272,7 +272,7 @@ class TrackExtensionController extends Controller
 
         foreach ($notOnTheBorderTracksByUser as $userId => $tracks) {
             if (is_numeric($userId)) {
-                app()->setlocale($tracks[0]->user->lang);
+                app()->setLocale($tracks[0]->user->lang);
                 Mail::to($tracks[0]->user->email)->send(new TrackOnTheBorder($tracks[0]->user, $tracks));
             }
         }
@@ -372,7 +372,7 @@ class TrackExtensionController extends Controller
 
         foreach ($unsortedTracksByUser as $userId => $tracks) {
             if (is_numeric($userId)) {
-                app()->setlocale($tracks[0]->user->lang);
+                app()->setLocale($tracks[0]->user->lang);
                 Mail::to($tracks[0]->user->email)->send(new TrackSorted($tracks[0]->user, $tracks));
             }
         }
@@ -473,7 +473,7 @@ class TrackExtensionController extends Controller
 
         foreach ($unarrivedTracksByUser as $userId => $tracks) {
             if (is_numeric($userId)) {
-                app()->setlocale($tracks[0]->user->lang);
+                app()->setLocale($tracks[0]->user->lang);
                 Mail::to($tracks[0]->user->email)->send(new TrackArrived($tracks[0]->user, $tracks));
             }
         }
