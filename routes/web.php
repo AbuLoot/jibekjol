@@ -46,14 +46,6 @@ Route::redirect('/', '/ru');
 
 app()->setLocale(\Request::segment(1));
 
-Route::get('{lang}/test/{id}', function($lang, $id) {
-
-    $tracks = \App\Models\Track::where('user_id', $id)->get();
-
-    return new \App\Mail\TrackArrived($tracks[0]->user, $tracks);
-
-});
-
 // Client Livewire Routes
 Route::redirect('client', '/'.app()->getLocale().'/client');
 Route::group(['prefix' => '/{lang}/client', 'middleware' => ['auth']], function () {

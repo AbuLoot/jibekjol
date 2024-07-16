@@ -12,6 +12,8 @@ use App\Http\Controllers\Auth\VerifyUserController;
 use App\Http\Controllers\Auth\ChangePasswordController;
 use Illuminate\Support\Facades\Route;
 
+app()->setLocale(\Request::segment(1));
+
 Route::group(['prefix' => '{lang}', 'middleware' => 'guest'], function () {
 
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
