@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facade\Crypt;
+use Illuminate\Support\Facades\Crypt;
 
 use App\Models\Track;
 use App\Models\User;

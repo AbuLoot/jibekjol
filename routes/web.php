@@ -137,16 +137,6 @@ Route::group(['prefix' => '{lang}', 'middleware' => 'auth'], function() {
 
 Route::redirect('login', '/'.app()->getLocale());
 
-Route::get('ru/mail/{id}', function($id) {
-
-    $user = \App\Models\User::find($id);
-
-    $tracks = $user->tracks->where('status', 8);
-
-    return new \App\Mail\TrackArrived($user, $tracks);
-
-});
-
 // Site
 Route::group(['prefix' => '{lang}'], function() {
 
