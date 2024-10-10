@@ -61,6 +61,7 @@ class ProfileController extends Controller
         $user->address = $request->address;
         // $user->id_name = $request->id_name;
         $user->lang = $request->lang;
+        $user->status = $request->status;
         $user->save();
 
         // $user->profile->birthday = $request->birthday;

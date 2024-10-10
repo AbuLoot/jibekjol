@@ -103,7 +103,9 @@ class OnTheBorder extends Component
             //     $tracksUsers[] = $track->user->email;
             // }
 
-            $tracksByUser[$track->user_id][] = $track;
+            if ($track->user->status === 1) {
+                $tracksByUser[$track->user_id][] = $track;
+            }
         }
 
         TrackStatus::insert($tracksStatus);
@@ -161,7 +163,7 @@ class OnTheBorder extends Component
         $track->status = $statusOnTheBorder->id;
         $track->save();
 
-        if (isset($track->user->email)) {
+        if (isset($track->user->email) && $track->user->status === 1) {
             app()->setLocale($track->user->lang);
             Mail::to($track->user->email)->send(new TrackOnTheBorder($track->user, [$track]));
         }

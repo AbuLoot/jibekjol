@@ -258,7 +258,9 @@ class TrackExtensionController extends Controller
                 'updated_at' => now(),
             ];
 
-            $notOnTheBorderTracksByUser[$item->user_id][] = $item;
+            if ($item->user && $item->user->status === 1) {
+                $notOnTheBorderTracksByUser[$item->user_id][] = $item;
+            }
         });
 
         // Update Unarrived Tracks
@@ -358,7 +360,9 @@ class TrackExtensionController extends Controller
                 'updated_at' => now(),
             ];
 
-            $unsortedTracksByUser[$item->user_id][] = $item;
+            if ($item->user && $item->user->status === 1) {
+                $unsortedTracksByUser[$item->user_id][] = $item;
+            }
         });
 
         // Update Unarrived Tracks
@@ -459,7 +463,9 @@ class TrackExtensionController extends Controller
                 'updated_at' => now(),
             ];
 
-            $unarrivedTracksByUser[$item->user_id][] = $item;
+            if ($item->user && $item->user->status === 1) {
+                $unarrivedTracksByUser[$item->user_id][] = $item;
+            }
         });
 
         // Update Unarrived Tracks

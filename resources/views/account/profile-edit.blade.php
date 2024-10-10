@@ -62,6 +62,15 @@
           </select>
           <label for="lang">{{ __('app.language') }}</label>
         </div>
+        <div>{{ __('app.notification') }}:</div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="status" id="status1" value="1" @if($user->status === 1) checked @endif>
+          <label class="form-check-label" for="status1">{{ __('app.notification_status.1') }}</label>
+        </div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="radio" name="status" id="status2" value="2" @if($user->status === 2) checked @endif>
+          <label class="form-check-label" for="status2">{{ __('app.notification_status.2') }}</label>
+        </div>
         <!-- <div class="form-floating mb-3">
           <input type="text" class="form-control rounded-3" name="id_name" id="id_name" value="{{ $user->id_name }}" placeholder="ID name Taobao, Alibaba...">
           <label for="id_name">ID name</label>

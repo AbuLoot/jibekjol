@@ -42,7 +42,10 @@ use App\Http\Livewire\Storage\SendLocally;
 use App\Http\Livewire\Storage\Arrival;
 use App\Http\Livewire\Storage\Giving;
 
-Route::redirect('/', '/ru');
+
+Route::redirect('/', '/kz');
+
+// session(['lang' => \Request::segment(1)]);
 
 app()->setLocale(\Request::segment(1));
 
@@ -132,10 +135,24 @@ Route::group(['prefix' => '{lang}', 'middleware' => 'auth'], function() {
     Route::put('profile/password', [ProfileController::class, 'passwordUpdate']);
 });
 
-Route::redirect('login', '/'.app()->getLocale() );
+Route::redirect('login', '/'.app()->getLocale());
+
+Route::get('ru/mail/{id}', function($id) {
+
+    $user = \App\Models\User::find($id);
+
+    $tracks = $user->tracks->where('status', 8);
+
+    return new \App\Mail\TrackArrived($user, $tracks);
+
+});
 
 // Site
 Route::group(['prefix' => '{lang}'], function() {
+
+    // Unsubscribe for mail
+    Route::get('unsubscribe/{token}/{id}', [InputController::class, 'unsubscribe']);
+    Route::get('unsubscribe/done', [InputController::class, 'unsubscribeDone']);
 
     // Input Actions
     Route::get('search', [InputController::class, 'search']);

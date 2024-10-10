@@ -90,7 +90,7 @@ class Sorting extends Component
         $track->status = $this->statusSorted->id;
         $track->save();
 
-        if (isset($track->user->email)) {
+        if (isset($track->user->email) && $track->user->status === 1) {
             app()->setlocale($track->user->lang);
             Mail::to($track->user->email)->send(new TrackSorted($track->user, [$track]));
         }

@@ -96,7 +96,7 @@ class Arrival extends Component
                 'updated_at' => now(),
             ];
 
-            if (isset($track->user->email) && !in_array($track->user->email, $tracksUsers)) {
+            if (isset($track->user->email) && !in_array($track->user->email, $tracksUsers) && $track->user->status === 1) {
                 $tracksUsers[] = $track->user->email;
             }
         }
@@ -157,7 +157,7 @@ class Arrival extends Component
         $track->status = $this->statusArrived->id;
         $track->save();
 
-        if (isset($track->user->email)) {
+        if (isset($track->user->email) && $track->user->status === 1) {
             app()->setLocale($track->user->lang);
             Mail::to($track->user->email)->send(new TrackArrived($track->user, [$track]));
         }

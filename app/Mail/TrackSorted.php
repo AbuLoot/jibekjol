@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facade\Crypt;
 
 use App\Models\Track;
 use App\Models\User;
@@ -19,6 +20,7 @@ class TrackSorted extends Mailable
     public $user;
     public $track;
     public $tracks;
+    public $unsubscribe;
 
     /**
      * Create a new message instance.
@@ -31,6 +33,7 @@ class TrackSorted extends Mailable
     {
         $this->user = $user;
         $this->tracks = $tracks;
+        $this->unsubscribe = url(app()->getLocale().'/unsubscribe/'.Crypt::encryptString($user->email).'/'.$user->id);
     }
 
     /**
@@ -64,6 +67,7 @@ class TrackSorted extends Mailable
             with: [
                 'user' => $this->user,
                 'tracks' => $this->tracks,
+                'link' => $this->unsubscribe,
             ]
         );
     }

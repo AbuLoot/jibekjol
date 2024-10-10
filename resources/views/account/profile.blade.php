@@ -20,11 +20,11 @@
               <td>{{ $user->tel }}</td>
             </tr>
             <tr>
-              <th scope="col">Region</th>
+              <th scope="col">{{ __('app.region') }}</th>
               <td scope="col">{{ $user->region->title }}</td>
             </tr>
             <tr>
-              <th>Address</th>
+              <th>{{ __('app.address') }}</th>
               <td>{{ $user->address }}</td>
             </tr>
             <tr>
@@ -34,6 +34,10 @@
             <tr>
               <th>{{ __('app.language') }}</th>
               <td>{{ $language->title }}</td>
+            </tr>
+            <tr>
+              <th>{{ __('app.notification') }}</th>
+              <td>{{ __('app.notification_status.'.$user->status) }}</td>
             </tr>
           </tbody>
         </table>

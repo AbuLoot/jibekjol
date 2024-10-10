@@ -47,5 +47,8 @@
   <h4><?php echo __('app.time').': '.date('Y-m-d G:i'); ?></h4>
 
   <p><a href="https://jibekjol.kz/">www.jibekjol.kz</a></p>
+
+  <p><a href="{{ $link }}">{{ __('app.unsubscribe_link') }}</a></p>
+
 </body>
 </html>

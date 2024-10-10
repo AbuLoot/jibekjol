@@ -51,6 +51,11 @@ return [
     'select_a_city' => 'Select a city...',
     'region' => 'Region',
     'address' => 'Address',
+    'notification' => 'Email notification',
+    'notification_status' => [
+        1 => 'Active',
+        2 => 'Inactive',
+    ],
     'enter_password' => 'Enter password',
     'confirm_password' => 'Confirm password',
     'register' => 'Register',
@@ -105,4 +110,6 @@ return [
         'sorted' => 'at the sorting center',
         'arrived' => 'arrived at destination region',
     ],
+    'unsubscribe_link' => 'Unsubscribe from notification.',
+    'unsubscribe_info' => 'Unsubscribing from notification was successful. You can always enable notification in your personal account settings.',
 ];

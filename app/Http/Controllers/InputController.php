@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Crypt;
 
 use Validator;
 
+use App\Models\User;
 use App\Models\App;
 use App\Models\Track;
 use App\Models\Project;
@@ -14,6 +16,7 @@ use App\Models\ProjectIndex;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Section;
+
 
 class InputController extends Controller
 {
@@ -168,6 +171,22 @@ class InputController extends Controller
 
         return redirect()->back();
         // dd($amount, $density, $densityPrice, $typeDelivery, $request->all());
+    }
+
+    public function unsubscribe($lang, $token, $id)
+    {
+        $email = Crypt::decryptString($token);
+
+        $user = User::where('id', $id)->where('email', $email)->first();
+        $user->status = 2;
+        $user->save();
+
+        return redirect()->back();
+    }
+
+    public function unsubscribeDone()
+    {
+        return view('unsubscribe-page');
     }
 
     public function sendApp(Request $request, $lang)
