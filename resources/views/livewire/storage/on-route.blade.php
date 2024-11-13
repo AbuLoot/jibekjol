@@ -136,15 +136,15 @@
 
             // Grouped by date
             $todayGroup         = $allOnTheBorderTracks->where('updated_at', '>', $yesterday.' 23:59:59')->where('updated_at', '<=', now());
-            $yesterdayGroup     = $allOnTheBorderTracks->where('updated_at', '>=', $yesterday)->where('updated_at', '<', $today);
-            $twoDaysAgoGroup    = $allOnTheBorderTracks->where('updated_at', '>', $twoDaysAgo)->where('updated_at', '<', $yesterday);
-            $threeDaysAgoGroup  = $allOnTheBorderTracks->where('updated_at', '>', $threeDaysAgo)->where('updated_at', '<', $twoDaysAgo);
-            $fourDaysAgoGroup   = $allOnTheBorderTracks->where('updated_at', '>', $fourDaysAgo)->where('updated_at', '<', $threeDaysAgo);
-            $fiveDaysAgoGroup   = $allOnTheBorderTracks->where('updated_at', '>', $fiveDaysAgo)->where('updated_at', '<', $fourDaysAgo);
-            $sixDaysAgoGroup    = $allOnTheBorderTracks->where('updated_at', '>', $sixDaysAgo)->where('updated_at', '<', $fiveDaysAgo);
-            $previousWeekGroup  = $allOnTheBorderTracks->where('updated_at', '>', $previousWeek)->where('updated_at', '<', $sixDaysAgo);
-            $twoWeekAgoGroup    = $allOnTheBorderTracks->where('updated_at', '>', $twoWeekAgo)->where('updated_at', '<', $previousWeek);
-            $prevTimeGroup      = $allOnTheBorderTracks->where('updated_at', '<', $twoWeekAgo);
+            $yesterdayGroup     = $allOnTheBorderTracks->where('updated_at', '>=', $yesterday.' 23:59:59')->where('updated_at', '<', $today.' 23:59:59');
+            $twoDaysAgoGroup    = $allOnTheBorderTracks->where('updated_at', '>', $twoDaysAgo.' 23:59:59')->where('updated_at', '<', $yesterday.' 23:59:59');
+            $threeDaysAgoGroup  = $allOnTheBorderTracks->where('updated_at', '>', $threeDaysAgo.' 23:59:59')->where('updated_at', '<', $twoDaysAgo.' 23:59:59');
+            $fourDaysAgoGroup   = $allOnTheBorderTracks->where('updated_at', '>', $fourDaysAgo.' 23:59:59')->where('updated_at', '<', $threeDaysAgo.' 23:59:59');
+            $fiveDaysAgoGroup   = $allOnTheBorderTracks->where('updated_at', '>', $fiveDaysAgo.' 23:59:59')->where('updated_at', '<', $fourDaysAgo.' 23:59:59');
+            $sixDaysAgoGroup    = $allOnTheBorderTracks->where('updated_at', '>', $sixDaysAgo.' 23:59:59')->where('updated_at', '<', $fiveDaysAgo.' 23:59:59');
+            $previousWeekGroup  = $allOnTheBorderTracks->where('updated_at', '>', $previousWeek.' 23:59:59')->where('updated_at', '<', $sixDaysAgo.' 23:59:59');
+            $twoWeekAgoGroup    = $allOnTheBorderTracks->where('updated_at', '>', $twoWeekAgo.' 23:59:59')->where('updated_at', '<', $previousWeek.' 23:59:59');
+            $prevTimeGroup      = $allOnTheBorderTracks->where('updated_at', '<', $twoWeekAgo.' 23:59:59');
 
             $allTracksGroups = [
               'today' => [
