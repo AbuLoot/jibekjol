@@ -22,10 +22,12 @@ class Localization
         $supportedLocales = explode('|', config('app.supported_locales'));
 
         if (in_array($locale, $supportedLocales)) {
-            App::setLocale($locale);
+            app()->setLocale($locale);
         } else {
-            App::setLocale(config('app.locale'));  // Default to primary language if not specified
+            app()->setLocale(config('app.locale'));  // Default to primary language if not specified
         }
+
+        URL::defaults(['locale' => $locale]);
 
         // session(['lang' => $locale]);
 

@@ -42,7 +42,7 @@ use App\Http\Livewire\Storage\SendLocally;
 use App\Http\Livewire\Storage\Arrival;
 use App\Http\Livewire\Storage\Giving;
 
-Route::redirect('/', '/kz');
+Route::redirect('/', app()->getLocale());
 
 // Client Livewire Routes
 Route::redirect('client', '/'.app()->getLocale().'/client');
