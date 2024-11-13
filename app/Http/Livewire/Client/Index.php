@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Client;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 
 use App\Models\Track;
 use App\Models\Status;
@@ -10,6 +11,10 @@ use App\Models\Region;
 
 class Index extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
     public $lang;
     public $search;
     public Track $track;
@@ -43,6 +48,12 @@ class Index extends Component
     {
         $statuses = Status::get();
 
+        $tracksCount = Track::where('user_id', auth()->user()->id)
+            ->when($this->statusId > 0, function($query) {
+                $query->where('status', $this->statusId);
+            })
+            ->count();
+
         $tracks = Track::where('user_id', auth()->user()->id)
             ->where('state', 1)
             ->orderBy('id', 'desc')
@@ -58,6 +69,7 @@ class Index extends Component
 
         return view('livewire.client.index', [
                 'tracks' => $tracks,
+                'tracksCount' => $tracksCount,
                 'statuses' => $statuses,
                 'regions' => Region::get()->toTree(),
             ])

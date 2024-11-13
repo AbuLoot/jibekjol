@@ -38,7 +38,7 @@
 
   <div class="container">
     <!-- Count of tracks -->
-    <p><b>{{ __('app.quantity') }}:</b> {{ $tracks->count() }}</p>
+    <p><b>{{ __('app.quantity') }}:</b> {{ $tracksCount }}</p>
 
     <!-- Content -->
     @foreach($tracks as $track)

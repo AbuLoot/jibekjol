@@ -186,8 +186,6 @@ class InputController extends Controller
             $user->updated_at = now();
             $user->save();
             $i++;
-
-            dd($user);
         }
 
         echo $i.' Done!';

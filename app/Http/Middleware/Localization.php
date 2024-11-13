@@ -19,11 +19,15 @@ class Localization
     {
         $locale = $request->segment(1);
 
-        if (in_array($locale, ['kz', 'ru', 'en'])) {
-            session(['lang' => $locale]);
-            app()->setLocale($locale);
-            URL::defaults(['locale' => $locale]);
+        $supportedLocales = explode('|', config('app.supported_locales'));
+
+        if (in_array($locale, $supportedLocales)) {
+            App::setLocale($locale);
+        } else {
+            App::setLocale(config('app.locale'));  // Default to primary language if not specified
         }
+
+        // session(['lang' => $locale]);
 
         return $next($request);
     }

@@ -3,12 +3,17 @@
 namespace App\Http\Livewire\Client;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 
 use App\Models\Track;
 use App\Models\Region;
 
 class Archive extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
     public $lang;
     public $search;
 
