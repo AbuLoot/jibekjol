@@ -139,9 +139,6 @@ Route::group(['prefix' => '{lang}'], function() {
     Route::get('unsubscribe/{token}/{id}', [InputController::class, 'unsubscribe']);
     Route::get('unsubscribe/done', [InputController::class, 'unsubscribeDone']);
 
-    // Notification of users
-    Route::get('notify-about-merged', [InputController::class, 'notifyAboutMerged'])->middleware(['auth', 'roles:admin']);
-
     // Input Actions
     Route::get('search', [InputController::class, 'search']);
     Route::get('search-track', [InputController::class, 'searchTrack']);
