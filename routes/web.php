@@ -42,12 +42,7 @@ use App\Http\Livewire\Storage\SendLocally;
 use App\Http\Livewire\Storage\Arrival;
 use App\Http\Livewire\Storage\Giving;
 
-
 Route::redirect('/', '/kz');
-
-// session(['lang' => \Request::segment(1)]);
-
-app()->setLocale(\Request::segment(1));
 
 // Client Livewire Routes
 Route::redirect('client', '/'.app()->getLocale().'/client');
@@ -143,6 +138,9 @@ Route::group(['prefix' => '{lang}'], function() {
     // Unsubscribe for mail
     Route::get('unsubscribe/{token}/{id}', [InputController::class, 'unsubscribe']);
     Route::get('unsubscribe/done', [InputController::class, 'unsubscribeDone']);
+
+    // Notification of users
+    Route::get('notify-about-merged', [InputController::class, 'notifyAboutMerged'])->middleware(['auth', 'roles:admin']);
 
     // Input Actions
     Route::get('search', [InputController::class, 'search']);

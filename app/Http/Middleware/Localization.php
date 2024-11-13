@@ -17,9 +17,10 @@ class Localization
      */
     public function handle(Request $request, Closure $next)
     {
-        $locale = \Request::segment(1);
+        $locale = $request->segment(1);
 
         if (in_array($locale, ['kz', 'ru', 'en'])) {
+            session(['lang' => $locale]);
             app()->setLocale($locale);
             URL::defaults(['locale' => $locale]);
         }

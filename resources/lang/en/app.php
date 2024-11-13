@@ -76,6 +76,7 @@ return [
     'edit_track' => 'Editing a track',
     'description' => 'Description',
     'my_profile' => 'My profile',
+    'quantity' => 'Quantity',
     'save' => 'Save',
     'delete_entry' => 'Delete the entry?',
     'change_password' => 'Change password',

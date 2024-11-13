@@ -76,6 +76,7 @@ return [
     'edit_track' => 'Редактирование трека',
     'description' => 'Описание',
     'my_profile' => 'Мой профиль',
+    'quantity' => 'Количество',
     'save' => 'Сохранить',
     'delete_entry' => 'Удалить запись?',
     'change_password' => 'Изменить пароль',

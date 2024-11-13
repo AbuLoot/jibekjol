@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Mail;
 
 use Validator;
 
@@ -16,6 +17,7 @@ use App\Models\ProjectIndex;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Section;
+use App\Mail\CompaniesMerged;
 
 
 class InputController extends Controller
@@ -171,6 +173,24 @@ class InputController extends Controller
 
         return redirect()->back();
         // dd($amount, $density, $densityPrice, $typeDelivery, $request->all());
+    }
+
+    public function notifyAboutMerged()
+    {
+        $users = User::where('created_at', null)->where('updated_at', null)->get();
+
+        $i = 1;
+
+        foreach ($users as $user) {
+            Mail::to($user->email)->send(new CompaniesMerged($user));
+            $user->updated_at = now();
+            $user->save();
+            $i++;
+
+            dd($user);
+        }
+
+        echo $i.' Done!';
     }
 
     public function unsubscribe($lang, $token, $id)

@@ -77,6 +77,7 @@ return [
     'edit_track' => 'Тректі өңдеу',
     'description' => 'Сипаттама',
     'my_profile' => 'Менің профилім',
+    'quantity' => 'Саны',
     'save' => 'Сақтау',
     'delete_entry' => 'Жазбаны жою керек па?',
     'change_password' => 'Құпия сөзді өзгерту',
