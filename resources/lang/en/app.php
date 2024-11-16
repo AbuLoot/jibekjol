@@ -77,6 +77,7 @@ return [
     'description' => 'Description',
     'my_profile' => 'My profile',
     'quantity' => 'Quantity',
+    'edit' => 'Edit',
     'save' => 'Save',
     'delete_entry' => 'Delete the entry?',
     'change_password' => 'Change password',

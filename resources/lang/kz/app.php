@@ -78,6 +78,7 @@ return [
     'description' => 'Сипаттама',
     'my_profile' => 'Менің профилім',
     'quantity' => 'Саны',
+    'edit' => 'Өзгерту',
     'save' => 'Сақтау',
     'delete_entry' => 'Жазбаны жою керек па?',
     'change_password' => 'Құпия сөзді өзгерту',

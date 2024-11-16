@@ -95,8 +95,6 @@ return [
 
     'fallback_locale' => 'en',
 
-    'supported_locales' => 'en|kz|ru',  // Piped string of supported languages
-
     /*
     |--------------------------------------------------------------------------
     | Faker Locale

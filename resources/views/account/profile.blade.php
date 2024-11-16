@@ -41,7 +41,7 @@
             </tr>
           </tbody>
         </table>
-        <a href="/{{ $lang }}/profile/edit" class="btn btn-primary btn-lg">{{ __('app.change_password') }}</a>
+        <a href="/{{ $lang }}/profile/edit" class="btn btn-primary btn-lg">{{ __('app.edit') }}</a>
 
       </div>
     </div>

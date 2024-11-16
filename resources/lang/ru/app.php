@@ -77,6 +77,7 @@ return [
     'description' => 'Описание',
     'my_profile' => 'Мой профиль',
     'quantity' => 'Количество',
+    'edit' => 'Изменить',
     'save' => 'Сохранить',
     'delete_entry' => 'Удалить запись?',
     'change_password' => 'Изменить пароль',

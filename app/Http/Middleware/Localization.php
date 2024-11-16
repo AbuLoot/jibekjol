@@ -19,17 +19,9 @@ class Localization
     {
         $locale = $request->segment(1);
 
-        $supportedLocales = explode('|', config('app.supported_locales'));
-
-        if (in_array($locale, $supportedLocales)) {
-            app()->setLocale($locale);
-        } else {
-            app()->setLocale(config('app.locale'));  // Default to primary language if not specified
-        }
+        app()->setLocale($locale);
 
         URL::defaults(['locale' => $locale]);
-
-        // session(['lang' => $locale]);
 
         return $next($request);
     }

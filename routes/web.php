@@ -46,7 +46,7 @@ Route::redirect('/', app()->getLocale());
 
 // Client Livewire Routes
 Route::redirect('client', '/'.app()->getLocale().'/client');
-Route::group(['prefix' => '/{lang}/client', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => '/{locale}/client', 'middleware' => ['auth']], function () {
 
     Route::get('/', ClientIndex::class);
     Route::get('tracks', ClientIndex::class);
@@ -55,7 +55,7 @@ Route::group(['prefix' => '/{lang}/client', 'middleware' => ['auth']], function 
 
 // Storage Livewire Routes
 Route::redirect('storage', '/'.app()->getLocale().'/storage');
-Route::group(['prefix' => '/{lang}/storage', 'middleware' => ['auth', 'roles:admin|storekeeper-first|storekeeper-sorter|storekeeper-last']], function () {
+Route::group(['prefix' => '/{locale}/storage', 'middleware' => ['auth', 'roles:admin|storekeeper-first|storekeeper-sorter|storekeeper-last']], function () {
 
     Route::get('tracks', Tracks::class);
     Route::get('/', Reception::class);
@@ -69,7 +69,7 @@ Route::group(['prefix' => '/{lang}/storage', 'middleware' => ['auth', 'roles:adm
     Route::get('giving', Giving::class);
 });
 
-Route::group(['prefix' => '{lang}/admin', 'middleware' => ['auth', 'roles:admin|manager|partner']], function () {
+Route::group(['prefix' => '{locale}/admin', 'middleware' => ['auth', 'roles:admin|manager|partner']], function () {
 
     Route::get('/', [AdminController::class, 'index']);
     Route::get('filemanager', [AdminController::class, 'filemanager']);
@@ -121,7 +121,7 @@ Route::group(['prefix' => '{lang}/admin', 'middleware' => ['auth', 'roles:admin|
 Route::redirect('admin', '/'.app()->getLocale().'/admin');
 
 // User Profile
-Route::group(['prefix' => '{lang}', 'middleware' => 'auth'], function() {
+Route::group(['prefix' => '{locale}', 'middleware' => 'auth'], function() {
 
     Route::get('profile', [ProfileController::class, 'profile']);
     Route::get('profile/edit', [ProfileController::class, 'editProfile']);
@@ -133,7 +133,7 @@ Route::group(['prefix' => '{lang}', 'middleware' => 'auth'], function() {
 Route::redirect('login', '/'.app()->getLocale());
 
 // Site
-Route::group(['prefix' => '{lang}'], function() {
+Route::group(['prefix' => '{locale}'], function() {
 
     // Unsubscribe for mail
     Route::get('unsubscribe/{token}/{id}', [InputController::class, 'unsubscribe']);
