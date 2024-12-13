@@ -138,6 +138,7 @@ Route::group(['prefix' => '{locale}'], function() {
     // Unsubscribe for mail
     Route::get('unsubscribe/{token}/{id}', [InputController::class, 'unsubscribe']);
     Route::get('unsubscribe/done', [InputController::class, 'unsubscribeDone']);
+    Route::get('unsubscribe/emails', [InputController::class, 'unsubscribeEmails']);
 
     // Input Actions
     Route::get('search', [InputController::class, 'search']);

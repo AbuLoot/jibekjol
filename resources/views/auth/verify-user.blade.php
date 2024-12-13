@@ -44,8 +44,13 @@
 
         <label class="form-label" for="trackcode">{{ __('app.enter_used_track') }}</label>
         <div class="form-floating mb-3">
-          <input type="text" class="form-control form-control-lg rounded-3" name="trackcode" id="trackcode" placeholder="{{ __('app.track_code') }}" value="{{ old('trackcode') }}" required>
+          <input type="text" class="form-control form-control-lg rounded-3" name="trackcode" id="trackcode" placeholder="{{ __('app.track_code') }}" value="{{ old('trackcode') }}">
           <label for="trackcode">{{ __('app.track_code') }}</label>
+          <div class="checkbox mt-1">
+            <label>
+              <input type="checkbox" name="no_trackcode" value="no-trackcode"> {{ __('app.no-trackcode') }}
+            </label>
+          </div>
         </div>
 
         <button type="submit" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary">{{ __('app.send') }}</button>

@@ -32,6 +32,6 @@ class ChangePasswordController extends Controller
 
         session()->forget('verifiedUser');
 
-        return redirect()->route('login');
+        return redirect(app()->getLocale().'/login');
     }
 }

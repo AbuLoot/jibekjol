@@ -207,6 +207,26 @@ class InputController extends Controller
         return view('unsubscribe-page');
     }
 
+    public function unsubscribeEmails()
+    {
+        $fh = fopen('file-manager/incorrect-emails.txt', 'r');
+
+        $emails = [];
+
+        while ($line = fgets($fh)) {
+            $emails[] = trim($line);
+        }
+
+        fclose($fh);
+
+        $users = User::whereIn('email', $emails)->get();
+
+        foreach ($users as $key => $user) {
+            $user->status = 2;
+            $user->save();
+        }
+    }
+
     public function sendApp(Request $request, $lang)
     {
         $validator = Validator::make($request->all(), [

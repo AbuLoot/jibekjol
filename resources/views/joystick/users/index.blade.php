@@ -59,7 +59,7 @@
             <td>{{ $user->name.' '.$user->lastname }}</td>
             <td>{{ $user->email }}</td>
             <td>{{ $user->tel }}</td>
-            <td>{{ $user->region->title }}</td>
+            <td>{{ $user->region->title ?? '' }}</td>
             <td><a href="/{{ $lang }}/admin/tracks/user/{{ $user->id }}">{{ $user->id_client ?? 'No ID' }}</a></td>
             <td>
               @foreach($user->roles as $role)

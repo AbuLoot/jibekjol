@@ -17,7 +17,7 @@ class VerifyUserSession
     public function handle(Request $request, Closure $next)
     {
         if (!$request->session()->has('verifiedUser')) {
-            return redirect('verify-user');
+            return redirect(app()->getLocale().'/verify-user');
         }
 
         return $next($request);

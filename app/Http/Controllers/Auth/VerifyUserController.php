@@ -34,17 +34,21 @@ class VerifyUserController extends Controller
             ->orWhere('id_client', $request->id_client)
             ->first();
 
-        if (!$user) {
-            return redirect()->back()->withInput()->with('warning', 'Данные не совпадает');
+        if (!$user OR ($request->no_trackcode == 'no-trackcode' AND Track::where('user_id', $user->id)->count() >= 1)) {
+            return redirect()->back()->withInput()->with('warning', __('app.data_not_match'));
         }
+
+        $trackCode = $request->trackcode;
 
         $existsTrack = Track::query()
             ->where('user_id', $user->id)
-            ->where('code', $request->trackcode)
+            ->when(!$request->no_trackcode, function($query) use ($trackCode) {
+                $query->where('code', $trackCode);
+            })
             ->first();
 
         if (!$existsTrack) {
-            return redirect()->back()->withInput()->with('warning', 'Трек-код не совпадает');
+            return redirect()->back()->withInput()->with('warning', __('app.tc_not_match'));
         }
 
         $request->session()->put('verifiedUser', $user->id);

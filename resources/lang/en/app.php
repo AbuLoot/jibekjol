@@ -65,6 +65,7 @@ return [
     're-enter_password' => 'Re-enter your new password',
     'password_recovery' => 'Password recovery',
     'enter_used_track' => 'Enter the track code that you used on our service',
+    'no-trackcode' => 'No track code in my account',
 
     // Client
     'my_account' => 'My account',

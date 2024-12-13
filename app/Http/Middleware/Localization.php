@@ -21,8 +21,6 @@ class Localization
 
         app()->setLocale($locale);
 
-        URL::defaults(['locale' => $locale]);
-
         return $next($request);
     }
 }
