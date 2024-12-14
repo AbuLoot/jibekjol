@@ -26,6 +26,7 @@ class User extends Authenticatable
         'region_id',
         'address',
         'password',
+        'remember_token',
     ];
 
     /**

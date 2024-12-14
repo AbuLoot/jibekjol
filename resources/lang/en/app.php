@@ -66,6 +66,8 @@ return [
     'password_recovery' => 'Password recovery',
     'enter_used_track' => 'Enter the track code that you used on our service',
     'no-trackcode' => 'No track code in my account',
+    'data_not_match' => 'Data does not match',
+    'track_not_match' => 'Track code does not match',
 
     // Client
     'my_account' => 'My account',

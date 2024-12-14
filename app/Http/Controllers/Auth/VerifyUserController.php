@@ -27,11 +27,14 @@ class VerifyUserController extends Controller
             // 'trackcode' => ['required', 'string', 'min:9', 'max:20'],
         ]);
 
-        $user = User::query()
-            ->where('email', $request->email)
+        $idClient = $request->id_client;
+
+        $user = User::where('email', $request->email)
             ->where('region_id', $request->region_id)
             ->where('tel', $request->tel)
-            ->orWhere('id_client', $request->id_client)
+            ->when(!empty($idClient), function($query) use ($idClient) {
+                $query->where('id_client', $idClient);
+            })
             ->first();
 
         if (!$user OR ($request->no_trackcode == 'no-trackcode' AND Track::where('user_id', $user->id)->count() >= 1)) {
@@ -42,16 +45,19 @@ class VerifyUserController extends Controller
 
         $existsTrack = Track::query()
             ->where('user_id', $user->id)
-            ->when(!$request->no_trackcode, function($query) use ($trackCode) {
+            ->when($request->no_trackcode == null, function($query) use ($trackCode) {
                 $query->where('code', $trackCode);
             })
             ->first();
 
-        if (!$existsTrack) {
-            return redirect()->back()->withInput()->with('warning', __('app.tc_not_match'));
+        if ($existsTrack != null AND $request->no_trackcode == 'no-trackcode') {
+            return redirect()->back()->withInput()->with('warning', __('app.track_not_match'));
         }
 
-        $request->session()->put('verifiedUser', $user->id);
+        session()->forget('verifiedUser');
+        session()->put('verifiedUser', $user->id);
+
+        // dd(session('verifiedUser'), $user);
 
         return redirect(app()->getLocale().'/change-password');
     }

@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -28,7 +28,10 @@ class ChangePasswordController extends Controller
 
         $user->password = Hash::make($request->password);
         $user->setRememberToken(Str::random(60));
+        // $user->remember_token = Str::random(60);
         $user->save();
+
+        // dd($user, session('verifiedUser'));
 
         session()->forget('verifiedUser');
 

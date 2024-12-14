@@ -165,17 +165,17 @@ class UserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = Auth::user();
+        $user = User::find($id);
 
         if ($user->email != $request->email) {
-            return redirect()->back()->with('danger', 'Email не совпадает!');
+            return redirect()->back()->with('warning', 'Email не совпадает!');
         }
 
         $user->password = Hash::make($request->password);
         $user->setRememberToken(Str::random(60));
         $user->save();
 
-        return redirect('/admin/users')->with('status', 'Запись обновлена!');
+        return redirect($lang.'/admin/users')->with('status', 'Запись обновлена!');
     }
 
     public function destroy($lang, $id)
