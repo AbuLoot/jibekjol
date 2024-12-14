@@ -45,19 +45,16 @@ class VerifyUserController extends Controller
 
         $existsTrack = Track::query()
             ->where('user_id', $user->id)
-            ->when($request->no_trackcode == null, function($query) use ($trackCode) {
+            ->when(is_null($request->no_trackcode), function($query) use ($trackCode) {
                 $query->where('code', $trackCode);
             })
             ->first();
 
-        if ($existsTrack != null AND $request->no_trackcode == 'no-trackcode') {
+        if ($request->no_trackcode != 'no-trackcode' AND !$existsTrack) {
             return redirect()->back()->withInput()->with('warning', __('app.track_not_match'));
         }
 
-        session()->forget('verifiedUser');
         session()->put('verifiedUser', $user->id);
-
-        // dd(session('verifiedUser'), $user);
 
         return redirect(app()->getLocale().'/change-password');
     }
