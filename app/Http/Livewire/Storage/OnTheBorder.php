@@ -59,7 +59,7 @@ class OnTheBorder extends Component
 
                 // If tracks added today
                 if ($dateTo == now()->format('Y-m-d H-i')) {
-                    return $tracksGroup->where('updated_at', '>', $dateFrom.' 23:59:59')->where('updated_at', '<=', now());
+                    return $tracksGroup->where('updated_at', '>', $dateFrom.' 00:00:00')->where('updated_at', '<=', now());
                 }
 
                 return $tracksGroup->where('updated_at', '>', $dateFrom)->where('updated_at', '<', $dateTo);
