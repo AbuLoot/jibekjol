@@ -12,7 +12,7 @@
 
   <div class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
-      <div class="carousel-item active">
+      <div class="carousel-item d-flex justify-content-center active">
         <img src="/img/storage/storage-01.jpg" class="d-block w-lg-100 h-100 " alt="...">
         <div class="carousel-caption d-none-d-md-block">
           <div class="display-3 shadow-1 fw-bold">{!! $promo->firstWhere('slug', 'offer')->content !!}</div>
@@ -28,6 +28,10 @@
 
   <!-- Interesting -->
   <div class="container px-4 py-5 my-3 text-center border-bottom">
+    <div class="col-lg-12 text-center mb-5">
+      <a href="/{{ $lang }}/login" class="btn btn-primary btn-lg me-2">{{ __('app.login_btn') }}</a>
+      <a href="/{{ $lang }}/register" class="btn btn-warning btn-lg">{{ __('app.register_btn') }}</a>
+    </div>
     <div class="col-lg-6 mx-auto mb-5">
       <h2 class=" fw-bold text-body-emphasis">{{ $promo->firstWhere('slug', 'second-offer')->content }}</h2>
     </div>
@@ -81,7 +85,6 @@
 
           @if(session('price'))
             <?php
-
               $typesDelivery = [
                 '1' => __('app.standard_days'),
                 '2' => __('app.express_days'),
@@ -119,6 +122,11 @@
     <hr>
     <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
       {!! $promo->firstWhere('slug', 'fourth-offer')->content !!}
+    </div>
+
+    <div class="col-lg-12 text-center">
+      <a href="/{{ $lang }}/login" class="btn btn-primary btn-lg me-2">{{ __('app.login_btn') }}</a>
+      <a href="/{{ $lang }}/register" class="btn btn-warning btn-lg">{{ __('app.register_btn') }}</a>
     </div>
   </div>
 

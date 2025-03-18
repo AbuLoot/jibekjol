@@ -18,7 +18,7 @@ class SignAnAgreement extends Component
 
     public function render()
     {
-        $agreement = Section::where('slug', 'agreement')->first();
+        $agreement = Section::where('lang', app()->getLocale())->where('slug', 'agreement')->first();
 
         return view('livewire.client.sign-an-agreement', ['agreement' => $agreement]);
     }

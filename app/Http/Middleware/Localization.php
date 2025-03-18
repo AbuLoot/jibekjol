@@ -19,7 +19,7 @@ class Localization
     {
         $locale = $request->segment(1);
 
-        app()->setLocale($locale);
+        \App::setLocale($locale);
 
         return $next($request);
     }

@@ -20,6 +20,7 @@ class CreateAppsTable extends Migration
             $table->string('phone');
             $table->text('message');
             $table->string('file')->nullable();
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

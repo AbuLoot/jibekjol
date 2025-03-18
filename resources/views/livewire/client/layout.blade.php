@@ -16,7 +16,6 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
   <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
   <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png">
-  <link rel="manifest" href="manifest.json">
   <link rel="mask-icon" href="safari-pinned-tab.svg" color="#7952b3">
   <link rel="icon" href="favicon.ico">
   <meta name="theme-color" content="#7952b3">
@@ -69,8 +68,6 @@
             <a class="nav-link px-3" href="/{{ $lang }}/client/archive">{{ __('app.my_archive') }}</a>
           </li>
         </ul>
-
-        <button type="button" class="btn btn-primary btn-lg mb-2 d-block d-sm-none ms-md-auto" data-bs-toggle="modal" data-bs-target="#modalAddTrack"><i class="bi bi-plus-circle-fill me-2"></i> {{ __('app.add_track') }}</button>
 
         <div class="flex-shrink-0 dropdown ms-md-auto ps-3">
           <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

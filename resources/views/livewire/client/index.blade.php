@@ -40,6 +40,18 @@
     <!-- Count of tracks -->
     <p><b>{{ __('app.quantity') }}:</b> {{ $tracksCount }}</p>
 
+    <!-- Modal Agreement -->
+    @if(Auth::user()->status == 'test')
+
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgreement">
+        Подписать договор
+      </button>
+
+      <livewire:client.sign-an-agreement>
+      <br>
+
+    @endif
+
     <!-- Content -->
     @foreach($tracks as $track)
       <div class="track-item mb-2">
@@ -139,20 +151,6 @@
 
   <!-- Modal Edit Track -->
   <livewire:client.edit-track>
-
-  <!-- Modal Agreement -->
-  @if(Auth::user()->status == 'test')
-
-    <div class="container">
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgreement">
-        Подписать договор
-      </button>
-    </div>
-
-    <livewire:client.sign-an-agreement>
-
-    <br>
-  @endif
 
   <script>
     window.addEventListener('open-modal', event => {

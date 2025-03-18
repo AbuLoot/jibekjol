@@ -151,6 +151,9 @@ body {
 td.cell-size {
   min-width: 240px;
 }
+td.cell-mw {
+  max-width: 450px;
+}
 @media screen and (max-width: 767px) {
   .table-products>.table>tbody>tr {
     height: 80px;

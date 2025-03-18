@@ -86,5 +86,10 @@ return [
 	'types' => [
 		'1' => 'New',
 		'2' => 'Used'
-	]
+	],
+
+	'customer_apps' => [
+		'1' => 'In process',
+		'2' => 'Closed'
+	],
 ];

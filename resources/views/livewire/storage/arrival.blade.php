@@ -182,15 +182,15 @@
             $twoWeekAgo   = $now->copy()->startOfWeek()->subWeek(3)->format('Y-m-d');
 
             // Grouped by date
-            $todayGroup         = $arrivedTracks->where('updated_at', '>', $yesterday.' 23:59:59')->where('updated_at', '<=', now());
-            $yesterdayGroup     = $arrivedTracks->where('updated_at', '>=', $yesterday)->where('updated_at', '<', $today);
-            $twoDaysAgoGroup    = $arrivedTracks->where('updated_at', '>', $twoDaysAgo)->where('updated_at', '<', $yesterday);
-            $threeDaysAgoGroup  = $arrivedTracks->where('updated_at', '>', $threeDaysAgo)->where('updated_at', '<', $twoDaysAgo);
-            $fourDaysAgoGroup   = $arrivedTracks->where('updated_at', '>', $fourDaysAgo)->where('updated_at', '<', $threeDaysAgo);
-            $fiveDaysAgoGroup   = $arrivedTracks->where('updated_at', '>', $fiveDaysAgo)->where('updated_at', '<', $fourDaysAgo);
-            $sixDaysAgoGroup    = $arrivedTracks->where('updated_at', '>', $sixDaysAgo)->where('updated_at', '<', $fiveDaysAgo);
-            $previousWeekGroup  = $arrivedTracks->where('updated_at', '>', $previousWeek)->where('updated_at', '<', $sixDaysAgo);
-            $twoWeekAgoGroup    = $arrivedTracks->where('updated_at', '>', $twoWeekAgo)->where('updated_at', '<', $previousWeek);
+            $todayGroup         = $arrivedTracks->where('updated_at', '>', $yesterday.' 00:00:00')->where('updated_at', '<=', now());
+            $yesterdayGroup     = $arrivedTracks->where('updated_at', '>=', $yesterday.' 00:00:00')->where('updated_at', '<', $today);
+            $twoDaysAgoGroup    = $arrivedTracks->where('updated_at', '>', $twoDaysAgo.' 00:00:00')->where('updated_at', '<', $yesterday);
+            $threeDaysAgoGroup  = $arrivedTracks->where('updated_at', '>', $threeDaysAgo.' 00:00:00')->where('updated_at', '<', $twoDaysAgo);
+            $fourDaysAgoGroup   = $arrivedTracks->where('updated_at', '>', $fourDaysAgo.' 00:00:00')->where('updated_at', '<', $threeDaysAgo);
+            $fiveDaysAgoGroup   = $arrivedTracks->where('updated_at', '>', $fiveDaysAgo.' 00:00:00')->where('updated_at', '<', $fourDaysAgo);
+            $sixDaysAgoGroup    = $arrivedTracks->where('updated_at', '>', $sixDaysAgo.' 00:00:00')->where('updated_at', '<', $fiveDaysAgo);
+            $previousWeekGroup  = $arrivedTracks->where('updated_at', '>', $previousWeek.' 00:00:00')->where('updated_at', '<', $sixDaysAgo);
+            $twoWeekAgoGroup    = $arrivedTracks->where('updated_at', '>', $twoWeekAgo.' 00:00:00')->where('updated_at', '<', $previousWeek);
             $prevTimeGroup      = $arrivedTracks->where('updated_at', '<', $twoWeekAgo);
 
             $allTracksGroups = [
