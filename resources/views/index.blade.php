@@ -28,10 +28,18 @@
 
   <!-- Interesting -->
   <div class="container px-4 py-5 my-3 text-center border-bottom">
+
+    <!-- Login buttons -->
     <div class="col-lg-12 text-center mb-5">
-      <a href="/{{ $lang }}/login" class="btn btn-primary btn-lg me-2">{{ __('app.login_btn') }}</a>
-      <a href="/{{ $lang }}/register" class="btn btn-warning btn-lg">{{ __('app.register_btn') }}</a>
+      @guest
+        <a href="/{{ $lang }}/login" class="btn btn-primary btn-lg m-2">{{ __('app.login_btn') }}</a>
+        <a href="/{{ $lang }}/register" class="btn btn-warning btn-lg">{{ __('app.register_btn') }}</a>
+      @else
+        <a href="/{{ $lang }}/client" class="btn btn-outline-primary btn-lg m-2"><i class="bi bi-upc"></i> {{ __('app.my_tracks') }}</a>
+        <a href="/{{ $lang }}/client/archive" class="btn btn-outline-dark btn-lg"><i class="bi bi-archive"></i> {{ __('app.my_archive') }}</a>
+      @endguest
     </div>
+
     <div class="col-lg-6 mx-auto mb-5">
       <h2 class=" fw-bold text-body-emphasis">{{ $promo->firstWhere('slug', 'second-offer')->content }}</h2>
     </div>
@@ -124,10 +132,13 @@
       {!! $promo->firstWhere('slug', 'fourth-offer')->content !!}
     </div>
 
-    <div class="col-lg-12 text-center">
-      <a href="/{{ $lang }}/login" class="btn btn-primary btn-lg me-2">{{ __('app.login_btn') }}</a>
-      <a href="/{{ $lang }}/register" class="btn btn-warning btn-lg">{{ __('app.register_btn') }}</a>
-    </div>
+    <!-- Login buttons -->
+    @unless(auth()->check())
+      <div class="col-lg-12 text-center mb-4">
+        <a href="/{{ $lang }}/login" class="btn btn-primary btn-lg m-2">{{ __('app.login_btn') }}</a>
+        <a href="/{{ $lang }}/register" class="btn btn-warning btn-lg">{{ __('app.register_btn') }}</a>
+      </div>
+    @endunless
   </div>
 
   <!-- Action -->

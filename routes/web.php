@@ -130,8 +130,6 @@ Route::group(['prefix' => '{locale}', 'middleware' => 'auth'], function() {
     Route::put('profile/password', [ProfileController::class, 'passwordUpdate']);
 });
 
-Route::redirect('login', '/'.app()->getLocale());
-
 // Site
 Route::group(['prefix' => '{locale}'], function() {
 

@@ -23,6 +23,9 @@
 
   <div class="container">
 
+    <!-- Count of tracks -->
+    <p><b>{{ __('app.quantity') }}:</b> {{ $tracksCount }}</p>
+
     <!-- Content -->
     @foreach($tracks as $track)
       <div class="track-item mb-2">

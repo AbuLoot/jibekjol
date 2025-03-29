@@ -12,9 +12,9 @@ use App\Http\Controllers\Auth\VerifyUserController;
 use App\Http\Controllers\Auth\ChangePasswordController;
 use Illuminate\Support\Facades\Route;
 
-//app()->setLocale(\Request::segment(1));
+Route::redirect('login', '/'.app()->getLocale());
 
-Route::group(['prefix' => '{lang}', 'middleware' => 'guest'], function () {
+Route::group(['prefix' => '{locale}', 'middleware' => 'guest'], function () {
 
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
     Route::post('register', [RegisteredUserController::class, 'store']);
@@ -35,7 +35,7 @@ Route::group(['prefix' => '{lang}', 'middleware' => 'guest'], function () {
     Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.update');
 });
 
-Route::group(['prefix' => '{lang}', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => '{locale}', 'middleware' => 'auth'], function () {
 
     Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])->name('verification.notice');
 

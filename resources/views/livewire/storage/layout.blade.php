@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
-  <meta name="author" content="Namatilla">
+  <meta name="author" content="ismoon">
   <title>jibekjol</title>
 
   <link rel="canonical" href="">
@@ -13,18 +13,18 @@
   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"> -->
 
   <!-- Favicons -->
-  <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
-  <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
-  <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png">
-  <link rel="mask-icon" href="safari-pinned-tab.svg" color="#7952b3">
-  <link rel="icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+  <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#7952b3">
+  <link rel="icon" href="/favicon.ico">
   <meta name="theme-color" content="#7952b3">
 
   <!-- Custom styles for this template -->
   <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <link href="/css/offcanvas.css" rel="stylesheet">
-  <link href="/css/custom-15.css" rel="stylesheet">
+  <link href="/css/custom-16.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ysabeau:ital,wght@1,1000&display=swap" rel="stylesheet">
@@ -37,16 +37,19 @@
   ?>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark- bg-indigo bg-indigo-border" aria-label="Main navigation">
     <div class="container-xl">
-      <a href="/{{ $lang }}/storage" class="navbar-brand">jibekjol</a>
+      <a href="/{{ $lang }}/storage" class="navbar-brand p-0 me-1"><!-- JibekJol -->
+        <img src="/img/jj-logo-white.png">
+      </a>
       <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav py-2 mx-auto-">
-          <li class="nav-item">
+      <div class="navbar-collapse offcanvas-collapse" id="navbarSideCollapse">
+
+        <ul class="navbar-nav py-2 mx-auto">
+          <!-- <li class="nav-item">
             <a class="nav-link px-3" aria-current="page" href="/"><i class="bi bi-house-fill text-white"></i></a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link px-3" href="/{{ $lang }}/storage/tracks">All tracks</a>
           </li>
@@ -88,8 +91,9 @@
           </a>
           <ul class="dropdown-menu dropdown-menu-end text-small shadow">
             <div class="text-muted px-3 py-1">{{ Auth::user()->name . ' ' . Auth::user()->lastname }}</div>
-            <li><a class="dropdown-item py-2" href="/{{ $lang }}/profile">My profile</a></li>
-            <li><a class="dropdown-item py-2" href="/{{ $lang }}/client">My tracks</a></li>
+            <li><a class="dropdown-item py-2" href="/{{ $lang }}"><i class="bi bi-house-fill"></i> Main</a></li>
+            <li><a class="dropdown-item py-2" href="/{{ $lang }}/profile"><i class="bi bi-person-circle"></i> My profile</a></li>
+            <li><a class="dropdown-item py-2" href="/{{ $lang }}/client"><i class="bi bi-upc"></i> My tracks</a></li>
             <li><hr class="dropdown-divider"></li>
             <li>
               <form method="POST" action="/{{ app()->getLocale() }}/logout">

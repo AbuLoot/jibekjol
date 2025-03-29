@@ -8,9 +8,9 @@
     </a>
     <ul class="dropdown-menu dropdown-menu-end text-small shadow">
       <div class="text-muted px-3 py-1">{{ Auth::user()->name . ' ' . Auth::user()->lastname }}</div>
-      <li><a class="dropdown-item py-2" href="/{{ $lang }}/profile">{{ __('app.my_account') }}</a></li>
-      <li><a class="dropdown-item py-2" href="/{{ $lang }}/client">{{ __('app.my_tracks') }}</a></li>
-      <li><a class="dropdown-item py-2" href="/{{ $lang }}/client/archive">{{ __('app.my_archive') }}</a></li>
+      <li><a class="dropdown-item py-2" href="/{{ $lang }}/profile"><i class="bi bi-person-circle"></i> {{ __('app.my_account') }}</a></li>
+      <li><a class="dropdown-item py-2" href="/{{ $lang }}/client"><i class="bi bi-upc"></i> {{ __('app.my_tracks') }}</a></li>
+      <li><a class="dropdown-item py-2" href="/{{ $lang }}/client/archive"><i class="bi bi-archive"></i> {{ __('app.my_archive') }}</a></li>
       <li><hr class="dropdown-divider"></li>
       <li>
         <form method="POST" action="/{{ $lang }}/logout">

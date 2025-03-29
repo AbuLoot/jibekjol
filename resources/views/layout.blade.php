@@ -11,18 +11,18 @@
   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"> -->
 
   <!-- Favicons -->
-  <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
-  <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
-  <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png">
-  <link rel="mask-icon" href="safari-pinned-tab.svg" color="#7952b3">
-  <link rel="icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+  <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#7952b3">
+  <link rel="icon" href="/favicon.ico">
   <meta name="theme-color" content="#7952b3">
 
   <!-- Custom styles for this template -->
   <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <link href="/css/offcanvas.css" rel="stylesheet">
-  <link href="/css/custom-15.css" rel="stylesheet">
+  <link href="/css/custom-16.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ysabeau:ital,wght@1,1000&display=swap" rel="stylesheet">
@@ -33,11 +33,11 @@
     {{ $sections->firstWhere('slug', 'header-code')->content }}
   @endif
 </head>
-<body class="bg-light">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-brand-bg-brand-border bg-indigo bg-indigo-border" aria-label="Main navigation">
+<body class="bg-light pt-58">
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-brand-bg-brand-border bg-indigo bg-indigo-border" aria-label="Main navigation">
     <div class="container-xl">
-      <a href="/{{ $lang }}/" class="navbar-brand text-white">
-        JibekJol
+      <a href="/{{ $lang }}/" class="navbar-brand p-0"><!-- JibekJol -->
+        <img src="/img/jj-logo-white.png">
       </a>
       <div class="dropdown me-auto">
         <button class="btn btn-outline-light dropdown-toggle text-uppercase" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -65,7 +65,7 @@
           @endforeach
           @auth
             <li class="nav-item">
-              <a class="nav-link px-3" aria-current="page" href="/{{ $lang }}/client">{{ __('app.my_tracks') }}</a>
+              <a class="nav-link px-3" aria-current="page" href="/{{ $lang }}/client"><i class="bi bi-upc"></i> {{ __('app.my_tracks') }}</a>
             </li>
           @endauth
         </ul>

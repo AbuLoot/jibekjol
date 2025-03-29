@@ -48,7 +48,7 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: -ms-autohiding-scrollbar; 
+  -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 .sidebar::-webkit-scrollbar {
   width: 5px;

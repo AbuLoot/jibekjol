@@ -33,6 +33,10 @@ class Archive extends Component
 
     public function render()
     {
+        $tracksCount = Track::where('user_id', auth()->user()->id)
+            ->where('state', 0)
+            ->count();
+
         $tracks = Track::where('user_id', auth()->user()->id)
             ->where('state', 0)
             ->orderBy('id', 'desc')
@@ -44,8 +48,9 @@ class Archive extends Component
             ->paginate(50);
 
         return view('livewire.client.archive', [
-            'tracks' => $tracks,
-            'regions' => Region::get()->toTree(),
+                'tracks' => $tracks,
+                'tracksCount' => $tracksCount,
+                'regions' => Region::get()->toTree(),
             ])
             ->layout('livewire.client.layout');
     }
