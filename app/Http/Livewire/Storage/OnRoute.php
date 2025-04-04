@@ -52,11 +52,12 @@ class OnRoute extends Component
     {
         $tracksGroup = $this->allOnTheBorderTracks;
 
+        // If tracks added up to two weeks
         $tracks = $tracksGroup->when($dateTo, function ($tracksGroup) use ($dateFrom, $dateTo) {
 
                 // If tracks added today
-                if ($dateTo == now()->format('Y-m-d H-i')) {
-                    return $tracksGroup->where('updated_at', '>', $dateFrom.' 00:00:00')->where('updated_at', '<=', now());
+                if ($dateFrom == now()->format('Y-m-d').' 00:00:00') {
+                    return $tracksGroup->where('updated_at', '>', $dateFrom)->where('updated_at', '<', now());
                 }
 
                 return $tracksGroup->where('updated_at', '>', $dateFrom)->where('updated_at', '<', $dateTo);

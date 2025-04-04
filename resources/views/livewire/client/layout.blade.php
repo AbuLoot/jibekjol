@@ -23,7 +23,7 @@
   <!-- Custom styles for this template -->
   <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="/css/offcanvas.css" rel="stylesheet">
+  <link href="/css/offcanvas-1.css" rel="stylesheet">
   <link href="/css/custom-16.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

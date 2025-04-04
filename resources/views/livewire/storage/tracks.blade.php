@@ -19,7 +19,6 @@
       <div class="col-12 col-sm-12">
 
         <h5>Count: {{ $tracksCount }}pcs @if($tracksStatus) | {{ ucfirst($statuses->where('id', $tracksStatus)->first()->slug) }} tracks @endif</h5>
-
         @foreach($tracks as $track)
           <div class="track-item mb-2">
             <?php

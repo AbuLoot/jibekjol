@@ -23,7 +23,7 @@
   <!-- Custom styles for this template -->
   <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="/css/offcanvas.css" rel="stylesheet">
+  <link href="/css/offcanvas-1.css" rel="stylesheet">
   <link href="/css/custom-16.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,21 +31,19 @@
 
   @livewireStyles
 </head>
-<body class="bg-light">
-  <?php
-    $lang = app()->getLocale();
-  ?>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark- bg-indigo bg-indigo-border" aria-label="Main navigation">
+<body class="bg-light pt-60 pt-lg-75">
+  <?php $lang = app()->getLocale(); ?>
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark- bg-indigo bg-indigo-border" aria-label="Main navigation">
     <div class="container-xl">
       <a href="/{{ $lang }}/storage" class="navbar-brand p-0 me-1"><!-- JibekJol -->
         <img src="/img/jj-logo-white.png">
       </a>
+
       <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="navbar-collapse offcanvas-collapse" id="navbarSideCollapse">
-
         <ul class="navbar-nav py-2 mx-auto">
           <!-- <li class="nav-item">
             <a class="nav-link px-3" aria-current="page" href="/"><i class="bi bi-house-fill text-white"></i></a>

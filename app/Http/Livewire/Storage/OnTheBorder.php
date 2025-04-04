@@ -55,11 +55,12 @@ class OnTheBorder extends Component
     {
         $tracksGroup = $this->allSentTracks;
 
+        // If tracks added up to two weeks
         $tracks = $tracksGroup->when($dateTo, function ($tracksGroup) use ($dateFrom, $dateTo) {
 
                 // If tracks added today
-                if ($dateTo == now()->format('Y-m-d H-i')) {
-                    return $tracksGroup->where('updated_at', '>', $dateFrom.' 00:00:00')->where('updated_at', '<=', now());
+                if ($dateFrom == now()->format('Y-m-d').' 00:00:00') {
+                    return $tracksGroup->where('updated_at', '>', $dateFrom)->where('updated_at', '<', now());
                 }
 
                 return $tracksGroup->where('updated_at', '>', $dateFrom)->where('updated_at', '<', $dateTo);
@@ -70,7 +71,7 @@ class OnTheBorder extends Component
             });
 
         return $tracks->pluck('id')->toArray();
-    }
+    }   
 
     public function openGroupByDate($dateFrom, $dateTo)
     {
@@ -103,7 +104,7 @@ class OnTheBorder extends Component
             //     $tracksUsers[] = $track->user->email;
             // }
 
-            if ($track->user->status === 1) {
+            if ($track->user_id != NULL && $track->user->status === 1) {
                 $tracksByUser[$track->user_id][] = $track;
             }
         }

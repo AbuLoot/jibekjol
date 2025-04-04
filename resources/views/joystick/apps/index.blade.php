@@ -27,7 +27,7 @@
             <td>{{ $app->name }}</td>
             <td>{{ $app->email }}</td>
             <td>{{ $app->phone }}</td>
-            <td class="cell-mw">{{ $app->message }}</td>
+            <td>{{ $app->message }}</td>
             <td>{{ __('statuses.customer_apps.'.$app->status) }}</td>
             <td class="text-center">
               <form method="POST" action="/{{ $lang }}/admin/apps/{{ $app->id }}" accept-charset="UTF-8" class="btn-delete">
