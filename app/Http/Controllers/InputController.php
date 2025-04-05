@@ -234,6 +234,14 @@ class InputController extends Controller
             'phone' => 'required|min:5',
         ]);
 
+        $domainMail = strrchr($request->email, '@');
+        $emails = ['gmail.com', 'mail.ru', 'inbox.ru', 'bk.ru', 'list.ru', 'yandex.ru', 'icloud.com', 'tutanota.com'];
+
+        // For spam
+        if (!empty($request->surname) || (!empty($request->surname) && !in_array($domainMail, $emails))) {
+            return redirect()->back();
+        }
+
         if ($validator->fails()) {
             return redirect()->withErrors($validator)->withInput();
         }
@@ -245,29 +253,7 @@ class InputController extends Controller
         $app->message = $request->message;
         $app->save();
 
-        // Email subject
-        $subject = "JibekJol - Новая заявка от $request->name";
-
-        // Email content
-        $content = "<h2>JibekJol Cargo</h2>";
-        $content .= "<b>Имя: $request->name</b><br>";
-        $content .= "<b>Номер: $request->phone</b><br>";
-        $content .= "<b>Email: $request->email</b><br>";
-        $content .= "<b>Текст: $request->message</b><br>";
-        $content .= "<b>Дата: " . date('Y-m-d') . "</b><br>";
-        $content .= "<b>Время: " . date('G:i') . "</b>";
-
-        $headers = "From: serv@jibekjol.kz \r\n" .
-                   "MIME-Version: 1.0" . "\r\n" . 
-                   "Content-type: text/html; charset=UTF-8" . "\r\n";
-
-        // Send the email
-        if (mail('issayev.adilet@gmail.com', $subject, $content, $headers)) {
-            $status = 'Ваша заявка принята. Спасибо!';
-        }
-        else {
-            $status = 'Произошла ошибка.';
-        }
+        $status = 'Ваша заявка принята. Спасибо!';
 
         // dd($status, $message);
         return redirect()->back()->with([

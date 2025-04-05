@@ -7,7 +7,7 @@ return [
     'description' => 'Сипаттама',
     'date' => 'Күні',
     'status' => 'Күйі',
-    'text' => 'Текст',
+    'text' => 'Хат',
     'tracking_by_code' => 'Трек-код бойынша бақылау',
     'enter_track_code' => 'Трек-кодты енгізіңіз',
 
@@ -32,6 +32,8 @@ return [
     // App Form
     'app_form' => 'Тапсырыс формасы',
     'send' => 'Жіберу',
+    'new_app' => 'Jibekjol сайтынан жаңа хат келді',
+    'app_message' => 'Жаңа хат келіп түсті',
 
     //Auth
     'login_btn' => 'Кіру',

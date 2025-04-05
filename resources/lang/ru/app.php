@@ -7,7 +7,7 @@ return [
     'description' => 'Описание',
     'date' => 'Дата',
     'status' => 'Статус',
-    'text' => 'Текст',
+    'text' => 'Сообщение',
     'tracking_by_code' => 'Отслеживание по трек коду',
     'enter_track_code' => 'Введите трек-код',
 
@@ -32,6 +32,8 @@ return [
     // App Form
     'app_form' => 'Форма заявки',
     'send' => 'Отправить',
+    'new_app' => 'Новая заявка',
+    'app_message' => 'Новая заявка от клиента',
 
     //Auth
     'login_btn' => 'Вход',

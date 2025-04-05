@@ -7,7 +7,7 @@ return [
     'description' => 'Description',
     'date' => 'Date',
     'status' => 'Status',
-    'text' => 'Text',
+    'text' => 'Message',
     'tracking_by_code' => 'Tracking by code',
     'enter_track_code' => 'Enter track code',
 
@@ -32,6 +32,8 @@ return [
     // App Form
     'app_form' => 'Application form',
     'send' => 'Send',
+    'new_app' => 'New application',
+    'app_message' => 'A new application has been received',
 
     //Auth
     'login_btn' => 'Login',

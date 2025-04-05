@@ -157,6 +157,10 @@
             <input type="text" name="name" class="form-control" id="form-name" minlength="2" maxlength="40" autocomplete="off" placeholder="{{ __('app.name') }}" required>
             <label for="form-name">{{ __('app.name') }}</label>
           </div>
+          <div class="form-floating d-none mb-3">
+            <input type="text" name="surname" class="form-control" id="form-name" minlength="2" maxlength="40" autocomplete="off" placeholder="{{ __('app.surname') }}">
+            <label for="form-name">{{ __('app.surname') }}</label>
+          </div>
           <div class="form-floating mb-3">
             <input type="email" name="email" class="form-control" id="form-email" autocomplete="off" placeholder="{{ __('app.email') }}" required>
             <label for="form-email">{{ __('app.email') }}</label>
