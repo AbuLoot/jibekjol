@@ -52,6 +52,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ysabeau:ital,wght@1,1000&display=swap" rel="stylesheet">
   <script src="/webpush.js"></script>
+  <script src="/sw.js"></script>
 
   @livewireStyles
 </head>

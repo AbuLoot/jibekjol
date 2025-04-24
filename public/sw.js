@@ -5,7 +5,7 @@ self.addEventListener('push', event => {
   const options = {
     body: data.notification.body || '',
     icon: data.notification.icon || '/icons/favicon-96x96.png',
-    url: data.notification.url || '/kz/client',
+    url: data.notification.url || '/en/client',
   };
 
   event.waitUntil(self.registration.showNotification(title, options));

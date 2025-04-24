@@ -34,7 +34,7 @@ function urlBase64ToUint8Array(base64String) {
 
 function sendSubscriptionToServer(subscription) {
 
-  fetch('/kz/client/push-subscribe', {
+  fetch('/en/client/push-subscribe', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

@@ -53,6 +53,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Ysabeau:ital,wght@1,1000&display=swap" rel="stylesheet">
 
   <script src="/webpush.js"></script>
+  <script src="/sw.js"></script>
 
 </head>
 <body class="bg-light">
