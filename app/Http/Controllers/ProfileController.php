@@ -72,6 +72,20 @@ class ProfileController extends Controller
         return redirect(app()->getLocale().'/profile')->with('status', 'Запись обновлена!');
     }
 
+    public function pushSubscribe(Request $request)
+    {
+        $request->validate([
+            'endpoint' => 'required|url',
+            'keys.p256dh' => 'required|string',
+            'keys.auth' => 'required|string',
+        ]);
+
+        $user = auth()->user();
+        $user->updatePushSubscription($request->endpoint, $request->input('keys.p256dh'), $request->input('keys.auth'));
+
+        return response()->json(['title' => true]);
+    }
+
     public function passwordEdit($lang)
     {
         return view('account.change-password');

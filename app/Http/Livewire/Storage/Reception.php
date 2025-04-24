@@ -4,12 +4,15 @@ namespace App\Http\Livewire\Storage;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
 use Rap2hpoutre\FastExcel\FastExcel;
+use App\Notifications\TrackReceived;
 
+use App\Models\User;
 use App\Models\Track;
 use App\Models\Status;
 use App\Models\TrackStatus;
@@ -65,6 +68,13 @@ class Reception extends Component
             $track->save();
         }
         elseif ($track->status >= $this->statusReceived->id) {
+
+            if ($track->user_id != NULL && $track->user->status === 1) {
+                $user = User::find($track->user_id);
+                $res = $user->notify(new TrackReceived('Salam'));
+                // Notification::send($user, new TrackReceived());
+            }
+
             $this->addError('trackCode', 'Track '.$this->trackCode.' received');
             $this->trackCode = null;
             return;
@@ -79,6 +89,11 @@ class Reception extends Component
 
         $track->status = $this->statusReceived->id;
         $track->save();
+
+        if ($track->user_id != NULL && $track->user->status === 1) {
+            $user = User::find($track->user_id);
+            $user->notify(new TrackReceived());
+        }
 
         $this->dispatchBrowserEvent('area-focus');
     }

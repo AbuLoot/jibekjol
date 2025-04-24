@@ -145,7 +145,6 @@
     </nav>
   </div>
 
-
   <!-- Modal Add Track -->
   <livewire:client.add-track>
 

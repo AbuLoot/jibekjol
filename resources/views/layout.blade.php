@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="author" content="Namatilla">
+  <meta name="author" content="ismoon">
   <title>@yield('meta_title', 'JibekJol')</title>
   <meta name="description" content="@yield('meta_description', 'JibekJol')">
 
@@ -48,21 +48,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ysabeau:ital,wght@1,1000&display=swap" rel="stylesheet">
-
-  <script>
-  if (‘serviceWorker’ in navigator) {
-   window.addEventListener(‘load’, function() {  
-     navigator.serviceWorker.register(‘/sw.js’).then(
-       function(registration) {
-         // Registration was successful
-         console.log(‘ServiceWorker registration successful with scope: ‘, registration.scope); },
-       function(err) {
-         // registration failed :(
-         console.log(‘ServiceWorker registration failed: ‘, err);
-       });
-   });
-  }
-  </script>
 
   @yield('head')
 
@@ -169,7 +154,6 @@
       @endif
     </div>
   </footer>
-
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
   <script type="text/javascript">
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')

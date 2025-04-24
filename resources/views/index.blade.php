@@ -71,7 +71,7 @@
               <input type="number" class="form-control" id="weight" name="weight" min="0" placeholder="0,0" value="{{ session('weight') }}" step="any" required>
             </div>
             <div class="col-lg-12 mb-3">
-              <label class="form-label">{{ __('app.delivery_method') }}</label>
+              <label for="standart" class="form-label">{{ __('app.delivery_method') }}</label>
               <div class="list-group">
                 <label class="list-group-item d-flex gap-2">
                   <input class="form-check-input flex-shrink-0" type="radio" name="type_delivery" id="standart" value="1" checked>
@@ -158,15 +158,15 @@
             <label for="form-name">{{ __('app.name') }}</label>
           </div>
           <div class="form-floating d-none mb-3">
-            <input type="text" name="surname" class="form-control" id="form-name" minlength="2" maxlength="40" autocomplete="off" placeholder="{{ __('app.surname') }}">
-            <label for="form-name">{{ __('app.surname') }}</label>
+            <input type="text" name="surname" class="form-control" id="form-surname" minlength="2" maxlength="40" autocomplete="off" placeholder="{{ __('app.surname') }}">
+            <label for="form-surname">{{ __('app.surname') }}</label>
           </div>
           <div class="form-floating mb-3">
             <input type="email" name="email" class="form-control" id="form-email" autocomplete="off" placeholder="{{ __('app.email') }}" required>
             <label for="form-email">{{ __('app.email') }}</label>
           </div>
           <div class="form-floating mb-3">
-            <input type="tel" id="form-number" class="form-control" pattern="(\+?\d[- .]*){7,13}" name="phone" minlength="5" maxlength="20" placeholder="{{ __('app.phone') }}" required>
+            <input type="tel" id="form-number" class="form-control" pattern="(\+?\d[- .]*){7,13}" name="phone" minlength="5" maxlength="20" placeholder="{{ __('app.phone') }}" autocomplete="on" required>
             <label for="form-number">{{ __('app.phone') }}</label>
           </div>
           <div class="form-floating mb-3">
@@ -234,41 +234,4 @@
     </script>
   @endif
 
-  <script>
-    function calculate() {
-      const form = document.getElementById('calc')
-
-      let token = form.elements['_token'].value
-      let lengthEl = form.elements['elLength'].value
-      let width = form.elements['width'].value
-      let height = form.elements['height'].value
-      let weight = form.elements['weight'].value
-      let typeDelivery = form.elements['type_delivery'].value
-
-      let domain = '{{ url("/".$lang) }}/calculate'
-      let uri = '?_token='+token+'&length='+lengthEl+'&width='+width+'&height='+height+'&weight='+weight+'&type_delivery='+typeDelivery;
-
-      // Ajax Request
-      const xmlHttp = new XMLHttpRequest();
-
-      xmlHttp.open('GET', domain+uri, true)
-      xmlHttp.send()
-      xmlHttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-          var divHint = document.getElementById('text-hint')
-
-          // document.getElementById('density').innerHTML = 
-          // document.getElementById('price').innerHTML = 
-
-          divHint.classList.remove("d-none");
-          // density.innerHTML = this.responseText.density
-          // price.innerHTML = this.responseText.price
-
-          console.log(this.responseText);
-        }
-      }
-
-      console.log(domain+uri, lengthEl, width, height, weight, typeDelivery)
-    }
-  </script>
 @endsection

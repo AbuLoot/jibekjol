@@ -41,6 +41,30 @@
             </tr>
           </tbody>
         </table>
+
+
+        <button type="button" class="btn btn-info" id="enable-push">Enable Notification</button>
+
+        <script>
+          const btnEnablePush = document.getElementById('enable-push');
+
+          btnEnablePush.addEventListener('click', function() {
+            if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+              Notification.requestPermission().then(function(permission) {
+                if (permission === 'granted') {
+                  console.log('Notification permission granted.');
+                  subscribeUserToPush();
+                } else {
+                  console.log('Notification permission denied.');
+                }
+              });
+            } else if (Notification.permission === 'granted') {
+               subscribeUserToPush();
+            }
+          });
+        </script>
+
+
         <a href="/{{ $lang }}/profile/edit" class="btn btn-primary btn-lg">{{ __('app.edit') }}</a>
 
       </div>

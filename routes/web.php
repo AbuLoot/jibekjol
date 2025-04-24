@@ -51,6 +51,7 @@ Route::group(['prefix' => '/{locale}/client', 'middleware' => ['auth']], functio
     Route::get('/', ClientIndex::class);
     Route::get('tracks', ClientIndex::class);
     Route::get('archive', Archive::class);
+    Route::post('push-subscribe', [ProfileController::class, 'pushSubscribe']);
 });
 
 // Storage Livewire Routes

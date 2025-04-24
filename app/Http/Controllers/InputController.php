@@ -234,11 +234,12 @@ class InputController extends Controller
             'phone' => 'required|min:5',
         ]);
 
-        $domainMail = strrchr($request->email, '@');
-        $emails = ['gmail.com', 'mail.ru', 'inbox.ru', 'bk.ru', 'list.ru', 'yandex.ru', 'icloud.com', 'tutanota.com'];
+        // $domainMail = strrchr($request->email, '@');
+        // $emails = ['gmail.com', 'mail.ru', 'inbox.ru', 'bk.ru', 'list.ru', 'yandex.ru', 'icloud.com', 'tutanota.com'];
+        // (!empty($request->surname) && !in_array($domainMail, $emails))
 
         // For spam
-        if (!empty($request->surname) || (!empty($request->surname) && !in_array($domainMail, $emails))) {
+        if (!empty($request->surname)) {
             return redirect()->back();
         }
 

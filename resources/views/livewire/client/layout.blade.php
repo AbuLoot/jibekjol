@@ -3,9 +3,10 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
+  <meta name="description" content="Client">
   <meta name="author" content="ismoon">
-  <title>jibekjol</title>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <title>Jibekjol</title>
 
   <link rel="canonical" href="">
 
@@ -50,21 +51,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ysabeau:ital,wght@1,1000&display=swap" rel="stylesheet">
-
-  <script>
-  if (‘serviceWorker’ in navigator) {
-   window.addEventListener(‘load’, function() {  
-     navigator.serviceWorker.register(‘/sw.js’).then(
-       function(registration) {
-         // Registration was successful
-         console.log(‘ServiceWorker registration successful with scope: ‘, registration.scope); },
-       function(err) {
-         // registration failed :(
-         console.log(‘ServiceWorker registration failed: ‘, err);
-       });
-   });
-  }
-  </script>
+  <script src="/webpush.js"></script>
 
   @livewireStyles
 </head>

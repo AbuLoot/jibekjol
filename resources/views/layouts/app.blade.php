@@ -52,20 +52,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ysabeau:ital,wght@1,1000&display=swap" rel="stylesheet">
 
-  <script>
-  if (‘serviceWorker’ in navigator) {
-   window.addEventListener(‘load’, function() {  
-     navigator.serviceWorker.register(‘/sw.js’).then(
-       function(registration) {
-         // Registration was successful
-         console.log(‘ServiceWorker registration successful with scope: ‘, registration.scope); },
-       function(err) {
-         // registration failed :(
-         console.log(‘ServiceWorker registration failed: ‘, err);
-       });
-   });
-  }
-  </script>
+  <script src="/webpush.js"></script>
 
 </head>
 <body class="bg-light">
