@@ -1,22 +1,23 @@
-self.addEventListener('push', event => {
+self.addEventListener('push', function(event) {
+    const data = event.data.json();
+    const options = {
+        body: data.body,
+        icon: data.icon,
+        url: data.url,
+        // badge: data.badge, // Необязательно: путь к значку уведомления
+        // Другие опции уведомления: https://developer.mozilla.org/en-US/docs/Web/API/Notification/Notification
+    };
 
-  const data = event.data.json();
-  const title = data.notification.title || 'Notification';
-  const options = {
-    body: data.notification.body || '',
-    icon: data.notification.icon || '/icons/favicon-96x96.png',
-    url: data.notification.url || '/en/client',
-  };
-
-  event.waitUntil(self.registration.showNotification(title, options));
+    event.waitUntil(
+        self.registration.showNotification(data.title, options)
+    );
 });
 
-self.addEventListener('notificationclick', event => {
+self.addEventListener('notificationclick', function(event) {
+    event.notification.close();
 
-  event.notification.close();
-  if (event.action && clients.openWindow) {
-    event.waitUntil(clients.openWindow(event.action));
-  } else if (event.notification.click_action && clients.openWindow) {
-    event.waitUntil(clients.openWindow(event.notification.click_action));
-  }
+    // Перенаправление пользователя при клике на уведомление
+    event.waitUntil(
+        clients.openWindow(event.notification.data.url || '/')
+    );
 });

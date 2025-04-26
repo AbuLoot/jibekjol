@@ -7,15 +7,21 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 
 use Rap2hpoutre\FastExcel\FastExcel;
 
+use App\Models\User;
 use App\Models\Status;
 use App\Models\Track;
 use App\Models\TrackStatus;
 use App\Mail\TrackOnTheBorder;
 use App\Mail\TrackSorted;
 use App\Mail\TrackArrived;
+use App\Notifications\TrackReceived as PushTrackReceived;
+use App\Notifications\TrackSent as PushTrackSent;
+use App\Notifications\TrackSorted as PushTrackSorted;
 
 class TrackExtensionController extends Controller
 {
@@ -153,18 +159,22 @@ class TrackExtensionController extends Controller
 
         $existentTracks = Track::where('status', '<', $statusReceived->id)->whereIn('code', $uniqueTrackCodes)            ->get();
 
+        $receivedTracks = $existentTracks->where('status', '>=', $statusReceived->id);
         $unreceivedTracks = $existentTracks->where('status', '<', $statusReceived->id);
         $unreceivedTracksStatus = [];
+        $unreceivedTracksByLangUser = [];
 
-        $receivedTracks = $existentTracks->where('status', '>=', $statusReceived->id);
-
-        $unreceivedTracks->each(function ($item, $key) use (&$unreceivedTracksStatus, $statusReceived) {
+        $unreceivedTracks->each(function ($item, $key) use (&$unreceivedTracksStatus, &$unreceivedTracksByLangUser, $statusReceived) {
             $unreceivedTracksStatus[] = [
                 'track_id' => $item->id,
                 'status_id' => $statusReceived->id,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
+
+            if ($item->user && $item->user->status === 1) {
+                $unreceivedTracksByLangUser[$item->user->lang][$item->user_id][] = $item;
+            }
         });
 
         // Update Existent but Unreceived Tracks
@@ -176,6 +186,16 @@ class TrackExtensionController extends Controller
         $nonexistentTracks = collect($trackCodes)->diff($allReceivedTracks->pluck('code'));
 
         $this->createTracksAndStatuses($nonexistentTracks, $statusReceived->id);
+
+        // For Web Push Notification
+        foreach($unreceivedTracksByLangUser as $lang => $userTracks) {
+            $usersId = array_keys($userTracks);
+            $users = User::whereIn('id', $usersId)->get();
+            app()->setLocale($lang);
+            $message = __('app.parcel_group').Str::lcfirst(__('app.statuses.received'));
+            Notification::send($users, new PushTrackReceived($message));
+            // dd($users, $lang, $message, $userTracks);
+        }
 
         return [
             'totalTracksCount' => $trackCodes->count(),
@@ -196,14 +216,14 @@ class TrackExtensionController extends Controller
         // Get existent tracks
         $existentTracks = Track::where('status', '<=', $statusSent->id)->whereIn('code', $uniqueTrackCodes)->get();
 
+        $sentTracks = $existentTracks->where('status', '>=', $statusSent->id);
         $unsentTracks = $existentTracks->where('status', '<', $statusSent->id);
         $unsentTracksStatus = [];
-
-        $sentTracks = $existentTracks->where('status', '>=', $statusSent->id);
+        $unsentTracksByLangUser = [];
 
         $region = session()->get('jjRegion');
 
-        $unsentTracks->each(function ($item, $key) use (&$unsentTracksStatus, $statusSent, $region) {
+        $unsentTracks->each(function($item, $key) use (&$unsentTracksStatus, &$unsentTracksByLangUser, $statusSent, $region) {
             $unsentTracksStatus[] = [
                 'track_id' => $item->id,
                 'status_id' => $statusSent->id,
@@ -211,6 +231,10 @@ class TrackExtensionController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
+
+            if ($item->user && $item->user->status === 1) {
+                $unsentTracksByLangUser[$item->user->lang][$item->user_id][] = $item;
+            }
         });
 
         // Update Unarrived Tracks
@@ -221,6 +245,15 @@ class TrackExtensionController extends Controller
         $nonexistentTracks = collect($trackCodes)->diff($allSentTracks->pluck('code'));
 
         $this->createTracksAndStatuses($nonexistentTracks, $statusSent->id);
+
+        // For Web Push Notification
+        foreach($unsentTracksByLangUser as $lang => $userTracks) {
+            $usersId = array_keys($userTracks);
+            $users = User::whereIn('id', $usersId)->get();
+            app()->setLocale($lang);
+            $message = __('app.parcel_group').Str::lcfirst(__('app.statuses.sent'));
+            Notification::send($users, new PushTrackSent($message));
+        }
 
         return [
             'totalTracksCount' => $trackCodes->count(),
@@ -241,11 +274,10 @@ class TrackExtensionController extends Controller
         // Get existent tracks
         $existentTracks = Track::where('status', '<=', $statusOnTheBorder->id)->whereIn('code', $uniqueTrackCodes)->get();
 
+        $onTheBorderTracks = $existentTracks->where('status', '>=', $statusOnTheBorder->id);
         $notOnTheBorderTracks = $existentTracks->where('status', '<', $statusOnTheBorder->id);
         $notOnTheBorderTracksStatus = [];
         $notOnTheBorderTracksByUser = [];
-
-        $onTheBorderTracks = $existentTracks->where('status', '>=', $statusOnTheBorder->id);
 
         $region = session()->get('jjRegion');
 
@@ -343,15 +375,14 @@ class TrackExtensionController extends Controller
         // Get existent tracks
         $existentTracks = Track::where('status', '<=', $statusSorted->id)->whereIn('code', $uniqueTrackCodes)->get();
 
+        $sortedTracks = $existentTracks->where('status', '>=', $statusSorted->id);
         $unsortedTracks = $existentTracks->where('status', '<', $statusSorted->id);
         $unsortedTracksStatus = [];
-        $unsortedTracksByUser = [];
-
-        $arrivedTracks = $existentTracks->where('status', '>=', $statusSorted->id);
+        $unsortedTracksByLangUser = [];
 
         $region = session()->get('jjRegion');
 
-        $unsortedTracks->each(function ($item, $key) use (&$unsortedTracksStatus, &$unsortedTracksByUser, $statusSorted, $region) {
+        $unsortedTracks->each(function ($item, $key) use (&$unsortedTracksStatus, &$unsortedTracksByLangUser, $statusSorted, $region) {
             $unsortedTracksStatus[] = [
                 'track_id' => $item->id,
                 'status_id' => $statusSorted->id,
@@ -361,30 +392,40 @@ class TrackExtensionController extends Controller
             ];
 
             if ($item->user && $item->user->status === 1) {
-                $unsortedTracksByUser[$item->user_id][] = $item;
+                $unsortedTracksByLangUser[$item->user->lang][$item->user_id][] = $item;
             }
         });
 
         // Update Unarrived Tracks
         $this->insertStatusesAndUpdateTracks($unsortedTracks, $unsortedTracksStatus, $statusSorted);
 
-        $allArrivedTracks = $arrivedTracks->merge($unsortedTracks);
+        $allSortedTracks = $sortedTracks->merge($unsortedTracks);
 
-        $nonexistentTracks = collect($trackCodes)->diff($allArrivedTracks->pluck('code'));
+        $nonexistentTracks = collect($trackCodes)->diff($allSortedTracks->pluck('code'));
 
         $this->createTracksAndStatuses($nonexistentTracks, $statusSorted->id, $region->id);
 
-        foreach ($unsortedTracksByUser as $userId => $tracks) {
-            if (is_numeric($userId)) {
-                app()->setLocale($tracks[0]->user->lang);
-                Mail::to($tracks[0]->user->email)->send(new TrackSorted($tracks[0]->user, $tracks));
-            }
+        // For Web Push Notification
+        foreach($unsortedTracksByLangUser as $lang => $userTracks) {
+            $usersId = array_keys($userTracks);
+            $users = User::whereIn('id', $usersId)->get();
+            app()->setLocale($lang);
+            $message = __('app.parcel_group').Str::lcfirst(__('app.statuses.sorted'));
+            Notification::send($users, new PushTrackSorted($message));
         }
+
+        // For Mail Notification
+        // foreach ($unsortedTracksByUser as $userId => $tracks) {
+        //     if (is_numeric($userId)) {
+        //         app()->setLocale($tracks[0]->user->lang);
+        //         Mail::to($tracks[0]->user->email)->send(new TrackSorted($tracks[0]->user, $tracks));
+        //     }
+        // }
 
         return [
             'totalTracksCount' => $trackCodes->count(),
             'sortedTracksCount' => $unsortedTracks->count() + $nonexistentTracks->count(),
-            'existentTracksCount' => $arrivedTracks->count(),
+            'existentTracksCount' => $sortedTracks->count(),
         ];
     }
 
@@ -400,10 +441,9 @@ class TrackExtensionController extends Controller
         // Get existent tracks
         $existentTracks = Track::where('status', '<=', $statusSentLocally->id)->whereIn('code', $uniqueTrackCodes)->get();
 
+        $sentTracks = $existentTracks->where('status', '>=', $statusSentLocally->id);
         $unsentTracks = $existentTracks->where('status', '<', $statusSentLocally->id);
         $unsentTracksStatus = [];
-
-        $sentTracks = $existentTracks->where('status', '>=', $statusSentLocally->id);
 
         $region = session()->get('jjRegion');
 

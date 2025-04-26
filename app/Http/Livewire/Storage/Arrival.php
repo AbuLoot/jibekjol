@@ -14,7 +14,7 @@ use App\Models\Status;
 use App\Models\TrackStatus;
 
 use App\Mail\TrackArrived;
-use App\Jobs\SendMailNotification;
+// use App\Jobs\SendMailNotification;
 
 class Arrival extends Component
 {

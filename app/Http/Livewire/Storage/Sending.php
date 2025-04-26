@@ -3,12 +3,16 @@
 namespace App\Http\Livewire\Storage;
 
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+use App\Models\User;
 use App\Models\Track;
 use App\Models\Status;
 use App\Models\TrackStatus;
+use App\Notifications\TrackSent;
 
 class Sending extends Component
 {
@@ -88,21 +92,42 @@ class Sending extends Component
 
         // Creating Track Status
         $tracksStatus = [];
-        $statusSentId = $this->statusSent->id;
+        $tracksByLangUser = [];
 
-        $tracks->each(function ($track) use (&$tracksStatus, $statusSentId) {
+        foreach ($tracks as $track) {
+
             $tracksStatus[] = [
                 'track_id' => $track->id,
-                'status_id' => $statusSentId,
+                'status_id' => $this->statusSent->id,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
-        });
+
+            if ($track->user_id != NULL && $track->user->status === 1) {
+                $tracksByLangUser[$track->user->lang][$track->user_id][] = $track;
+            }
+        }
 
         TrackStatus::insert($tracksStatus);
 
         // Updating Track Status
         Track::whereIn('id', $ids)->update(['status' => $this->statusSent->id]);
+
+        // For Web Push Notification
+        foreach($tracksByLangUser as $lang => $userTracks) {
+            $usersId = array_keys($userTracks);
+            $users = User::whereIn('id', $usersId)->get();
+            app()->setLocale($lang);
+            $message = __('app.parcel_group').Str::lcfirst(__('app.statuses.sent'));
+            Notification::send($users, new TrackSent($message));
+            // dd($users, $lang, $message, $userTracks);
+        }
+
+        // foreach ($tracksByUser as $userId => $tracks) {
+            // if (is_numeric($userId)) {
+                // Mail::to($tracks[0]->user->email)->send(new TrackSend($tracks[0]->user, $tracks));
+            // }
+        // }
     }
 
     public function btnToSend($trackCode)
@@ -128,6 +153,12 @@ class Sending extends Component
             $track->save();
         }
         elseif ($track->status >= $this->statusSent->id) {
+        if ($track->user_id != NULL && $track->user->status === 1) {
+            app()->setLocale($track->user->lang);
+            $message = __('app.parcel_track', ['track_code' => $track->code]).Str::lcfirst(__('app.statuses.sent'));
+            $track->user->notify(new TrackSent($message));
+        }
+
             $this->addError('trackCode', 'Track '.$this->trackCode.' sent');
             $this->trackCode = null;
             return;
@@ -142,6 +173,12 @@ class Sending extends Component
 
         $track->status = $this->statusSent->id;
         $track->save();
+
+        if ($track->user_id != NULL && $track->user->status === 1) {
+            app()->setLocale($track->user->lang);
+            $message = __('app.parcel_track', ['track_code' => $track->code]).Str::lcfirst(__('app.statuses.sent'));
+            $track->user->notify(new TrackSent($message));
+        }
 
         $this->trackCode = null;
         $this->dispatchBrowserEvent('area-focus');

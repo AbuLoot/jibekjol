@@ -86,6 +86,25 @@ class ProfileController extends Controller
         return response()->json(['title' => true]);
     }
 
+    public function pushUnsubscribe(Request $request)
+    {
+        $user = auth()->user();
+        $endpoint = $request->input('endpoint');
+
+        if (empty($endpoint)) {
+            return response()->json(['message' => 'Endpoint is required'], 400);
+        }
+
+        try {
+            $user->deletePushSubscription($endpoint);
+            return response()->json(['message' => 'Successfully unsubscribed'], 200);
+        } catch (\Exception $e) {
+            // Логируйте ошибку для отладки
+            \Log::error('Error unsubscribing user ' . $user->id . ': ' . $e->getMessage());
+            return response()->json(['message' => 'Failed to unsubscribe'], 500);
+        }
+    }
+
     public function passwordEdit($lang)
     {
         return view('account.change-password');

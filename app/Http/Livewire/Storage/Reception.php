@@ -5,17 +5,17 @@ namespace App\Http\Livewire\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
 use Rap2hpoutre\FastExcel\FastExcel;
-use App\Notifications\TrackReceived;
 
-use App\Models\User;
 use App\Models\Track;
 use App\Models\Status;
 use App\Models\TrackStatus;
+use App\Notifications\TrackReceived;
 
 class Reception extends Component
 {
@@ -69,11 +69,12 @@ class Reception extends Component
         }
         elseif ($track->status >= $this->statusReceived->id) {
 
-            if ($track->user_id != NULL && $track->user->status === 1) {
-                $user = User::find($track->user_id);
-                $res = $user->notify(new TrackReceived('Salam'));
-                // Notification::send($user, new TrackReceived());
-            }
+        if ($track->user_id != NULL && $track->user->status === 1) {
+            app()->setLocale($track->user->lang);
+            $message = __('app.parcel_track', ['track_code' => $track->code]).Str::lcfirst(__('app.statuses.received'));
+            // auth()->user()->notify(new TrackReceived($message));
+            Notification::send($track->user, new TrackReceived($message));
+        }
 
             $this->addError('trackCode', 'Track '.$this->trackCode.' received');
             $this->trackCode = null;
@@ -91,8 +92,10 @@ class Reception extends Component
         $track->save();
 
         if ($track->user_id != NULL && $track->user->status === 1) {
-            $user = User::find($track->user_id);
-            $user->notify(new TrackReceived());
+            app()->setLocale($track->user->lang);
+            $message = __('app.parcel_track', ['track_code' => $track->code]).Str::lcfirst(__('app.statuses.received'));
+            $track->user->notify(new TrackReceived($message));
+            // Notification::send(auth()->user(), new TrackReceived($message));
         }
 
         $this->dispatchBrowserEvent('area-focus');

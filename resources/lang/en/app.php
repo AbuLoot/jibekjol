@@ -53,7 +53,9 @@ return [
     'select_a_city' => 'Select a city...',
     'region' => 'Region',
     'address' => 'Address',
-    'notification' => 'Email notification',
+    'webpush_notification' => 'Web Push notification',
+    'mail_notification' => 'Email notification',
+    'switch_notification' => 'Switch notification',
     'notification_status' => [
         1 => 'Active',
         2 => 'Inactive',
@@ -102,9 +104,11 @@ return [
         'given' => 'Given to user',
     ],
 
-    // Email
+    // Notification
     'time' => 'Time',
     'dear_client' => 'Dear :fullname, your parcel are already',
+    'parcel_track' => 'Your parcel with track-code :track_code ',
+    'parcel_group' => 'Group of parcel ',
     'your_track' => 'Your track-code',
     'your_parcel' => 'Your parcel',
     'info_track' => 'Parcel information',

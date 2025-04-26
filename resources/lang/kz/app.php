@@ -17,13 +17,11 @@ return [
     'width' => 'Ені',
     'height' => 'Биіктігі',
     'weight' => 'Салмағы.кг',
-
     'delivery_method' => 'Жеткізу түрі',
     'standard_days' => '20-30 күн (стандарт)',
     'express_days' => '8-12 күн (экспресс)',
     'express_days_clothes' => '8-12 күн - Киім (экспресс)',
     'count' => 'Санау',
-
     'bulk_density' => 'Жүктің тығыздығы',
     'delivery' => 'Жеткізу',
     'price' => 'Бағасы',
@@ -39,13 +37,11 @@ return [
     'login_btn' => 'Кіру',
     'register_btn' => 'Тіркелу',
     'logout_btn' => 'Шығу',
-
     'login_form' => 'Кіру',
     'email' => 'Email адресі',
     'enter_password' => 'Құпия сөзді еңгізіңіз',
     'remember_me' => 'Мені есте сақтау',
     'forgot_password?' => 'Құпия сөзіңізді ұмыттыңыз ба?',
-
     'registration_form' => 'Тіркелу',
     'name' => 'Атыңыз',
     'surname' => 'Тегіңіз',
@@ -54,7 +50,9 @@ return [
     'select_a_city' => 'Қаланы таңдаңыз...',
     'region' => 'Регион',
     'address' => 'Адресіңіз',
-    'notification' => 'Пошта хабарландыруы',
+    'webpush_notification' => 'Web Push хабарландыру',
+    'mail_notification' => 'Пошта хабарландыруы',
+    'switch_notification' => 'Хабарландыру қосқышы',
     'notification_status' => [
         1 => 'Қосулы',
         2 => 'Өшірулі',
@@ -103,11 +101,13 @@ return [
         'given' => 'Клиентке берілді',
     ],
 
-    // Email
+    // Notification
     'time' => 'Уақыт',
-    'dear_client' => 'Құрметті :fullname, сіздің жүкіңіз',
+    'dear_client' => 'Құрметті :fullname, сіздің жүгіңіз',
+    'parcel_track' => 'Сіздің жүгіңіз :track_code трек-кодымен ',
+    'parcel_group' => 'Бір топ жүктер ',
     'your_track' => 'Сіздің трек-кодыңыз',
-    'your_parcel' => 'Сіздің жүкіңіз',
+    'your_parcel' => 'Сіздің жүгіңіз',
     'info_track' => 'Жүк туралы ақпарат',
     'in_plural' => [
         'dear_client' => 'Құрметті :fullname, сіздің жүктеріңіз',

@@ -53,7 +53,9 @@ return [
     'select_a_city' => 'Выберите город...',
     'region' => 'Регион',
     'address' => 'Адрес',
-    'notification' => 'Уведомление по почте',
+    'webpush_notification' => 'Web Push Уведомление',
+    'mail_notification' => 'Уведомление по почте',
+    'switch_notification' => 'Переключатель уведомления',
     'notification_status' => [
         1 => 'Включен',
         2 => 'Отключен',
@@ -102,9 +104,11 @@ return [
         'given' => 'Передано пользователю',
     ],
 
-    // Email
+    // Notification
     'time' => 'Время',
     'dear_client' => 'Уважаемый(ая) :fullname, ваша посылка уже',
+    'parcel_track' => 'Посылка с трек-кодом :track_code ',
+    'parcel_group' => 'Группа посылок ',
     'your_parcel' => 'Ваша посылка',
     'your_track' => 'Ваш трек-код',
     'info_track' => 'Информация о посылке',

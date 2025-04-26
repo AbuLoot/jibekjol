@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notification;
 use NotificationChannels\WebPush\WebPushMessage;
 use NotificationChannels\WebPush\WebPushChannel;
 
-class TrackReceived extends Notification implements ShouldQueue
+class TrackSorted extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -40,16 +40,6 @@ class TrackReceived extends Notification implements ShouldQueue
             ->body($this->message)
             ->icon('/icons/favicon-32x32.png')
             ->data(['url' => '/'.app()->getLocale().'/client']);
-            // ->action('View account', 'view_account')
-            // ->options(['TTL' => 1000]);
-            // ->badge()
-            // ->dir()
-            // ->image()
-            // ->lang()
-            // ->renotify()
-            // ->requireInteraction()
-            // ->tag()
-            // ->vibrate()
     }
 
     /**

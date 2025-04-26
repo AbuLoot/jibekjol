@@ -51,7 +51,6 @@ Route::group(['prefix' => '/{locale}/client', 'middleware' => ['auth']], functio
     Route::get('/', ClientIndex::class);
     Route::get('tracks', ClientIndex::class);
     Route::get('archive', Archive::class);
-    Route::post('push-subscribe', [ProfileController::class, 'pushSubscribe']);
 });
 
 // Storage Livewire Routes
@@ -129,6 +128,8 @@ Route::group(['prefix' => '{locale}', 'middleware' => 'auth'], function() {
     Route::put('profile', [ProfileController::class, 'updateProfile']);
     Route::get('profile/password/edit', [ProfileController::class, 'passwordEdit']);
     Route::put('profile/password', [ProfileController::class, 'passwordUpdate']);
+    Route::post('push-subscribe', [ProfileController::class, 'pushSubscribe']);
+    Route::post('push-unsubscribe', [ProfileController::class, 'pushUnsubscribe']);
 });
 
 // Site

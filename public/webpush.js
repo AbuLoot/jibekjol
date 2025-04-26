@@ -5,7 +5,7 @@ function subscribeUserToPush() {
     .then(function(registration) {
       const subscribeOptions = {
         userVisibleOnly: true,
-        applicationServerKey: 'BK17IUI2vdE1B47M8qH4uIUePUuqRgAL44hv4jX8Hq8ogvW5NtWIV1eKZh3aGX7ca13DVnFt5ZiojCE95XCyowY'
+        applicationServerKey: urlBase64ToUint8Array('BK17IUI2vdE1B47M8qH4uIUePUuqRgAL44hv4jX8Hq8ogvW5NtWIV1eKZh3aGX7ca13DVnFt5ZiojCE95XCyowY')
       };
       return registration.pushManager.subscribe(subscribeOptions);
     })
@@ -34,7 +34,7 @@ function urlBase64ToUint8Array(base64String) {
 
 function sendSubscriptionToServer(subscription) {
 
-  fetch('/en/client/push-subscribe', {
+  fetch('/en/push-subscribe', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -51,9 +51,24 @@ function sendSubscriptionToServer(subscription) {
   })
   .then(response => response.json())
   .then(data => console.log('Subscription saved:', data))
-  .catch(error => console.error('Error saving subscription:', error));
+  .catch(error => console.error('Error saving subscription', error));
 }
 
+function sendUnsubscriptionToServer(subscription) {
+
+  fetch('/en/push-unsubscribe', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    },
+    body: JSON.stringify({
+      endpoint: subscription.endpoint
+    })
+  })
+  .then(response => response.json())
+  .catch(error => console.error('Error unsubscription', error));
+}
 
 if ('serviceWorker' in navigator) {
 

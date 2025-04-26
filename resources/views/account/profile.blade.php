@@ -36,34 +36,21 @@
               <td>{{ $language->title }}</td>
             </tr>
             <tr>
-              <th>{{ __('app.notification') }}</th>
+              <th>{{ __('app.webpush_notification') }}</th>
+              <td>
+                @if(\App\Models\PushSubscription::where('subscribable_id', auth()->user()->id)->first())
+                {{ __('app.notification_status.1') }}
+                @else
+                {{ __('app.notification_status.2') }}
+                @endif
+              </td>
+            </tr>
+            <tr>
+              <th>{{ __('app.mail_notification') }}</th>
               <td>{{ __('app.notification_status.'.$user->status) }}</td>
             </tr>
           </tbody>
         </table>
-
-
-        <button type="button" class="btn btn-info" id="enable-push">Enable Notification</button>
-
-        <script>
-          const btnEnablePush = document.getElementById('enable-push');
-
-          btnEnablePush.addEventListener('click', function() {
-            if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
-              Notification.requestPermission().then(function(permission) {
-                if (permission === 'granted') {
-                  console.log('Notification permission granted.');
-                  subscribeUserToPush();
-                } else {
-                  console.log('Notification permission denied.');
-                }
-              });
-            } else if (Notification.permission === 'granted') {
-               subscribeUserToPush();
-            }
-          });
-        </script>
-
 
         <a href="/{{ $lang }}/profile/edit" class="btn btn-primary btn-lg">{{ __('app.edit') }}</a>
 

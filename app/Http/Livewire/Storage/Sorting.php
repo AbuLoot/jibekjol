@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Storage;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -12,6 +13,7 @@ use App\Models\Track;
 use App\Models\Status;
 use App\Models\TrackStatus;
 use App\Mail\TrackSorted;
+use App\Notifications\TrackSorted as PushTrackSorted;
 
 class Sorting extends Component
 {
@@ -74,6 +76,11 @@ class Sorting extends Component
             $track->save();
         }
         elseif ($track->status >= $this->statusSorted->id) {
+        if (isset($track->user->email) && $track->user->status === 1) {
+            app()->setlocale($track->user->lang);
+            $message = __('app.parcel_track', ['track_code' => $track->code]).Str::lcfirst(__('app.statuses.sorted'));
+            $track->user->notify(new PushTrackSorted($message));
+        }
             $this->addError('trackCode', 'Track '.$this->trackCode.' sorted');
             $this->trackCode = null;
             return;
@@ -92,7 +99,8 @@ class Sorting extends Component
 
         if (isset($track->user->email) && $track->user->status === 1) {
             app()->setlocale($track->user->lang);
-            Mail::to($track->user->email)->send(new TrackSorted($track->user, [$track]));
+            $message = __('app.parcel_track', ['track_code' => $track->code]).Str::lcfirst(__('app.statuses.sorted'));
+            $track->user->notify(new PushTrackSorted($message));
         }
 
         $this->trackCode = null;
