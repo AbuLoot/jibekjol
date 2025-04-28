@@ -193,7 +193,7 @@ class TrackExtensionController extends Controller
             $users = User::whereIn('id', $usersId)->get();
             app()->setLocale($lang);
             $message = __('app.parcel_group').Str::lcfirst(__('app.statuses.received'));
-            Notification::send($users, new PushTrackReceived($message));
+            Notification::send($users, (new PushTrackReceived($message))->locale($lang));
             // dd($users, $lang, $message, $userTracks);
         }
 
@@ -252,7 +252,7 @@ class TrackExtensionController extends Controller
             $users = User::whereIn('id', $usersId)->get();
             app()->setLocale($lang);
             $message = __('app.parcel_group').Str::lcfirst(__('app.statuses.sent'));
-            Notification::send($users, new PushTrackSent($message));
+            Notification::send($users, (new PushTrackSent($message))->locale($lang));
         }
 
         return [
@@ -411,7 +411,7 @@ class TrackExtensionController extends Controller
             $users = User::whereIn('id', $usersId)->get();
             app()->setLocale($lang);
             $message = __('app.parcel_group').Str::lcfirst(__('app.statuses.sorted'));
-            Notification::send($users, new PushTrackSorted($message));
+            Notification::send($users, (new PushTrackSorted($message))->locale($lang));
         }
 
         // For Mail Notification

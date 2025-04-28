@@ -36,14 +36,20 @@
               <td>{{ $language->title }}</td>
             </tr>
             <tr>
-              <th>{{ __('app.webpush_notification') }}</th>
-              <td>
+              <th colspan="2">{{ __('app.webpush_notification') }}
+
+      <?php $statusPush = \App\Models\PushSubscription::where('subscribable_id', auth()->user()->id)->first(); ?>
+      <button type="button" class="btn btn-outline-primary @if(!$statusPush) {{ 'd-none' }} @endif " id="btn-push-unsubscribe" onclick="return confirm('{{ __('app.confirm_action') }}') || event.stopImmediatePropagation()"><i class="bi bi-bell-slash"></i> {{ __('app.unsubscribe_webpush') }}</button>
+      <button type="button" class="btn btn-outline-primary @if($statusPush) {{ 'd-none' }} @endif " id="btn-push-subscribe" onclick="return confirm('{{ __('app.confirm_action') }}') || event.stopImmediatePropagation()"><i class="bi bi-bell"></i> {{ __('app.subscribe_webpush') }}</button>
+
+              </th>
+              <!-- <td>
                 @if(\App\Models\PushSubscription::where('subscribable_id', auth()->user()->id)->first())
                 {{ __('app.notification_status.1') }}
                 @else
                 {{ __('app.notification_status.2') }}
                 @endif
-              </td>
+              </td> -->
             </tr>
             <tr>
               <th>{{ __('app.mail_notification') }}</th>
@@ -55,7 +61,40 @@
         <a href="/{{ $lang }}/profile/edit" class="btn btn-primary btn-lg">{{ __('app.edit') }}</a>
 
       </div>
+      <script type="text/javascript">
+        const btnSub = document.getElementById('btn-push-subscribe');
+        const btnUnsub = document.getElementById('btn-push-unsubscribe');
+
+        btnSub.addEventListener('click', function(res) {
+
+          subscribeUserToPush()
+            .then(() => {
+              location.reload();
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+        });
+
+        btnUnsub.addEventListener('click', function(res) {
+          unsubscribeUserFromPush()
+            .then(() => {
+              btnUnsub.classList.add('d-none');
+              btnSub.classList.remove('d-none');
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+        }).then(() => { location.reload() });
+
+      </script>
     </div>
   </div>
+
+
+
+  @section('head')
+    <script src="/webpush.js"></script>
+  @endsection
 
 </x-app-layout>

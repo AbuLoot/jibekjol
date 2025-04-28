@@ -153,6 +153,7 @@ class Sending extends Component
             $track->save();
         }
         elseif ($track->status >= $this->statusSent->id) {
+
         if ($track->user_id != NULL && $track->user->status === 1) {
             app()->setLocale($track->user->lang);
             $message = __('app.parcel_track', ['track_code' => $track->code]).Str::lcfirst(__('app.statuses.sent'));
@@ -177,7 +178,7 @@ class Sending extends Component
         if ($track->user_id != NULL && $track->user->status === 1) {
             app()->setLocale($track->user->lang);
             $message = __('app.parcel_track', ['track_code' => $track->code]).Str::lcfirst(__('app.statuses.sent'));
-            $track->user->notify(new TrackSent($message));
+            $track->user->notify((new TrackSent($message))->locale($track->user->lang));
         }
 
         $this->trackCode = null;

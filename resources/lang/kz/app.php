@@ -50,6 +50,9 @@ return [
     'select_a_city' => 'Қаланы таңдаңыз...',
     'region' => 'Регион',
     'address' => 'Адресіңіз',
+    'confirm_action' => 'Әрекетті растайсыз ба?',
+    'subscribe_webpush' => 'Хабарландыруды қосу',
+    'unsubscribe_webpush' => 'Хабарландыруды тоқтату',
     'webpush_notification' => 'Web Push хабарландыру',
     'mail_notification' => 'Пошта хабарландыруы',
     'switch_notification' => 'Хабарландыру қосқышы',
@@ -104,7 +107,7 @@ return [
     // Notification
     'time' => 'Уақыт',
     'dear_client' => 'Құрметті :fullname, сіздің жүгіңіз',
-    'parcel_track' => 'Сіздің жүгіңіз :track_code трек-кодымен ',
+    'parcel_track' => 'Сіздің жүгіңіз трек-коды :track_code ',
     'parcel_group' => 'Бір топ жүктер ',
     'your_track' => 'Сіздің трек-кодыңыз',
     'your_parcel' => 'Сіздің жүгіңіз',

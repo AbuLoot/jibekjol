@@ -64,8 +64,8 @@
         </div>
         <div>{{ __('app.webpush_notification') }}:</div>
         <div class="form-check form-switch mb-3">
-          <input class="form-check-input" type="checkbox" name="webpush" id="webpush" role="switch" id="switchWebPush" @if(\App\Models\PushSubscription::where('subscribable_id', auth()->user()->id)->first()) checked @endif>
-          <label class="form-check-label" for="switchWebPush">{{ __('app.switch_notification') }}</label>
+          <input class="form-check-input" type="checkbox" name="webpush" role="switch" id="push_notifications_toggle" @if(\App\Models\PushSubscription::where('subscribable_id', auth()->user()->id)->first()) checked @endif>
+          <label class="form-check-label" for="push_notifications_toggle">{{ __('app.switch_notification') }}</label>
         </div>
 
         <div>{{ __('app.mail_notification') }}:</div>

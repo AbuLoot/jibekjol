@@ -97,11 +97,11 @@ class ProfileController extends Controller
 
         try {
             $user->deletePushSubscription($endpoint);
-            return response()->json(['message' => 'Successfully unsubscribed'], 200);
+            return response()->json(['data' => 'Successfully unsubscribed'], 200);
         } catch (\Exception $e) {
             // Логируйте ошибку для отладки
             \Log::error('Error unsubscribing user ' . $user->id . ': ' . $e->getMessage());
-            return response()->json(['message' => 'Failed to unsubscribe'], 500);
+            return response()->json(['data' => 'Failed to unsubscribe'], 500);
         }
     }
 

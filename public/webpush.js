@@ -1,8 +1,7 @@
 
 function subscribeUserToPush() {
 
-  return navigator.serviceWorker.ready
-    .then(function(registration) {
+  return navigator.serviceWorker.ready.then(function(registration) {
       const subscribeOptions = {
         userVisibleOnly: true,
         applicationServerKey: urlBase64ToUint8Array('BK17IUI2vdE1B47M8qH4uIUePUuqRgAL44hv4jX8Hq8ogvW5NtWIV1eKZh3aGX7ca13DVnFt5ZiojCE95XCyowY')
@@ -14,6 +13,27 @@ function subscribeUserToPush() {
       sendSubscriptionToServer(newSubscription);
       return newSubscription;
     });
+}
+
+// Функция для отписки пользователя
+function unsubscribeUserFromPush() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.ready.then(function(registration) {
+      registration.pushManager.getSubscription().then(function(subscription) {
+        if (subscription) {
+          subscription.unsubscribe().then(function() {
+            console.log('Пользователь отписан.');
+
+            // Отправьте запрос на удаление подписки на ваш backend
+            deleteSubscriptionFromServer(subscription);
+
+          }).catch(function(error) {
+            console.error('Ошибка отписки:', error);
+          });
+        }
+      });
+    });
+  }
 }
 
 function urlBase64ToUint8Array(base64String) {
@@ -54,20 +74,19 @@ function sendSubscriptionToServer(subscription) {
   .catch(error => console.error('Error saving subscription', error));
 }
 
-function sendUnsubscriptionToServer(subscription) {
+function deleteSubscriptionFromServer(subscription) {
 
-  fetch('/en/push-unsubscribe', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-    },
-    body: JSON.stringify({
-      endpoint: subscription.endpoint
+    fetch('/en/push-unsubscribe', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      },
+      body: JSON.stringify({ endpoint: subscription.endpoint })
     })
-  })
-  .then(response => response.json())
-  .catch(error => console.error('Error unsubscription', error));
+    .then(response => response.json())
+    .then(data => console.log('Unsubscription done:', data))
+    .catch(error => console.error('Error unsubscription', error));
 }
 
 if ('serviceWorker' in navigator) {

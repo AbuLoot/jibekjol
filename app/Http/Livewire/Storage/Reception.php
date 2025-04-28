@@ -72,8 +72,7 @@ class Reception extends Component
         if ($track->user_id != NULL && $track->user->status === 1) {
             app()->setLocale($track->user->lang);
             $message = __('app.parcel_track', ['track_code' => $track->code]).Str::lcfirst(__('app.statuses.received'));
-            // auth()->user()->notify(new TrackReceived($message));
-            Notification::send($track->user, new TrackReceived($message));
+            Notification::send($track->user, (new TrackReceived($message))->locale($track->user->lang));
         }
 
             $this->addError('trackCode', 'Track '.$this->trackCode.' received');
@@ -94,7 +93,7 @@ class Reception extends Component
         if ($track->user_id != NULL && $track->user->status === 1) {
             app()->setLocale($track->user->lang);
             $message = __('app.parcel_track', ['track_code' => $track->code]).Str::lcfirst(__('app.statuses.received'));
-            $track->user->notify(new TrackReceived($message));
+            $track->user->notify((new TrackReceived($message))->locale($track->user->lang));
             // Notification::send(auth()->user(), new TrackReceived($message));
         }
 
