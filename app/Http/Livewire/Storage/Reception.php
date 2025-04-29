@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Storage;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Notification;
+// use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -68,13 +68,6 @@ class Reception extends Component
             $track->save();
         }
         elseif ($track->status >= $this->statusReceived->id) {
-
-        if ($track->user_id != NULL && $track->user->status === 1) {
-            app()->setLocale($track->user->lang);
-            $message = __('app.parcel_track', ['track_code' => $track->code]).Str::lcfirst(__('app.statuses.received'));
-            Notification::send($track->user, (new TrackReceived($message))->locale($track->user->lang));
-        }
-
             $this->addError('trackCode', 'Track '.$this->trackCode.' received');
             $this->trackCode = null;
             return;

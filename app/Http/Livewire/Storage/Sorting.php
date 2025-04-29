@@ -76,11 +76,6 @@ class Sorting extends Component
             $track->save();
         }
         elseif ($track->status >= $this->statusSorted->id) {
-        if (isset($track->user->email) && $track->user->status === 1) {
-            app()->setlocale($track->user->lang);
-            $message = __('app.parcel_track', ['track_code' => $track->code]).Str::lcfirst(__('app.statuses.sorted'));
-            $track->user->notify(new PushTrackSorted($message));
-        }
             $this->addError('trackCode', 'Track '.$this->trackCode.' sorted');
             $this->trackCode = null;
             return;

@@ -62,11 +62,11 @@
           </select>
           <label for="lang">{{ __('app.language') }}</label>
         </div>
-        <div>{{ __('app.webpush_notification') }}:</div>
+        <!-- <div>{{ __('app.webpush_notification') }}:</div>
         <div class="form-check form-switch mb-3">
           <input class="form-check-input" type="checkbox" name="webpush" role="switch" id="push_notifications_toggle" @if(\App\Models\PushSubscription::where('subscribable_id', auth()->user()->id)->first()) checked @endif>
           <label class="form-check-label" for="push_notifications_toggle">{{ __('app.switch_notification') }}</label>
-        </div>
+        </div> -->
 
         <div>{{ __('app.mail_notification') }}:</div>
         <div class="form-check">
@@ -82,52 +82,6 @@
           <label for="id_name">ID name</label>
         </div> -->
 
-        <script>
-          // const switchWebPush = document.getElementById("switchWebPush");
-          /*
-          switchWebPush.addEventListener('change', function() {
-            if (this.checked) {
-              if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
-                Notification.requestPermission().then(function(permission) {
-                  if (permission === 'granted') {
-                    console.log('Notification permission granted.');
-                    subscribeUserToPush();
-                  } else {
-                    console.log('Notification permission denied.');
-                  }
-                });
-              } else if (Notification.permission === 'granted') {
-                 subscribeUserToPush(); // Попытка подписаться, если разрешение уже есть
-              }
-            } else {
-              // Получаем регистрацию Service Worker'а
-              navigator.serviceWorker.ready.then(registration => {
-                // Получаем текущую подписку
-                registration.pushManager.getSubscription().then(subscription => {
-                  // Если подписка существует
-                  if (subscription) {
-                    // Отписываемся от push-уведомлений на стороне браузера
-                    subscription.unsubscribe().then(() => {
-                      console.log('Пользователь отписан от push-уведомлений в браузере.');
-                      sendUnsubscriptionToServer(subscription);
-
-                    }).catch(e => {
-                      console.error('Ошибка при отписке от push-уведомлений в браузере:', e);
-                    });
-                  } else {
-                    console.log('У пользователя нет активной подписки.');
-                    // Возможно, подписка уже была удалена или никогда не существовала
-                    // Обновите UI entsprechend
-                  }
-                }).catch(e => {
-                  console.error('Ошибка при получении подписки:', e);
-                });
-              });
-            }
-          });
-          */
-
-        </script>
         <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">{{ __('app.save') }}</button><br>
         <a href="/{{ $lang }}/profile/password/edit" class="w-100 mb-2 btn btn-lg rounded-3 btn-link">{{ __('app.change_password') }}</a>
       </form>
@@ -135,6 +89,7 @@
   </div>
 
   @section('head')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="/webpush.js"></script>
   @endsection
 

@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="ismoon">
-  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>{{ config('app.name', 'JibekJol') }}</title>
 
   <link rel="canonical" href="">
@@ -52,7 +51,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ysabeau:ital,wght@1,1000&display=swap" rel="stylesheet">
 
-  <script src="/sw.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then((reg) => {
+          console.log('Service Worker installed', reg);
+        })
+        .catch((err) => {
+          console.error('Error Service Worker', err);
+        });
+    }
+  </script>
 
   @yield('head')
 </head>

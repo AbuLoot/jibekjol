@@ -38,9 +38,9 @@
             <tr>
               <th colspan="2">{{ __('app.webpush_notification') }}
 
-      <?php $statusPush = \App\Models\PushSubscription::where('subscribable_id', auth()->user()->id)->first(); ?>
-      <button type="button" class="btn btn-outline-primary @if(!$statusPush) {{ 'd-none' }} @endif " id="btn-push-unsubscribe" onclick="return confirm('{{ __('app.confirm_action') }}') || event.stopImmediatePropagation()"><i class="bi bi-bell-slash"></i> {{ __('app.unsubscribe_webpush') }}</button>
-      <button type="button" class="btn btn-outline-primary @if($statusPush) {{ 'd-none' }} @endif " id="btn-push-subscribe" onclick="return confirm('{{ __('app.confirm_action') }}') || event.stopImmediatePropagation()"><i class="bi bi-bell"></i> {{ __('app.subscribe_webpush') }}</button>
+                <?php $statusPush = \App\Models\PushSubscription::where('subscribable_id', auth()->user()->id)->first(); ?>
+                <button type="button" class="btn btn-outline-primary @if(!$statusPush) {{ 'd-none' }} @endif " id="btn-push-unsubscribe" onclick="return confirm('{{ __('app.confirm_action') }}') || event.stopImmediatePropagation()"><i class="bi bi-bell-slash"></i> {{ __('app.unsubscribe_webpush') }}</button>
+                <button type="button" class="btn btn-outline-primary @if($statusPush) {{ 'd-none' }} @endif " id="btn-push-subscribe" onclick="return confirm('{{ __('app.confirm_action') }}') || event.stopImmediatePropagation()"><i class="bi bi-bell"></i> {{ __('app.subscribe_webpush') }}</button>
 
               </th>
               <!-- <td>
@@ -94,6 +94,7 @@
 
 
   @section('head')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="/webpush.js"></script>
   @endsection
 

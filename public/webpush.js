@@ -17,6 +17,7 @@ function subscribeUserToPush() {
 
 // Функция для отписки пользователя
 function unsubscribeUserFromPush() {
+
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then(function(registration) {
       registration.pushManager.getSubscription().then(function(subscription) {
@@ -91,7 +92,7 @@ function deleteSubscriptionFromServer(subscription) {
 
 if ('serviceWorker' in navigator) {
 
-  navigator.serviceWorker.register('/sw.js').then(function(registration) {
+  navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
 
     console.log('Service Worker registered with scope:', registration.scope);
 
