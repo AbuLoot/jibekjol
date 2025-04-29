@@ -4,7 +4,7 @@ function subscribeUserToPush() {
   return navigator.serviceWorker.ready.then(function(registration) {
       const subscribeOptions = {
         userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array('BK17IUI2vdE1B47M8qH4uIUePUuqRgAL44hv4jX8Hq8ogvW5NtWIV1eKZh3aGX7ca13DVnFt5ZiojCE95XCyowY')
+        applicationServerKey: urlBase64ToUint8Array('BElOxbRVarD7vrrVEXqTWpI6onyM4rA5KuB3fEnEtmNnonRuRIUR3u4rjaWH2-BZoJdU-KysE-9txWm16xPi4Vw')
       };
       return registration.pushManager.subscribe(subscribeOptions);
     })

@@ -3,6 +3,7 @@
 /public/storage
 /public/files
 /public/file-manager/tracks
+/public/webpush.js
 /storage/*.key
 /vendor
 .env
