@@ -66,36 +66,145 @@
         const btnUnsub = document.getElementById('btn-push-unsubscribe');
 
         btnSub.addEventListener('click', function(res) {
-
-          subscribeUserToPush()
-            .then(() => {
-              location.reload();
-            })
-            .catch(error => {
-              console.error('Error:', error);
-            });
+          subscribeUserToPush();
+          btnSub.disabled = true;
+          btnUnsub.disabled = false;
         });
 
         btnUnsub.addEventListener('click', function(res) {
-          unsubscribeUserFromPush()
-            .then(() => {
-              btnUnsub.classList.add('d-none');
-              btnSub.classList.remove('d-none');
-            })
-            .catch(error => {
-              console.error('Error:', error);
-            });
-        }).then(() => { location.reload() });
+          unsubscribeUserFromPush();
+          btnSub.disabled = false;
+          btnUnsub.disabled = true;
+        });
 
+        // const registration = await navigator.serviceWorker.ready;
+
+        // // Функция для обновления состояния кнопок
+        // const updateButtonState = async () => {
+        //   if (!enablePushBtn || !disablePushBtn) return;
+
+        //   // Проверяем текущую подписку
+        //   const subscription = await registration.pushManager.getSubscription();
+
+        //   if (subscription) {
+        //     // Пользователь подписан
+        //     enablePushBtn.disabled = true;
+        //     disablePushBtn.disabled = false;
+        //   } else {
+        //     // Пользователь не подписан
+        //     enablePushBtn.disabled = false;
+        //     disablePushBtn.disabled = true;
+        //   }
+        // };
       </script>
     </div>
   </div>
 
-
-
   @section('head')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="/webpush.js"></script>
+    <script type="text/javascript">
+      
+document.addEventListener('DOMContentLoaded', async () => {
+  const enablePushBtn = document.getElementById('enable-push');
+  const disablePushBtn = document.getElementById('disable-push');
+
+  // Проверка поддержки Service Worker и Push API
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+    console.warn('Push notifications are not supported by this browser.');
+    // Опционально: скрыть кнопки или показать сообщение об ошибке
+    if (enablePushBtn) enablePushBtn.style.display = 'none';
+    if (disablePushBtn) disablePushBtn.style.display = 'none';
+    return;
+  }
+
+  // Ждем регистрации Service Worker
+  const registration = await navigator.serviceWorker.ready;
+
+  // Функция для обновления состояния кнопок
+  const updateButtonState = async () => {
+    if (!enablePushBtn || !disablePushBtn) return;
+
+    // Проверяем текущую подписку
+    const subscription = await registration.pushManager.getSubscription();
+
+    if (subscription) {
+      // Пользователь подписан
+      enablePushBtn.disabled = true;
+      disablePushBtn.disabled = false;
+    } else {
+      // Пользователь не подписан
+      enablePushBtn.disabled = false;
+      disablePushBtn.disabled = true;
+    }
+  };
+
+  // Обработчик кнопки "Включить уведомления"
+  if (enablePushBtn) {
+    enablePushBtn.addEventListener('click', async () => {
+      enablePushBtn.disabled = true;
+      disablePushBtn.disabled = true;
+
+      try {
+        // Запрашиваем разрешение и подписываем пользователя
+        const permission = await Notification.requestPermission();
+
+        if (permission === 'granted') {
+
+          subscribeUserToPush();
+
+          console.log('Push subscribed and sent to server.');
+
+        } else {
+          console.warn('Permission for push notifications was denied.');
+          alert('Не удалось включить уведомления. Разрешите их в настройках браузера.'); // Уведомление пользователю
+        }
+      } catch (error) {
+        console.error('Failed to subscribe the user: ', error);
+        alert('Произошла ошибка при подписке на уведомления.'); // Уведомление пользователю
+      } finally {
+        // Обновляем состояние кнопок после попытки
+        updateButtonState();
+      }
+    });
+  }
+
+
+  // Обработчик кнопки "Выключить уведомления"
+  if (disablePushBtn) {
+    disablePushBtn.addEventListener('click', async () => {
+      enablePushBtn.disabled = true;
+      disablePushBtn.disabled = true;
+
+      try {
+        // Получаем текущую подписку
+        const subscription = await registration.pushManager.getSubscription();
+
+        if (subscription) {
+
+          unsubscribeUserFromPush();
+
+          console.log('Push unsubscribed and removed from server.');
+
+        } else {
+          console.log('User was not subscribed.');
+        }
+
+      } catch (error) {
+        console.error('Failed to unsubscribe the user: ', error);
+         alert('Произошла ошибка при отписке от уведомлений.'); // Уведомление пользователю
+      } finally {
+        // Обновляем состояние кнопок после попытки
+        updateButtonState();
+      }
+    });
+  }
+
+  // Инициализация: обновляем состояние кнопок при загрузке страницы
+  updateButtonState();
+});
+
+    </script>
   @endsection
 
 </x-app-layout>
