@@ -88,6 +88,7 @@ class TrackController extends Controller
             ->when($statusId >= 1, function($query) use ($statusId) { // Ajax Request
                 $query->where('status', $statusId);
             })
+            ->orderBy('id', 'desc')
             ->paginate(50);
 
         if (isset($request->status_id)) {
@@ -110,7 +111,7 @@ class TrackController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required|min:2|max:80|unique:tracks',
+            'code' => 'required|min:2|max:80|unique:tracks',
         ]);
 
         $track = new Track;
