@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\Region;
 use App\Models\Country;
 use App\Models\Language;
+use App\Models\PushSubscription;
 use App\Http\Requests;
 
 class ProfileController extends Controller
@@ -88,16 +89,15 @@ class ProfileController extends Controller
 
     public function pushUnsubscribe(Request $request)
     {
-        $user = auth()->user();
-        $endpoint = $request->input('endpoint');
+        $request->validate([
+            'endpoint' => 'required|url',
+        ]);
 
-        if (empty($endpoint)) {
-            return response()->json(['message' => 'Endpoint is required'], 400);
-        }
+        $user = auth()->user();
 
         try {
-            $user->deletePushSubscription($endpoint);
-            return response()->json(['data' => 'Successfully unsubscribed'], 200);
+            $user->deletePushSubscription($request->endpoint);
+            return response()->json(['data' => 'Successfully unsubscribed'.$user->id], 200);
         } catch (\Exception $e) {
             // Логируйте ошибку для отладки
             \Log::error('Error unsubscribing user ' . $user->id . ': ' . $e->getMessage());

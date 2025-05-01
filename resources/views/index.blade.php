@@ -233,5 +233,4 @@
       document.getElementById("app-form").scrollIntoView({behavior: 'instant'});
     </script>
   @endif
-
 @endsection

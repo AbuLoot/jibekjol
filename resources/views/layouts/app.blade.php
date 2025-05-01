@@ -51,18 +51,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ysabeau:ital,wght@1,1000&display=swap" rel="stylesheet">
 
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js')
-        .then((reg) => {
-          console.log('Service Worker installed', reg);
-        })
-        .catch((err) => {
-          console.error('Error Service Worker', err);
-        });
-    }
-  </script>
-
   @yield('head')
 </head>
 <body class="bg-light">
@@ -119,5 +107,8 @@
   </script>
   <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="/js/offcanvas.js"></script>
+
+  @yield('scripts')
+
 </body>
 </html>

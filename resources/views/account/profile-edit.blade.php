@@ -90,6 +90,9 @@
 
   @section('head')
     <meta name="csrf-token" content="{{ csrf_token() }}">
+  @endsection
+
+  @section('scripts')
     <script src="/webpush.js"></script>
   @endsection
 

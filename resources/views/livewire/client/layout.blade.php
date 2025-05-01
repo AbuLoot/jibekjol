@@ -51,19 +51,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ysabeau:ital,wght@1,1000&display=swap" rel="stylesheet">
-  <script src="/webpush.js"></script>
-
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js')
-        .then((reg) => {
-          console.log('Service Worker installed', reg);
-        })
-        .catch((err) => {
-          console.error('Error Service Worker', err);
-        });
-    }
-  </script>
 
   @livewireStyles
 </head>
@@ -134,6 +121,8 @@
     {{ $slot }}
   </main>
 
+  <script src="/webpush.js"></script>
+
   @livewireScripts
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
   <script type="text/javascript">
@@ -144,5 +133,6 @@
   <script src="/js/offcanvas.js"></script>
 
   @yield('scripts')
+
 </body>
 </html>
